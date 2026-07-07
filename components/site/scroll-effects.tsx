@@ -14,6 +14,16 @@ export function ScrollEffects() {
       "(prefers-reduced-motion: reduce)",
     ).matches
 
+    // --- Hero: respeita reduced-motion (pausa o vídeo → fica o poster estático) ---
+    if (reduce) {
+      const heroVideo =
+        document.querySelector<HTMLVideoElement>("[data-hero-video]")
+      if (heroVideo) {
+        heroVideo.removeAttribute("autoplay")
+        heroVideo.pause()
+      }
+    }
+
     // --- Reveal on scroll ---
     const els = Array.from(document.querySelectorAll<HTMLElement>(".reveal"))
     if (reduce || !("IntersectionObserver" in window) || !els.length) {

@@ -106,13 +106,20 @@ export default function Home() {
         {/* ================= HERO ================= */}
         <section className="hero" aria-labelledby="hero-title">
           <div className="hero-media">
-            <Image
-              src="/media/hero-drone.webp"
-              alt="Vista aérea do armazém da S&S Log em Uberaba-MG"
-              fill
-              priority
-              sizes="100vw"
-            />
+            <video
+              className="hero-video"
+              data-hero-video
+              autoPlay
+              muted
+              loop
+              playsInline
+              preload="auto"
+              poster="/media/hero-poster.webp"
+              aria-label="Vídeo aéreo do armazém da S&S Log em Uberaba-MG"
+            >
+              <source src="/media/hero-video.webm" type="video/webm" />
+              <source src="/media/hero-video.mp4" type="video/mp4" />
+            </video>
           </div>
           <div className="hero-grad" />
 
