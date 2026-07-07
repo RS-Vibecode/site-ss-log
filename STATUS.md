@@ -8,10 +8,16 @@ Build: `npm run build` **verde** — 6 rotas, todas estáticas (`/`, `/politica-
 
 ## O que ficou pronto
 
-- **Single-page completa** na ordem do brief: Hero → Problema (`#quem-somos`) → Solução → Estrutura & Segurança (`#estrutura`) → banda de vídeo → Segmentos (`#segmentos`) → Serviços (`#servicos`) → Como funciona → FAQ → CTA final (`#contato`) → Footer. Copy **verbatim** do protótipo (headlines, bullets, 7 serviços, 5 segmentos, timeline, 8 FAQs).
+- **Single-page completa** na ordem do brief: Hero → Problema (`#quem-somos`) → Solução → **O Armazém / showcase (`#o-armazem`)** → Estrutura & Segurança (`#estrutura`) → faixa "Movimentação real" → Segmentos (`#segmentos`) → Serviços (`#servicos`) → Como funciona → FAQ → CTA final (`#contato`) → Footer. Copy **verbatim** do protótipo (headlines, bullets, 7 serviços, 5 segmentos, timeline, 8 FAQs).
 - **Design tokens** em `app/globals.css` (paleta `--c-*`, radius 6px) + `@theme` Tailwind v4 (`brand-*`) + fontes via `next/font/google` (Barlow, Inter, JetBrains Mono, self-hosted — sem request ao Google).
 - **Navbar** (`components/site/navbar.tsx`): transparente sobre o hero → branca com blur ao rolar >80px; menu mobile full-screen.
-- **Hero com a foto de drone real**, otimizada com `sharp`: `public/media/hero-drone.webp` (~175 KB, 1920px) + `hero-drone.jpg` (~141 KB, 1600px, fallback/OG), servida via `next/image` (`fill`, `priority`).
+- **Hero com a foto de drone real**, otimizada com `sharp`: `public/media/hero-drone.webp` (~175 KB, 1920px) + `hero-drone.jpg` (~141 KB, 1600px, fallback), servida via `next/image` (`fill`, `priority`). **Vai virar vídeo** (em produção pelo cliente) — só o hero é vídeo; o resto do site usa fotos.
+- **Fotos reais de drone (2026-06-27) em todas as seções de mídia** — 62 masters (interior + aéreas) em `temp/FOTOS` (não versionado), otimizadas com `sharp` para `public/media/*.webp` (~1000px cards / ~1600–1920px full-bleed, total ~2,2 MB), servidas via `next/image` (`fill`, `object-fit: cover`):
+  - **6 cards de Estrutura**: `estrutura-armazem` (interior porta-paletes), `estrutura-expansao` (piso livre), `estrutura-bunker` (racking segregado), `estrutura-eclusas` (doca), `estrutura-portaria` (aérea do perímetro/entrada — **ilustrativa**, ver pendências); card "Licenças" mantém os slots pontilhados.
+  - **Nova seção `#o-armazem`** (bento): `showcase-predio` (fachada S&S Log) + `showcase-transporte` (docas c/ carretas) + `showcase-fachada` (logo), com legendas.
+  - **Faixa "Movimentação real"**: `movimentacao.webp` de fundo + véu azul p/ legibilidade (era placeholder de vídeo).
+  - **Fundo do CTA final**: `cta-aerea.webp` sob véu azul da marca (opacity ~.82) — era placeholder de vídeo.
+  - **Imagem OG/Twitter**: `og-ss-log.jpg` (1200×630, fachada com logo S&S Log) — substituiu `hero-drone.jpg`.
 - **Comportamentos JS** como client components mínimos (o resto é Server Component):
   - `scroll-effects.tsx` — reveal-on-scroll (IntersectionObserver, respeita `prefers-reduced-motion`; sem JS há fallback via `<noscript>`) + play/pause das bandas de vídeo.
   - `whatsapp-handler.tsx` — handler global de `[data-wa]`: reescreve o href para `wa.me/5534999044040` com mensagem contextual por `data-cta-location` (mapa `MESSAGES` em `lib/whatsapp.ts`) + passthrough de UTM `(via origem X · mídia Y · ...)` + dispara tracking.
@@ -28,13 +34,14 @@ Build: `npm run build` **verde** — 6 rotas, todas estáticas (`/`, `/politica-
 
 | Item | Onde | Estado |
 |---|---|---|
-| **Vídeos** (5 cards de estrutura, banda intermediária, fundo do CTA final) | Seções Estrutura, banda, CTA final | Placeholders CSS/gradiente com label mono (`▶ Vídeo · ...`, `PLACEHOLDER · ...`). Trocar por `<video>` quando os vídeos editados chegarem. |
+| **Vídeo do Hero** | Seção Hero | Cliente está produzindo. Hoje é a foto `hero-drone` — trocar por `<video>` (loop, mudo, `priority`) quando o vídeo chegar. **É o único vídeo do site.** |
+| **Fotos ilustrativas (não literais)** | Cards "Pronto p/ expansão", "Bunker" e "Controle Biométrico" | Não há foto exata no lote (área vazia, bunker isolado, portaria/facial). Usadas as internas/aéreas mais próximas como **ilustrativas**. Trocar por foto/vídeo específico se o cliente quiser literalidade — sobretudo a **portaria com reconhecimento facial** (claim de segurança). |
 | **Nº das licenças** ANVISA/IBAMA/IMA | Card 6 "Licenças" + FAQ #1 | Slots pontilhados "aguardando print + nº"; texto `[PENDENTE — números de registro]`. |
 | **Tempo de onboarding** | Seção "Como funciona" (nota) | `[A INCLUIR — tempo médio em dias úteis, a confirmar com o cliente]`. |
 | **IDs de tracking** | `.env` | `NEXT_PUBLIC_GA_ID` e `NEXT_PUBLIC_META_PIXEL_ID` vazios → tracking inerte. |
 | **Domínio** | `lib/site.ts` (`url: https://seslog.com.br`) | A confirmar no go-live. |
 
-> Nota: `public/media/drone-aerea-original.jpg` (~4,6 MB) é o master da foto aérea. Não é servido em runtime (usamos as versões otimizadas). Pode ser removido de `public/` antes do deploy para enxugar o bundle.
+> Fotos-fonte: 62 masters JPG/DNG do cliente (drone, 2026-06-27) ficam em `projects/site-ss-log/temp/FOTOS` — pasta **ignorada pelo git** (`/temp/`). Só os derivados otimizados em `public/media` são versionados. Panorâmicas 360° (#0033–0035, #0084–0085) não foram usadas (distorção equiretangular — serviriam a um tour 360 futuro).
 
 ---
 

@@ -728,6 +728,18 @@ h4 {
 .structure-media.is-image .ph-label::before {
   content: "◱";
 }
+/* Card com foto real (next/image fill) — remove o hatch/gradiente do placeholder */
+.structure-media.has-photo {
+  background: #0b1b2b;
+}
+.structure-media.has-photo::after {
+  display: none;
+}
+.structure-media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
 .structure-body {
   padding: var(--sp-3) var(--sp-3) var(--sp-4);
 }
@@ -810,7 +822,69 @@ h4 {
 }
 
 /* ============================================================================
-   VIDEO INTERMEDIÁRIO FULL-WIDTH  (placeholder — aguardando vídeo do cliente)
+   SHOWCASE · O ARMAZÉM  (grade de aéreas do prédio)
+   ============================================================================ */
+.showcase-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  grid-template-rows: 1fr 1fr;
+  gap: var(--sp-2);
+  height: clamp(360px, 46vw, 560px);
+  margin-top: var(--sp-5);
+}
+.showcase-grid figure {
+  margin: 0;
+  position: relative;
+  overflow: hidden;
+  border-radius: var(--radius-lg);
+  background: #0b1b2b;
+}
+.showcase-lead {
+  grid-row: 1 / span 2;
+}
+.showcase-grid img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 600ms var(--ease);
+}
+.showcase-grid figure:hover img {
+  transform: scale(1.04);
+}
+.showcase-item figcaption {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding: 1.75rem 1rem 0.85rem;
+  font-family: var(--f-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #fff;
+  background: linear-gradient(
+    0deg,
+    rgba(8, 23, 64, 0.85) 0%,
+    rgba(8, 23, 64, 0) 100%
+  );
+}
+@media (max-width: 900px) {
+  .showcase-grid {
+    grid-template-columns: 1fr;
+    grid-template-rows: none;
+    height: auto;
+  }
+  .showcase-lead {
+    grid-row: auto;
+    aspect-ratio: 16 / 9;
+  }
+  .showcase-item {
+    aspect-ratio: 16 / 9;
+  }
+}
+
+/* ============================================================================
+   VIDEO INTERMEDIÁRIO FULL-WIDTH  (faixa "Movimentação real" — foto de fundo)
    ============================================================================ */
 .video-band {
   position: relative;
@@ -854,6 +928,28 @@ h4 {
 }
 .video-band.is-playing .media-ph {
   filter: brightness(1.05);
+}
+/* Foto de fundo da faixa (next/image fill) + véu para legibilidade do texto */
+.video-band .band-media {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+.video-band .band-media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.video-band .band-media::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    180deg,
+    rgba(8, 23, 64, 0.62) 0%,
+    rgba(8, 23, 64, 0.38) 45%,
+    rgba(8, 23, 64, 0.75) 100%
+  );
 }
 .video-band-content {
   position: relative;
@@ -1136,23 +1232,24 @@ h4 {
   inset: 0;
   background: var(--c-blue-deep);
   z-index: 0;
+  overflow: hidden;
 }
+.cta-final-bg img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 0;
+}
+/* Véu azul da marca sobre a aérea — mantém o texto branco legível */
 .cta-final-bg::before {
   content: "";
   position: absolute;
   inset: 0;
-  background: linear-gradient(135deg, #0a1f4d 0%, #14388a 50%, #081740 100%);
-  opacity: 0.6;
-}
-.cta-final-bg::after {
-  content: "PLACEHOLDER · VÍDEO DRONE · OPACITY 40%";
-  position: absolute;
-  right: 1.5rem;
-  bottom: 1.5rem;
-  font-family: var(--f-mono);
-  font-size: 0.65rem;
-  color: rgba(255, 255, 255, 0.3);
-  letter-spacing: 0.1em;
+  background: linear-gradient(135deg, #0a1f4d 0%, #14388a 55%, #081740 100%);
+  opacity: 0.82;
+  z-index: 1;
 }
 .cta-final .container {
   position: relative;

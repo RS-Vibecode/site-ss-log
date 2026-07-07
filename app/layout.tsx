@@ -36,13 +36,13 @@ export const metadata: Metadata = {
     title: siteConfig.ogTitle,
     description: siteConfig.ogDescription,
     locale: "pt_BR",
-    images: [{ url: "/media/hero-drone.jpg", width: 1600, height: 900 }],
+    images: [{ url: "/media/og-ss-log.jpg", width: 1200, height: 630 }],
   },
   twitter: {
     card: "summary_large_image",
     title: siteConfig.ogTitle,
     description: siteConfig.twitterDescription,
-    images: ["/media/hero-drone.jpg"],
+    images: ["/media/og-ss-log.jpg"],
   },
   robots: { index: true, follow: true },
 }

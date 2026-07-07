@@ -267,6 +267,56 @@ export default function Home() {
           </div>
         </section>
 
+        {/* ================= SHOWCASE · O ARMAZÉM (aéreas do prédio) ================= */}
+        <section
+          className="section building-showcase"
+          id="o-armazem"
+          aria-labelledby="building-title"
+        >
+          <div className="container">
+            <header className="section-head reveal">
+              <span className="eyebrow">O armazém</span>
+              <h2 className="section-title" id="building-title">
+                17.000 m² construídos para carga regulada.
+              </h2>
+              <p className="section-deck">
+                Estrutura nova no Distrito Industrial IV de Uberaba/MG, com pátio
+                para manobra, docas e acesso controlado. Veja de onde a sua carga
+                vai operar.
+              </p>
+            </header>
+
+            <div className="showcase-grid reveal">
+              <figure className="showcase-lead">
+                <Image
+                  src="/media/showcase-predio.webp"
+                  alt="Vista aérea do armazém da S&S Log em Uberaba/MG"
+                  fill
+                  sizes="(max-width: 900px) 100vw, 66vw"
+                />
+              </figure>
+              <figure className="showcase-item">
+                <Image
+                  src="/media/showcase-transporte.webp"
+                  alt="Carretas na doca de expedição da S&S Log"
+                  fill
+                  sizes="(max-width: 900px) 100vw, 34vw"
+                />
+                <figcaption>Docas para lotação e fracionada</figcaption>
+              </figure>
+              <figure className="showcase-item">
+                <Image
+                  src="/media/showcase-fachada.webp"
+                  alt="Fachada do armazém com a marca S&S Log"
+                  fill
+                  sizes="(max-width: 900px) 100vw, 34vw"
+                />
+                <figcaption>Distrito Industrial IV · Uberaba/MG</figcaption>
+              </figure>
+            </div>
+          </div>
+        </section>
+
         {/* ================= SEÇÃO 3 · ESTRUTURA & SEGURANÇA (PILAR) ================= */}
         <section
           className="section section-soft"
@@ -288,12 +338,13 @@ export default function Home() {
             <div className="structure-grid">
               {/* Card 1 · Armazém */}
               <article className="structure-card reveal">
-                <div className="structure-media">
-                  <span className="ph-label">
-                    Vídeo · Porta-paletes
-                    <br />
-                    1920 × 1080
-                  </span>
+                <div className="structure-media has-photo">
+                  <Image
+                    src="/media/estrutura-armazem.webp"
+                    alt="Interior do armazém principal da S&S Log com porta-paletes e cargas paletizadas"
+                    fill
+                    sizes="(max-width: 620px) 100vw, (max-width: 980px) 50vw, 33vw"
+                  />
                 </div>
                 <div className="structure-body">
                   <div className="structure-title">Armazém principal</div>
@@ -313,12 +364,13 @@ export default function Home() {
 
               {/* Card 2 · Expansão */}
               <article className="structure-card reveal">
-                <div className="structure-media is-image">
-                  <span className="ph-label">
-                    Foto · Área disponível
-                    <br />
-                    1.000 m² para projeto
-                  </span>
+                <div className="structure-media has-photo">
+                  <Image
+                    src="/media/estrutura-expansao.webp"
+                    alt="Área interna com espaço disponível para projeto de armazenagem dedicada"
+                    fill
+                    sizes="(max-width: 620px) 100vw, (max-width: 980px) 50vw, 33vw"
+                  />
                 </div>
                 <div className="structure-body">
                   <div className="structure-title">Pronto para expansão</div>
@@ -338,12 +390,13 @@ export default function Home() {
 
               {/* Card 3 · Bunker */}
               <article className="structure-card reveal">
-                <div className="structure-media is-image">
-                  <span className="ph-label">
-                    Foto / Vídeo · Bunker
-                    <br />
-                    Área segregada
-                  </span>
+                <div className="structure-media has-photo">
+                  <Image
+                    src="/media/estrutura-bunker.webp"
+                    alt="Área segregada com porta-paletes dedicados para cargas de maior risco"
+                    fill
+                    sizes="(max-width: 620px) 100vw, (max-width: 980px) 50vw, 33vw"
+                  />
                 </div>
                 <div className="structure-body">
                   <div className="structure-title">Bunker</div>
@@ -358,12 +411,13 @@ export default function Home() {
 
               {/* Card 4 · Eclusas */}
               <article className="structure-card reveal">
-                <div className="structure-media">
-                  <span className="ph-label">
-                    Vídeo · Eclusas
-                    <br />
-                    Entrada + Saída separadas
-                  </span>
+                <div className="structure-media has-photo">
+                  <Image
+                    src="/media/estrutura-eclusas.webp"
+                    alt="Doca de recebimento e expedição da S&S Log com fluxos de entrada e saída"
+                    fill
+                    sizes="(max-width: 620px) 100vw, (max-width: 980px) 50vw, 33vw"
+                  />
                 </div>
                 <div className="structure-body">
                   <div className="structure-title">Eclusas</div>
@@ -378,12 +432,13 @@ export default function Home() {
 
               {/* Card 5 · Reconhecimento Facial */}
               <article className="structure-card reveal">
-                <div className="structure-media">
-                  <span className="ph-label">
-                    Vídeo · Portaria com reconhecimento facial
-                    <br />
-                    Guarita nível III
-                  </span>
+                <div className="structure-media has-photo">
+                  <Image
+                    src="/media/estrutura-portaria.webp"
+                    alt="Vista aérea do perímetro controlado e da entrada do armazém da S&S Log"
+                    fill
+                    sizes="(max-width: 620px) 100vw, (max-width: 980px) 50vw, 33vw"
+                  />
                 </div>
                 <div className="structure-body">
                   <div className="structure-title">Controle Biométrico</div>
@@ -444,11 +499,16 @@ export default function Home() {
         {/* ================= VÍDEO INTERMEDIÁRIO (placeholder) ================= */}
         <section
           className="video-band"
-          data-video-band
           aria-label="Movimentação real do armazém"
         >
-          {/* PLACEHOLDER — trocar por <video> de movimentação geral quando o cliente entregar */}
-          <div className="media-ph" aria-hidden="true" />
+          <div className="band-media">
+            <Image
+              src="/media/movimentacao.webp"
+              alt="Movimentação real de cargas dentro do armazém da S&S Log"
+              fill
+              sizes="100vw"
+            />
+          </div>
           <div className="video-band-content">
             <span className="label">Movimentação real</span>
             <h2>Sem truques. Sem render. Só operação.</h2>
@@ -721,7 +781,7 @@ export default function Home() {
         {/* ================= SEÇÃO 8 · CTA FINAL ================= */}
         <section className="cta-final" id="contato" aria-labelledby="cta-title">
           <div className="cta-final-bg" aria-hidden="true">
-            {/* PLACEHOLDER — vídeo drone em loop, opacidade 40%, sem áudio */}
+            <Image src="/media/cta-aerea.webp" alt="" fill sizes="100vw" />
           </div>
           <div className="container">
             <span
