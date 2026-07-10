@@ -20,7 +20,8 @@ export function WhatsAppHandler() {
       // enriquece o destino antes de navegar
       el.href = buildWhatsAppUrl(loc, window.location.search)
 
-      window.gtag?.("event", "whatsapp_click", { cta_location: loc })
+      // dataLayer → GTM dispara a conversão GA4 (whatsapp_click)
+      window.dataLayer?.push({ event: "whatsapp_click", cta_location: loc })
       window.fbq?.("track", "Lead", {
         content_name: loc,
         content_category: "whatsapp",

@@ -1,32 +1,33 @@
 import Image from "next/image"
 import { Navbar } from "@/components/site/navbar"
 import { SiteFooter } from "@/components/site/site-footer"
+import { LeadForm } from "@/components/site/lead-form"
 import { siteConfig } from "@/lib/site"
 
 const WA = siteConfig.contact.whatsappUrl
 
-/** FAQ — copy verbatim do protótipo v1 (aHtml = versão visível; aSchema = JSON-LD). */
+/** FAQ — contempla operações reguladas E não reguladas. aHtml = visível; aSchema = JSON-LD. */
 const faqs: { q: string; aHtml: string; aSchema: string }[] = [
+  {
+    q: "A S&S Log só atende cargas reguladas?",
+    aHtml:
+      "Não. A S&S Log é um <strong>operador multicliente</strong>: atende têxtil e vestuário, autopeças, produtos pet, produtos industriais, ferramentas, produtos de limpeza, higiene e beleza — e também cargas reguladas, com as licenças necessárias. A estrutura é definida conforme a particularidade de cada operação.",
+    aSchema:
+      "Não. A S&S Log é um operador multicliente: atende têxtil e vestuário, autopeças, produtos pet, produtos industriais, ferramentas, produtos de limpeza, higiene e beleza e também cargas reguladas, com as licenças necessárias.",
+  },
   {
     q: "A S&S Log tem licença ANVISA para armazenar cosméticos?",
     aHtml:
-      "Sim. Licença ANVISA vigente para cosméticos. <em>[PENDENTE — número do registro]</em> disponível sob solicitação.",
+      "Sim. Licença ANVISA vigente para cosméticos e produtos de higiene — <strong>AFE nº 2.11874-1</strong>. Comprovante disponível sob solicitação.",
     aSchema:
-      "Sim. A S&S Log tem licença ANVISA vigente para cosméticos, com número de registro disponível sob solicitação.",
-  },
-  {
-    q: "A S&S Log oferece armazenagem refrigerada?",
-    aHtml:
-      "A S&S Log tem 1.000 m² prontos para projeto de armazenagem refrigerada, dimensionados conforme a necessidade do cliente. Fale com a equipe para detalhar o seu escopo.",
-    aSchema:
-      "A S&S Log tem 1.000 m² prontos para projeto de armazenagem refrigerada, dimensionados conforme a necessidade do cliente. Fale com a equipe para detalhar o seu escopo.",
+      "Sim. A S&S Log tem licença ANVISA vigente para cosméticos e produtos de higiene (AFE nº 2.11874-1), com comprovante disponível sob solicitação.",
   },
   {
     q: "Como é feita a rastreabilidade da carga?",
     aHtml:
-      "Controle por WMS com posição, lote e movimentação registrados. Relatórios disponíveis ao cliente conforme SLA combinado.",
+      "Gestão por WMS, com controle por posição, lote e movimentação registrados. Relatórios de estoque disponíveis ao cliente conforme SLA combinado.",
     aSchema:
-      "Controle por WMS com posição, lote e movimentação registrados. Relatórios disponíveis ao cliente conforme SLA combinado.",
+      "Gestão por WMS, com controle por posição, lote e movimentação registrados. Relatórios de estoque disponíveis ao cliente conforme SLA combinado.",
   },
   {
     q: "Vocês atendem carga fracionada ou só lotação?",
@@ -36,7 +37,7 @@ const faqs: { q: string; aHtml: string; aSchema: string }[] = [
       "Os dois modelos. Distribuição lotação para cargas completas e distribuição fracionada para consolidação de volumes menores com múltiplos destinos.",
   },
   {
-    q: "Qual o raio de distribuição a partir de Uberaba?",
+    q: "Quais regiões a S&S Log atende?",
     aHtml:
       "Atendemos as regiões <strong>Sudeste, Centro-Oeste e Sul</strong>. Uberaba fica no Triângulo Mineiro, com acesso direto a SP, MG, GO, MT, RS, SC, PR e demais estados das três regiões.",
     aSchema:
@@ -45,23 +46,23 @@ const faqs: { q: string; aHtml: string; aSchema: string }[] = [
   {
     q: "A S&S Log aceita auditoria do cliente no armazém?",
     aHtml:
-      "Sim. Visita técnica e auditoria do cliente são parte do processo de homologação. Agende pelo WhatsApp ou e-mail.",
+      "Sim. A S&S Log permite e recebe auditorias dos clientes no armazém — parte do processo de homologação e um diferencial de transparência, segurança e conformidade. Agende pelo WhatsApp ou e-mail.",
     aSchema:
-      "Sim. Visita técnica e auditoria do cliente são parte do processo de homologação. Agende pelo WhatsApp ou e-mail.",
+      "Sim. A S&S Log permite e recebe auditorias dos clientes no armazém, como parte do processo de homologação e diferencial de transparência, segurança e conformidade.",
   },
   {
     q: "Como é a segurança física do armazém?",
     aHtml:
-      "Portaria com reconhecimento facial, 2 eclusas independentes para entrada e saída, guarita blindada nível III e bunker dedicado para cargas de maior risco.",
+      "Controle de acesso com reconhecimento facial e tourniquete, 2 eclusas independentes para entrada e saída, guarita com blindagem nível III-A e registro de entrada e saída. Ninguém entra sem registro.",
     aSchema:
-      "Portaria com reconhecimento facial, 2 eclusas independentes para entrada e saída, guarita blindada nível III e bunker dedicado para cargas de maior risco.",
+      "Controle de acesso com reconhecimento facial e tourniquete, 2 eclusas independentes para entrada e saída, guarita com blindagem nível III-A e registro de entrada e saída.",
   },
   {
     q: "A operação é desenhada sob medida?",
     aHtml:
-      "Sim. A S&S Log monta a estrutura conforme o tipo de carga, volume, fluxo e exigências regulatórias do cliente — não trabalha com pacotes prontos genéricos.",
+      "Sim. A S&S Log monta a estrutura conforme o tipo de carga, volume, fluxo e exigências operacionais e regulatórias do cliente. <strong>Não trabalhamos com pacotes fechados</strong> — cada operação é estruturada de acordo com a necessidade.",
     aSchema:
-      "Sim. A S&S Log monta a estrutura conforme o tipo de carga, volume, fluxo e exigências regulatórias do cliente, sem pacotes prontos genéricos.",
+      "Sim. A S&S Log monta a estrutura conforme o tipo de carga, volume, fluxo e exigências operacionais e regulatórias do cliente. Não trabalha com pacotes fechados; cada operação é estruturada de acordo com a necessidade.",
   },
 ]
 
@@ -84,7 +85,7 @@ const localBusinessJsonLd = {
   priceRange: "$$",
   areaServed: ["Sudeste", "Centro-Oeste", "Sul"],
   description:
-    "Operador logístico B2B especializado em armazenagem de produtos regulados — químicos, agroquímicos, defensivos, fertilizantes, domissanitários e cosméticos. Licenças ANVISA, IBAMA e IMA vigentes.",
+    "Operador logístico multicliente B2B em Uberaba/MG, com 17.000 m² preparados para diferentes segmentos e tipos de operação — têxtil, autopeças, produtos pet, industriais, ferramentas, limpeza, higiene e beleza, além de cargas reguladas com licenças ANVISA, IBAMA e IMA.",
 }
 
 const faqJsonLd = {
@@ -127,11 +128,11 @@ export default function Home() {
             <span className="hero-eyebrow">
               Uberaba · MG · Distrito Industrial IV
             </span>
-            <h1 id="hero-title">Logística regulada com licença em dia.</h1>
+            <h1 id="hero-title">Operação logística desenhada para a sua demanda.</h1>
             <p className="sub">
-              Operador logístico em Uberaba/MG, apto a armazenar agroquímicos,
-              defensivos, cosméticos e demais cargas reguladas. Licenças ANVISA,
-              IBAMA e IMA vigentes.
+              Operador logístico multicliente em Uberaba/MG. 17.000 m² preparados
+              para diferentes segmentos — de têxtil, autopeças e produtos pet a
+              cargas reguladas, com licenças ANVISA, IBAMA e IMA como diferencial.
             </p>
             <div className="hero-ctas">
               <a
@@ -145,7 +146,7 @@ export default function Home() {
                 Solicitar Proposta de Armazenagem
               </a>
               <a href="#estrutura" className="btn btn-ghost btn-lg">
-                Ver licenças e estrutura
+                Ver estrutura e licenças
               </a>
             </div>
 
@@ -155,7 +156,7 @@ export default function Home() {
                 <span className="label">Armazém</span>
               </div>
               <div className="hero-badge">
-                <span className="num">13.000</span>
+                <span className="num">11.000</span>
                 <span className="label">Posições de pallets</span>
               </div>
               <div className="hero-badge">
@@ -170,77 +171,97 @@ export default function Home() {
           </div>
         </section>
 
-        {/* ================= SEÇÃO 1 · PROBLEMA ================= */}
-        <section className="section" id="quem-somos" aria-labelledby="problem-title">
+        {/* ================= SEÇÃO INSTITUCIONAL · QUEM SOMOS + VÍDEO ================= */}
+        <section className="inst" id="quem-somos" aria-labelledby="inst-title">
           <div className="container">
             <header className="section-head reveal">
-              <span className="eyebrow">O Desafio</span>
-              <h2 className="section-title" id="problem-title">
-                Nem todo armazém está preparado para o que você precisa guardar.
+              <span className="eyebrow">Quem Somos</span>
+              <h2 className="section-title" id="inst-title">
+                Um operador logístico preparado para a sua operação.
               </h2>
               <p className="section-deck">
-                Cargas reguladas exigem mais do que espaço. Exigem licença
-                vigente, rastreabilidade e processo auditável.
+                São 17.000 m² de estrutura preparados para atender às mais diversas
+                demandas logísticas — com segurança, controle e processos
+                padronizados.
               </p>
             </header>
-            <ul className="problem-list reveal">
-              <li>
-                Operadores sem licença ANVISA vigente travam o seu lançamento de
-                cosmético regulado.
-              </li>
-              <li>
-                Operador padronizado não atende a especificidade que cada carga
-                regulada exige.
-              </li>
-              <li>
-                Auditoria do cliente final ou do órgão regulador expõe
-                fragilidades de quem armazenou errado.
-              </li>
-              <li>
-                Armazém sem eclusa e sem controle de acesso é risco de inventário
-                e de contaminação cruzada.
-              </li>
-              <li>
-                Operador generalista não entende que cada segmento regulado tem a
-                sua regra.
-              </li>
-            </ul>
-            <p className="problem-fecho reveal">
-              Para quem trabalha com produto regulado, escolher o operador
-              logístico é uma decisão de <strong>compliance</strong>, não só de
-              custo.
-            </p>
+
+            <div className="inst-grid">
+              <div className="inst-copy reveal">
+                <p className="lead">
+                  A S&S Log (Salles &amp; Santos Logística) é um operador logístico
+                  multicliente em Uberaba/MG, com estrutura, capacidade operacional
+                  e processos para diferentes tipos de operação.
+                </p>
+                <p>
+                  Operação desenhada sob medida para as necessidades da sua empresa.
+                  Trabalhamos com processos padronizados e as licenças necessárias
+                  para operar — a sua operação não fica travada por falta de
+                  documentação ou licenciamento.
+                </p>
+
+                <ul className="inst-points">
+                  <li>
+                    Possui as licenças necessárias para operar (ANVISA, IBAMA e IMA).
+                  </li>
+                  <li>Processos operacionais padronizados e auditáveis.</li>
+                  <li>O cliente pode realizar auditorias no armazém.</li>
+                  <li>
+                    Estrutura e processos preparados para diferentes tipos de
+                    operação.
+                  </li>
+                </ul>
+
+                <p className="inst-multicliente">
+                  Operador multicliente, preparado para atender diferentes segmentos
+                  de acordo com as particularidades de cada operação.
+                </p>
+              </div>
+
+              <div className="inst-media reveal">
+                <video
+                  controls
+                  preload="none"
+                  playsInline
+                  poster="/media/institucional-poster.jpg"
+                  aria-label="Vídeo institucional da S&S Log"
+                >
+                  <source src="/media/institucional.mp4" type="video/mp4" />
+                </video>
+              </div>
+            </div>
           </div>
         </section>
 
-        {/* ================= SEÇÃO 2 · SOLUÇÃO ================= */}
+        {/* ================= SEÇÃO · A OPERAÇÃO ================= */}
         <section className="section section-dark" aria-labelledby="solution-title">
           <div className="container">
             <header className="section-head reveal">
               <span className="eyebrow">A Operação</span>
               <h2 className="section-title" id="solution-title">
-                Uma operação desenhada para a sua demanda.
+                Uma operação desenhada sob medida para a sua demanda.
               </h2>
               <p className="section-deck">
-                A S&S Log não adaptou um galpão velho para atender a sua operação.
-                A nossa estrutura é nova, moldada para a sua necessidade.
+                A S&S Log não adaptou um galpão velho para atender a sua operação. A
+                nossa estrutura é nova, moldada para a sua necessidade — do produto
+                mais comum à carga que exige regulamentação específica.
               </p>
             </header>
 
             <div className="solution-grid">
               <article className="solution-block reveal">
                 <div className="solution-num">01 / ESTRUTURA</div>
-                <h3>Estrutura física separada por tipo de carga.</h3>
+                <h3>Estrutura definida conforme o tipo de carga.</h3>
                 <p>
-                  Porta-paletes dedicados, área segregada para fertilizantes e
-                  domissanitários, e bunker para cargas de maior risco. Mais 1.000
-                  m² prontos para expansão.
+                  Porta-paletes dedicados e áreas organizadas por tipo de produto,
+                  com mais 1.000 m² prontos para expansão sob medida. Estrutura
+                  preparada para diferentes segmentos e tipos de operação.
                 </p>
               </article>
 
               <article className="solution-block reveal">
                 <div className="solution-num">02 / LICENÇAS</div>
-                <h3>Licenças ativas antes de você precisar delas.</h3>
+                <h3>Licenças ativas como diferencial da operação.</h3>
                 <p>
                   ANVISA para cosméticos. IBAMA para conformidade ambiental. IMA
                   para defensivos agrícolas. Você não espera habilitação. Entra
@@ -252,12 +273,20 @@ export default function Home() {
                 <div className="solution-num">03 / SEGURANÇA</div>
                 <h3>Segurança tecnológica em camadas.</h3>
                 <p>
-                  Portaria com reconhecimento facial, 2 eclusas independentes
-                  (entrada e saída separadas), guarita blindada nível III. Acesso
-                  controlado, rastreável e auditável.
+                  Controle de acesso com reconhecimento facial e tourniquete, 2
+                  eclusas independentes (entrada e saída separadas) e guarita
+                  blindada nível III-A. Acesso controlado, rastreável e auditável.
                 </p>
               </article>
             </div>
+
+            <p className="section-deck reveal" style={{ marginTop: "3rem", maxWidth: "60ch" }}>
+              <strong style={{ color: "var(--c-white)" }}>
+                Não trabalhamos com pacotes fechados.
+              </strong>{" "}
+              Cada operação é estruturada de acordo com a demanda, o volume, o fluxo
+              e as necessidades do cliente.
+            </p>
 
             <div className="solution-cta">
               <a
@@ -284,12 +313,12 @@ export default function Home() {
             <header className="section-head reveal">
               <span className="eyebrow">O armazém</span>
               <h2 className="section-title" id="building-title">
-                17.000 m² construídos para carga regulada.
+                17.000 m² preparados para as mais diversas demandas.
               </h2>
               <p className="section-deck">
                 Estrutura nova no Distrito Industrial IV de Uberaba/MG, com pátio
-                para manobra, docas e acesso controlado. Veja de onde a sua carga
-                vai operar.
+                para manobra, docas e acesso controlado. Veja de onde a sua operação
+                vai rodar.
               </p>
             </header>
 
@@ -324,7 +353,7 @@ export default function Home() {
           </div>
         </section>
 
-        {/* ================= SEÇÃO 3 · ESTRUTURA & SEGURANÇA (PILAR) ================= */}
+        {/* ================= SEÇÃO · ESTRUTURA & SEGURANÇA (PILAR) ================= */}
         <section
           className="section section-soft"
           id="estrutura"
@@ -334,11 +363,12 @@ export default function Home() {
             <header className="section-head reveal">
               <span className="eyebrow">Estrutura &amp; Segurança · Pilar</span>
               <h2 className="section-title" id="structure-title">
-                A estrutura que você vai auditar antes de fechar.
+                A estrutura que você pode auditar antes de fechar.
               </h2>
               <p className="section-deck">
-                Convide a sua equipe de compliance para conhecer pessoalmente. A
-                prova está dentro do armazém — e nas câmeras.
+                A S&S Log permite e recebe auditorias dos clientes no armazém.
+                Convide a sua equipe para conhecer pessoalmente — a prova está dentro
+                da operação.
               </p>
             </header>
 
@@ -346,12 +376,19 @@ export default function Home() {
               {/* Card 1 · Armazém */}
               <article className="structure-card reveal">
                 <div className="structure-media has-photo">
-                  <Image
-                    src="/media/estrutura-armazem.webp"
-                    alt="Interior do armazém principal da S&S Log com porta-paletes e cargas paletizadas"
-                    fill
-                    sizes="(max-width: 620px) 100vw, (max-width: 980px) 50vw, 33vw"
-                  />
+                  <video
+                    className="card-loop"
+                    data-loop-video
+                    autoPlay
+                    muted
+                    loop
+                    playsInline
+                    preload="none"
+                    poster="/media/cut-armazem-poster.jpg"
+                    aria-label="Vídeo aéreo do armazém principal da S&S Log"
+                  >
+                    <source src="/media/cut-armazem.mp4" type="video/mp4" />
+                  </video>
                 </div>
                 <div className="structure-body">
                   <div className="structure-title">Armazém principal</div>
@@ -359,7 +396,7 @@ export default function Home() {
                     17.000 m²
                     <br />
                     <small style={{ fontSize: ".7em", opacity: 0.65 }}>
-                      13.000 posições de pallets
+                      11.000 posições de pallets
                     </small>
                   </div>
                   <p className="structure-desc">
@@ -372,12 +409,19 @@ export default function Home() {
               {/* Card 2 · Expansão */}
               <article className="structure-card reveal">
                 <div className="structure-media has-photo">
-                  <Image
-                    src="/media/estrutura-expansao.webp"
-                    alt="Área interna com espaço disponível para projeto de armazenagem dedicada"
-                    fill
-                    sizes="(max-width: 620px) 100vw, (max-width: 980px) 50vw, 33vw"
-                  />
+                  <video
+                    className="card-loop"
+                    data-loop-video
+                    autoPlay
+                    muted
+                    loop
+                    playsInline
+                    preload="none"
+                    poster="/media/estrutura-expansao.webp"
+                    aria-label="Vídeo aéreo da área de expansão da S&S Log"
+                  >
+                    <source src="/media/cut-expansao.mp4" type="video/mp4" />
+                  </video>
                 </div>
                 <div className="structure-body">
                   <div className="structure-title">Pronto para expansão</div>
@@ -395,83 +439,79 @@ export default function Home() {
                 </div>
               </article>
 
-              {/* Card 3 · Bunker */}
+              {/* Card 3 · Eclusas */}
               <article className="structure-card reveal">
                 <div className="structure-media has-photo">
-                  <Image
-                    src="/media/estrutura-bunker.webp"
-                    alt="Área segregada com porta-paletes dedicados para cargas de maior risco"
-                    fill
-                    sizes="(max-width: 620px) 100vw, (max-width: 980px) 50vw, 33vw"
-                  />
-                </div>
-                <div className="structure-body">
-                  <div className="structure-title">Bunker</div>
-                  <div className="structure-kpi">Segregado</div>
-                  <p className="structure-desc">
-                    Armazenagem segregada para cargas de maior risco. Área
-                    específica para produtos que pedem isolamento físico do
-                    restante da operação.
-                  </p>
-                </div>
-              </article>
-
-              {/* Card 4 · Eclusas */}
-              <article className="structure-card reveal">
-                <div className="structure-media has-photo">
-                  <Image
-                    src="/media/estrutura-eclusas.webp"
-                    alt="Doca de recebimento e expedição da S&S Log com fluxos de entrada e saída"
-                    fill
-                    sizes="(max-width: 620px) 100vw, (max-width: 980px) 50vw, 33vw"
-                  />
+                  <video
+                    className="card-loop"
+                    data-loop-video
+                    autoPlay
+                    muted
+                    loop
+                    playsInline
+                    preload="none"
+                    poster="/media/estrutura-eclusas.webp"
+                    aria-label="Vídeo das duas eclusas independentes da S&S Log"
+                  >
+                    <source src="/media/cut-eclusas.mp4" type="video/mp4" />
+                  </video>
                 </div>
                 <div className="structure-body">
                   <div className="structure-title">Eclusas</div>
                   <div className="structure-kpi">2 independentes</div>
                   <p className="structure-desc">
-                    Entrada e saída em fluxos separados. Evita cruzamento de
-                    cargas, reduz risco de contaminação e dá controle real sobre o
-                    que entra e o que sai.
+                    Duas eclusas independentes: entrada e saída em fluxos separados.
+                    Evita cruzamento de cargas, reduz risco de contaminação e dá
+                    controle real sobre o que entra e o que sai.
                   </p>
                 </div>
               </article>
 
-              {/* Card 5 · Reconhecimento Facial */}
-              <article className="structure-card reveal">
+              {/* Card 4 · Controle de Acesso */}
+              <article
+                className="structure-card reveal"
+                id="controle-acesso"
+              >
                 <div className="structure-media has-photo">
-                  <Image
-                    src="/media/estrutura-portaria.webp"
-                    alt="Vista aérea do perímetro controlado e da entrada do armazém da S&S Log"
-                    fill
-                    sizes="(max-width: 620px) 100vw, (max-width: 980px) 50vw, 33vw"
-                  />
+                  <video
+                    className="card-loop"
+                    data-loop-video
+                    autoPlay
+                    muted
+                    loop
+                    playsInline
+                    preload="none"
+                    poster="/media/estrutura-portaria.webp"
+                    aria-label="Vídeo do controle de acesso e portaria da S&S Log"
+                  >
+                    <source src="/media/cut-controle.mp4" type="video/mp4" />
+                  </video>
                 </div>
                 <div className="structure-body">
-                  <div className="structure-title">Controle Biométrico</div>
-                  <div className="structure-kpi">Nível III</div>
+                  <div className="structure-title">Controle de Acesso</div>
+                  <div className="structure-kpi">Nível III-A</div>
                   <p className="structure-desc">
-                    Portaria com identificação facial e guarita blindada nível
-                    III. Ninguém entra sem registro.
+                    Controle de acesso com reconhecimento facial, tourniquete e
+                    controle de entrada e saída. Portaria/guarita com blindagem nível
+                    III-A. Ninguém entra sem registro.
                   </p>
                 </div>
               </article>
 
-              {/* Card 6 · Licenças */}
+              {/* Card 5 · Licenças */}
               <article className="structure-card is-licenses reveal">
                 <div className="structure-media">
-                  {/* PLACEHOLDER — trocar cada slot por print do certificado + nº quando chegar */}
                   <div className="license-slot">
                     <span className="lic-name">ANVISA</span>
-                    <span className="lic-hint">aguardando print + nº</span>
+                    <span className="lic-hint">AFE 2.11874-1</span>
                   </div>
                   <div className="license-slot">
                     <span className="lic-name">IBAMA</span>
-                    <span className="lic-hint">aguardando print + nº</span>
+                    <span className="lic-hint">CTF 8777018</span>
                   </div>
                   <div className="license-slot">
                     <span className="lic-name">IMA</span>
-                    <span className="lic-hint">aguardando print + nº</span>
+                    <span className="lic-hint">defensivos agrícolas</span>
                   </div>
                 </div>
                 <div className="structure-body">
@@ -480,9 +520,12 @@ export default function Home() {
                     ANVISA · IBAMA · IMA
                   </div>
                   <p className="structure-desc">
-                    ANVISA para cosméticos. IBAMA para conformidade ambiental. IMA
-                    para defensivos agrícolas.{" "}
-                    <em>[PENDENTE — números de registro das licenças.]</em>
+                    Um diferencial da operação: licenças em dia para o cliente entrar
+                    operando, sem esperar habilitação. ANVISA (AFE 2.11874-1) para
+                    cosméticos e produtos de higiene; IBAMA (CTF 8777018) para
+                    produtos químicos e perigosos; licenciamento ambiental estadual
+                    (SEMAD-MG · cert. 737) e municipal (Uberaba · decl. 3207/2024)
+                    vigentes.
                   </p>
                 </div>
               </article>
@@ -522,46 +565,82 @@ export default function Home() {
           </div>
         </section>
 
-        {/* ================= SEÇÃO 4 · SEGMENTOS ================= */}
+        {/* ================= SEÇÃO · SEGMENTOS ================= */}
+        {/* NOTA (mídia 12): imagem ilustrativa da diversidade de segmentos a definir
+            com o cliente — hoje a seção é composta por cards com ícones. */}
         <section className="section" id="segmentos" aria-labelledby="segments-title">
           <div className="container">
             <header className="section-head reveal">
               <span className="eyebrow">Segmentos atendidos</span>
               <h2 className="section-title" id="segments-title">
-                Cargas reguladas que já têm casa aqui.
+                Estrutura preparada para diferentes segmentos e tipos de operação.
               </h2>
               <p className="section-deck">
-                Cada segmento tem a sua estrutura dedicada, o seu processo e o seu
-                órgão regulador. A S&S Log está apta para operar com todos os
-                abaixo.
+                Atendemos operações de diferentes setores, desde produtos regulados
+                até têxteis, autopeças, produtos pet, ferramentas, itens
+                industriais, produtos de limpeza, higiene e beleza.
               </p>
             </header>
 
             <div className="segments-grid">
               <article className="segment-card reveal">
-                <div className="segment-icon" aria-hidden="true">
-                  🌾
-                </div>
-                <h3>Defensivos agrícolas</h3>
+                <div className="segment-icon" aria-hidden="true">🧵</div>
+                <h3>Têxtil e vestuário</h3>
                 <p>
-                  Licença IMA ativa. Área segregada com controle de acesso e
-                  rastreabilidade por lote.
+                  Armazenagem de peças e insumos têxteis com controle por posição e
+                  rastreabilidade.
                 </p>
               </article>
               <article className="segment-card reveal">
-                <div className="segment-icon" aria-hidden="true">
-                  ⚗️
-                </div>
-                <h3>Agroquímicos</h3>
+                <div className="segment-icon" aria-hidden="true">⚙️</div>
+                <h3>Autopeças</h3>
                 <p>
-                  Armazenagem em estrutura dedicada para produtos químicos, com
-                  ventilação e contenção adequadas.
+                  Estrutura para peças automotivas, com organização por SKU e
+                  controle de inventário.
                 </p>
               </article>
               <article className="segment-card reveal">
-                <div className="segment-icon" aria-hidden="true">
-                  🧴
-                </div>
+                <div className="segment-icon" aria-hidden="true">🐾</div>
+                <h3>Produtos pet</h3>
+                <p>
+                  Armazenagem de itens do segmento pet, com processo auditável e
+                  distribuição fracionada ou lotação.
+                </p>
+              </article>
+              <article className="segment-card reveal">
+                <div className="segment-icon" aria-hidden="true">🏭</div>
+                <h3>Produtos industriais</h3>
+                <p>
+                  Espaço para cargas industriais diversas, dimensionado conforme o
+                  volume e o fluxo da operação.
+                </p>
+              </article>
+              <article className="segment-card reveal">
+                <div className="segment-icon" aria-hidden="true">🛠️</div>
+                <h3>Ferramentas manuais e elétricas</h3>
+                <p>
+                  Armazenagem de ferramentas com controle de acesso e segurança
+                  física do armazém.
+                </p>
+              </article>
+              <article className="segment-card reveal">
+                <div className="segment-icon" aria-hidden="true">🧽</div>
+                <h3>Produtos de limpeza</h3>
+                <p>
+                  Estrutura para produtos de limpeza, com segregação adequada e
+                  processo controlado.
+                </p>
+              </article>
+              <article className="segment-card reveal">
+                <div className="segment-icon" aria-hidden="true">💄</div>
+                <h3>Higiene e beleza</h3>
+                <p>
+                  Armazenagem de itens de higiene e beleza em temperatura ambiente,
+                  com rastreabilidade por lote.
+                </p>
+              </article>
+              <article className="segment-card reveal">
+                <div className="segment-icon" aria-hidden="true">🧴</div>
                 <h3>Cosméticos</h3>
                 <p>
                   Licença ANVISA vigente. Operação apta para cosméticos em
@@ -569,19 +648,31 @@ export default function Home() {
                 </p>
               </article>
               <article className="segment-card reveal">
-                <div className="segment-icon" aria-hidden="true">
-                  🌱
-                </div>
-                <h3>Fertilizantes</h3>
+                <div className="segment-icon" aria-hidden="true">🌾</div>
+                <h3>Defensivos agrícolas</h3>
                 <p>
-                  Área dedicada para fertilizantes, separada das demais cargas
-                  para evitar cruzamento.
+                  Licença IMA ativa. Área segregada com controle de acesso e
+                  rastreabilidade por lote.
                 </p>
               </article>
               <article className="segment-card reveal">
-                <div className="segment-icon" aria-hidden="true">
-                  🧼
-                </div>
+                <div className="segment-icon" aria-hidden="true">⚗️</div>
+                <h3>Agroquímicos</h3>
+                <p>
+                  Armazenagem em estrutura dedicada para produtos químicos, com
+                  ventilação e contenção adequadas.
+                </p>
+              </article>
+              <article className="segment-card reveal">
+                <div className="segment-icon" aria-hidden="true">🌱</div>
+                <h3>Fertilizantes</h3>
+                <p>
+                  Área dedicada para fertilizantes, separada das demais cargas para
+                  evitar cruzamento.
+                </p>
+              </article>
+              <article className="segment-card reveal">
+                <div className="segment-icon" aria-hidden="true">🧼</div>
                 <h3>Domissanitários</h3>
                 <p>
                   Espaço específico com o mesmo padrão de segurança dos demais
@@ -605,7 +696,7 @@ export default function Home() {
           </div>
         </section>
 
-        {/* ================= SEÇÃO 5 · SERVIÇOS ================= */}
+        {/* ================= SEÇÃO · SERVIÇOS ================= */}
         <section
           className="section section-dark"
           id="servicos"
@@ -636,8 +727,8 @@ export default function Home() {
                 <div className="service-num">02</div>
                 <h3>Transferências entre CDs</h3>
                 <p>
-                  Movimentação de cargas entre os seus CDs ou entre fornecedor e
-                  CD com controle de inventário em trânsito.
+                  Movimentação de cargas entre os seus CDs ou entre fornecedor e CD
+                  com controle de inventário em trânsito.
                 </p>
               </article>
               <article className="service-card reveal">
@@ -660,7 +751,7 @@ export default function Home() {
                 <div className="service-num">05</div>
                 <h3>Armazenamento Geral</h3>
                 <p>
-                  Porta-paletes com WMS, controle por posição e relatórios de
+                  WMS com controle por posição, rastreabilidade e relatórios de
                   estoque disponíveis ao cliente.
                 </p>
               </article>
@@ -674,10 +765,12 @@ export default function Home() {
               </article>
               <article className="service-card reveal">
                 <div className="service-num">07</div>
-                <h3>Fertilizantes e Domissanitários</h3>
+                <h3>Operação multissegmento</h3>
                 <p>
-                  Espaço segregado, com controle de acesso próprio e processo
-                  auditável.
+                  Estrutura preparada para diferentes setores — têxtil e vestuário,
+                  autopeças, produtos pet, produtos industriais, ferramentas manuais
+                  e elétricas, produtos de limpeza, higiene e beleza — além dos
+                  produtos regulados já atendidos.
                 </p>
               </article>
             </div>
@@ -697,7 +790,7 @@ export default function Home() {
           </div>
         </section>
 
-        {/* ================= SEÇÃO 6 · COMO FUNCIONA ================= */}
+        {/* ================= SEÇÃO · COMO FUNCIONA ================= */}
         <section className="section" aria-labelledby="steps-title">
           <div className="container">
             <header className="section-head reveal">
@@ -715,16 +808,17 @@ export default function Home() {
                 <div className="step-num">1</div>
                 <h3>Diagnóstico da carga</h3>
                 <p>
-                  Entendemos o tipo de produto, volume, movimentação esperada e
-                  requisitos regulatórios.
+                  Entendemos o tipo de produto, volume, movimentação esperada e as
+                  necessidades da sua operação.
                 </p>
               </div>
               <div className="step reveal">
                 <div className="step-num">2</div>
-                <h3>Validação regulatória</h3>
+                <h3>Validação da operação</h3>
                 <p>
-                  Conferimos que as licenças da S&S Log cobrem o seu produto. Se
-                  houver algum ajuste documental, resolvemos antes do onboarding.
+                  Analisamos tipo de produto, volume, características da carga e
+                  necessidades da operação — incluindo requisitos regulatórios,
+                  quando aplicáveis.
                 </p>
               </div>
               <div className="step reveal">
@@ -739,23 +833,20 @@ export default function Home() {
                 <div className="step-num">4</div>
                 <h3>Operação ativa</h3>
                 <p>
-                  Carga armazenada, movimentada e distribuída com rastreabilidade
-                  e auditoria disponíveis do primeiro dia.
+                  Carga armazenada, movimentada e distribuída com rastreabilidade e
+                  auditoria disponíveis do primeiro dia.
                 </p>
               </div>
             </div>
 
             <div className="steps-note reveal">
               O tempo real do onboarding depende de volume, tipo de carga e
-              exigências regulatórias do cliente.{" "}
-              <em>
-                [A INCLUIR — tempo médio em dias úteis, a confirmar com o cliente]
-              </em>
+              necessidades da operação do cliente.
             </div>
           </div>
         </section>
 
-        {/* ================= SEÇÃO 7 · FAQ ================= */}
+        {/* ================= SEÇÃO · FAQ ================= */}
         <section className="section section-soft" aria-labelledby="faq-title">
           <div className="container">
             <header className="section-head reveal" style={{ textAlign: "center" }}>
@@ -785,7 +876,7 @@ export default function Home() {
           </div>
         </section>
 
-        {/* ================= SEÇÃO 8 · CTA FINAL ================= */}
+        {/* ================= SEÇÃO · CTA FINAL (formulário + WhatsApp) ================= */}
         <section className="cta-final" id="contato" aria-labelledby="cta-title">
           <div className="cta-final-bg" aria-hidden="true">
             <Image src="/media/cta-aerea.webp" alt="" fill sizes="100vw" />
@@ -797,22 +888,19 @@ export default function Home() {
             >
               Próximo passo
             </span>
-            <h2 id="cta-title">Pronto para armazenar com quem tem a licença?</h2>
+            <h2 id="cta-title">
+              Sua operação pronta para armazenar com estrutura, segurança e controle.
+            </h2>
             <p className="sub">
-              Fale com a nossa equipe. <strong>Primeira resposta em até 60
-              minutos</strong> com proposta inicial ou agenda de visita técnica ao
+              Fale com a nossa equipe. <strong>Tempo médio de resposta: até 30
+              minutos</strong>, com proposta inicial ou agenda de visita técnica ao
               armazém em Uberaba.
             </p>
-            <a
-              href={WA}
-              className="btn btn-primary btn-lg btn-arrow"
-              data-wa
-              data-cta-location="cta_final"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Solicitar Proposta de Armazenagem
-            </a>
+
+            {/* Formulário de captura — direciona ao WhatsApp com os dados do lead */}
+            <LeadForm />
+
+            <p className="cta-or">ou fale direto pelos nossos canais</p>
 
             <div className="cta-contacts">
               <a
@@ -830,8 +918,8 @@ export default function Home() {
                 {siteConfig.contact.email}
               </a>
               <span>
-                <span className="label">Endereço</span>&nbsp;Distrito Industrial
-                IV · Uberaba/MG
+                <span className="label">Endereço</span>&nbsp;Distrito Industrial IV ·
+                Uberaba/MG
               </span>
             </div>
           </div>

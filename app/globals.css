@@ -737,7 +737,8 @@ h4 {
 .structure-media.has-photo::after {
   display: none;
 }
-.structure-media img {
+.structure-media img,
+.structure-media video {
   width: 100%;
   height: 100%;
   object-fit: cover;
@@ -979,7 +980,7 @@ h4 {
    ============================================================================ */
 .segments-grid {
   display: grid;
-  grid-template-columns: repeat(5, 1fr);
+  grid-template-columns: repeat(4, 1fr);
   gap: var(--sp-2);
   margin-top: var(--sp-4);
 }
@@ -1384,6 +1385,221 @@ h4 {
   border-top: 1px solid rgba(255, 255, 255, 0.08);
   display: flex;
   justify-content: center;
+}
+
+/* ============================================================================
+   SEÇÃO · INSTITUCIONAL (Quem Somos + vídeo, logo após o hero)
+   ============================================================================ */
+.inst {
+  padding: clamp(4rem, 8vw, 7rem) 0;
+  background: var(--c-white);
+}
+.inst-grid {
+  display: grid;
+  grid-template-columns: 1.05fr 0.95fr;
+  gap: clamp(2rem, 4vw, 4rem);
+  align-items: center;
+  margin-top: var(--sp-4);
+}
+.inst-media {
+  position: relative;
+  aspect-ratio: 16 / 9;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  background: #0b1b2b;
+  box-shadow: 0 24px 60px rgba(8, 23, 64, 0.18);
+}
+.inst-media video,
+.inst-media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+/* Placeholder do vídeo institucional — aguardando corte aprovado do cliente */
+.inst-media.is-placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #0a1f4d 0%, #14388a 55%, #0d2560 100%);
+}
+.inst-media.is-placeholder::before {
+  content: "▶";
+  font-size: 2.5rem;
+  color: rgba(255, 255, 255, 0.85);
+}
+.inst-media.is-placeholder::after {
+  content: "VÍDEO INSTITUCIONAL · aguardando corte aprovado";
+  position: absolute;
+  bottom: 1.25rem;
+  left: 0;
+  right: 0;
+  text-align: center;
+  font-family: var(--f-mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.12em;
+  color: rgba(255, 255, 255, 0.55);
+  text-transform: uppercase;
+}
+.inst-copy p {
+  font-size: clamp(1rem, 1.3vw, 1.15rem);
+  color: var(--c-ink);
+  line-height: 1.65;
+  margin-bottom: var(--sp-2);
+}
+.inst-copy p.lead {
+  font-family: var(--f-head);
+  font-weight: 600;
+  font-size: clamp(1.15rem, 1.7vw, 1.45rem);
+  color: var(--c-blue-dark);
+  line-height: 1.4;
+}
+.inst-points {
+  list-style: none;
+  display: grid;
+  gap: var(--sp-2);
+  margin-top: var(--sp-3);
+}
+.inst-points li {
+  position: relative;
+  padding-left: 2rem;
+  font-size: 0.98rem;
+  line-height: 1.5;
+  color: var(--c-ink);
+}
+.inst-points li::before {
+  content: "✓";
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 22px;
+  height: 22px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--c-red);
+  color: #fff;
+  border-radius: 50%;
+  font-size: 0.7rem;
+  font-weight: 800;
+}
+.inst-multicliente {
+  margin-top: var(--sp-4);
+  padding: var(--sp-3);
+  background: var(--c-off);
+  border-left: 3px solid var(--c-red);
+  border-radius: 4px;
+  font-family: var(--f-head);
+  font-weight: 600;
+  font-size: clamp(1.05rem, 1.5vw, 1.25rem);
+  color: var(--c-blue-dark);
+  line-height: 1.4;
+}
+@media (max-width: 900px) {
+  .inst-grid {
+    grid-template-columns: 1fr;
+  }
+  .inst-media {
+    order: -1;
+  }
+}
+
+/* ============================================================================
+   FORMULÁRIO DE CAPTURA (antes do WhatsApp) — dentro do CTA final (fundo azul)
+   ============================================================================ */
+.lead-form {
+  max-width: 460px;
+  margin: 0 auto var(--sp-5);
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: var(--radius-lg);
+  padding: clamp(1.5rem, 3vw, 2.25rem);
+  text-align: left;
+  -webkit-backdrop-filter: blur(6px);
+  backdrop-filter: blur(6px);
+}
+.lead-form-intro {
+  font-size: 0.95rem;
+  color: rgba(255, 255, 255, 0.9);
+  line-height: 1.5;
+  margin-bottom: var(--sp-3);
+}
+.lead-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  margin-bottom: var(--sp-2);
+}
+.lead-field label {
+  font-family: var(--f-mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--c-yellow);
+}
+.lead-field input {
+  width: 100%;
+  padding: 0.85rem 1rem;
+  border-radius: var(--radius);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  background: rgba(255, 255, 255, 0.95);
+  color: var(--c-ink);
+  font-family: var(--f-body);
+  font-size: 1rem;
+  transition: border-color 200ms var(--ease), box-shadow 200ms var(--ease);
+}
+.lead-field input::placeholder {
+  color: var(--c-ink-soft);
+}
+.lead-field input:focus-visible {
+  outline: none;
+  border-color: var(--c-yellow);
+  box-shadow: 0 0 0 3px rgba(251, 202, 31, 0.3);
+}
+.lead-submit {
+  width: 100%;
+  justify-content: center;
+  margin-top: var(--sp-2);
+}
+.cta-or {
+  font-family: var(--f-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.6);
+  margin-bottom: var(--sp-3);
+}
+
+/* ============================================================================
+   BOTÃO LATERAL FLUTUANTE · WHATSAPP (acesso direto, sem formulário)
+   ============================================================================ */
+.wa-float {
+  position: fixed;
+  right: clamp(0.9rem, 2vw, 1.5rem);
+  bottom: clamp(0.9rem, 2vw, 1.5rem);
+  z-index: 150;
+  width: 58px;
+  height: 58px;
+  border-radius: 50%;
+  background: #25d366; /* verde WhatsApp — alto contraste, sem azul sobre vermelho */
+  color: #fff;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.28);
+  transition: transform 200ms var(--ease), box-shadow 200ms var(--ease);
+}
+.wa-float:hover {
+  transform: translateY(-2px) scale(1.05);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.34);
+  color: #fff;
+}
+.wa-float:focus-visible {
+  outline: 3px solid var(--c-yellow);
+  outline-offset: 3px;
+}
+/* Não sobrepor o banner LGPD enquanto ele estiver aberto */
+.wa-float {
+  margin-bottom: env(safe-area-inset-bottom);
 }
 
 /* ============================================================================

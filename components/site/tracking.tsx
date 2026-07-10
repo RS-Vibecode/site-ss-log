@@ -1,27 +1,22 @@
 import Script from "next/script"
 
 /**
- * Tracking — GA4 + Meta Pixel gateados por consentimento (Consent Mode v2).
- * Os IDs vêm de env (NEXT_PUBLIC_GA_ID / NEXT_PUBLIC_META_PIXEL_ID). Vazios por
- * padrão → nada carrega (tracking inerte). O default `denied` já foi aplicado
- * pelo script inline do layout; aqui só carregamos as libs quando há ID.
+ * Tracking — carrega o Google Tag Manager. O Consent Mode v2 (default `denied`)
+ * já foi aplicado pelo script inline do layout ANTES daqui, então as tags GA4
+ * dentro do GTM respeitam o consentimento. O GA4 e as conversões vivem DENTRO do
+ * container GTM (ver gtm-container-ss-log.json). Meta Pixel segue opcional por env.
+ * IDs vêm de env; vazios → nada carrega (tracking inerte).
  */
 export function Tracking() {
-  const gaId = process.env.NEXT_PUBLIC_GA_ID
+  const gtmId = process.env.NEXT_PUBLIC_GTM_ID
   const pixelId = process.env.NEXT_PUBLIC_META_PIXEL_ID
 
   return (
     <>
-      {gaId ? (
-        <>
-          <Script
-            src={`https://www.googletagmanager.com/gtag/js?id=${gaId}`}
-            strategy="afterInteractive"
-          />
-          <Script id="ga4-init" strategy="afterInteractive">
-            {`window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','${gaId}',{anonymize_ip:true});`}
-          </Script>
-        </>
+      {gtmId ? (
+        <Script id="gtm-init" strategy="afterInteractive">
+          {`(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','${gtmId}');`}
+        </Script>
       ) : null}
 
       {pixelId ? (

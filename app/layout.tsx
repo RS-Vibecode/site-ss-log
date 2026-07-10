@@ -3,6 +3,7 @@ import { Barlow, Inter, JetBrains_Mono } from "next/font/google"
 import "./globals.css"
 import { siteConfig } from "@/lib/site"
 import { WhatsAppHandler } from "@/components/site/whatsapp-handler"
+import { WhatsAppFloat } from "@/components/site/whatsapp-float"
 import { CookieBanner } from "@/components/site/cookie-banner"
 import { ScrollEffects } from "@/components/site/scroll-effects"
 import { Tracking } from "@/components/site/tracking"
@@ -64,6 +65,8 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode
 }>) {
+  const gtmId = process.env.NEXT_PUBLIC_GTM_ID
+
   return (
     <html
       lang="pt-BR"
@@ -72,6 +75,18 @@ export default function RootLayout({
       <body>
         {/* Consent Mode v2 — deve rodar antes de qualquer tag de tracking */}
         <script dangerouslySetInnerHTML={{ __html: consentInit }} />
+        {/* GTM fallback sem JS */}
+        {gtmId ? (
+          <noscript>
+            <iframe
+              src={`https://www.googletagmanager.com/ns.html?id=${gtmId}`}
+              height="0"
+              width="0"
+              style={{ display: "none", visibility: "hidden" }}
+              title="gtm"
+            />
+          </noscript>
+        ) : null}
         {/* Sem JS, revela o conteúdo animado (evita seções invisíveis) */}
         <noscript>
           <style>{`.reveal{opacity:1 !important;transform:none !important}`}</style>
@@ -80,6 +95,7 @@ export default function RootLayout({
         {children}
 
         <WhatsAppHandler />
+        <WhatsAppFloat />
         <CookieBanner />
         <ScrollEffects />
         <Tracking />

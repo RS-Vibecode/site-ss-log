@@ -68,7 +68,32 @@ export function ScrollEffects() {
       bands.forEach((b) => bandIo!.observe(b))
     }
 
-    return () => bandIo?.disconnect()
+    // --- Loops mudos dos cards de estrutura (preload="none": só carrega no viewport) ---
+    const loops = Array.from(
+      document.querySelectorAll<HTMLVideoElement>("[data-loop-video]"),
+    )
+    let loopIo: IntersectionObserver | undefined
+    if (loops.length && !reduce && "IntersectionObserver" in window) {
+      loopIo = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((e) => {
+            const v = e.target as HTMLVideoElement
+            if (e.isIntersecting) {
+              v.play().catch(() => {})
+            } else if (!v.paused) {
+              v.pause()
+            }
+          })
+        },
+        { threshold: 0.25 },
+      )
+      loops.forEach((v) => loopIo!.observe(v))
+    }
+
+    return () => {
+      bandIo?.disconnect()
+      loopIo?.disconnect()
+    }
   }, [])
 
   return null
