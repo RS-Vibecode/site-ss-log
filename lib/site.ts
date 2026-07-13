@@ -4,7 +4,7 @@
  */
 export const siteConfig = {
   name: "S&S Log",
-  brandName: "S&S Log — Salles & Santos Logística",
+  brandName: "S&S Log",
   legalName: "SALLES & SANTOS LOG LTDA",
   cnpj: "44.573.981/0001-31",
   url: "https://seslog.com.br",

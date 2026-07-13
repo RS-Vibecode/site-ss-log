@@ -24,7 +24,7 @@ export default function PoliticaPrivacidade() {
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
               src="/ss-log-horizontal.png"
-              alt="S&S Log — Salles & Santos Logística"
+              alt="S&S Log"
               width={200}
               height={34}
             />
@@ -203,7 +203,7 @@ export default function PoliticaPrivacidade() {
       <footer className="pp-footer">
         <div className="wrap">
           <p>
-            © {new Date().getFullYear()} Salles &amp; Santos Logística · CNPJ{" "}
+            © {new Date().getFullYear()} S&S Log · CNPJ{" "}
             {siteConfig.cnpj} · Uberaba/MG
           </p>
           <div className="pp-footer-rs">

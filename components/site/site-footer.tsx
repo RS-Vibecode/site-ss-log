@@ -15,7 +15,7 @@ export function SiteFooter() {
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
               src="/ss-log-horizontal.png"
-              alt="S&S Log — Salles & Santos Logística"
+              alt="S&S Log"
               width={212}
               height={36}
             />
@@ -93,7 +93,7 @@ export function SiteFooter() {
 
         <div className="footer-bar">
           <p>
-            © {new Date().getFullYear()} Salles &amp; Santos Logística · Brasil ·
+            © {new Date().getFullYear()} S&S Log · Brasil ·
             CNPJ {siteConfig.cnpj}
           </p>
           <div className="footer-legal">

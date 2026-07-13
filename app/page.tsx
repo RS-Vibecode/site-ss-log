@@ -189,7 +189,7 @@ export default function Home() {
             <div className="inst-grid">
               <div className="inst-copy reveal">
                 <p className="lead">
-                  A S&S Log (Salles &amp; Santos Logística) é um operador logístico
+                  A S&S Log é um operador logístico
                   multicliente em Uberaba/MG, com estrutura, capacidade operacional
                   e processos para diferentes tipos de operação.
                 </p>

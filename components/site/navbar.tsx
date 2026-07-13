@@ -28,7 +28,7 @@ export function Navbar() {
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             src="/ss-log-horizontal.png"
-            alt="S&S Log — Salles & Santos Logística"
+            alt="S&S Log"
             width={236}
             height={40}
           />
