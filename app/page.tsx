@@ -511,7 +511,7 @@ export default function Home() {
                   </div>
                   <div className="license-slot">
                     <span className="lic-name">IMA</span>
-                    <span className="lic-hint">defensivos agrícolas</span>
+                    <span className="lic-hint">Reg. 11435473</span>
                   </div>
                 </div>
                 <div className="structure-body">
@@ -523,9 +523,10 @@ export default function Home() {
                     Um diferencial da operação: licenças em dia para o cliente entrar
                     operando, sem esperar habilitação. ANVISA (AFE 2.11874-1) para
                     cosméticos e produtos de higiene; IBAMA (CTF 8777018) para
-                    produtos químicos e perigosos; licenciamento ambiental estadual
-                    (SEMAD-MG · cert. 737) e municipal (Uberaba · decl. 3207/2024)
-                    vigentes.
+                    produtos químicos e perigosos; IMA (registro de agrotóxico
+                    11435473) para defensivos; licenciamento ambiental (SEMAD-MG ·
+                    cert. 737 e Uberaba · decl. 3207/2024) e alvará sanitário (nº
+                    0017/2026) vigentes.
                   </p>
                 </div>
               </article>
