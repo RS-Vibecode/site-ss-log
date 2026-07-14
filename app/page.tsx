@@ -473,12 +473,19 @@ export default function Home() {
                 id="controle-acesso"
               >
                 <div className="structure-media has-photo">
-                  <Image
-                    src="/media/estrutura-portaria.webp"
-                    alt="Perímetro controlado e portaria da S&S Log"
-                    fill
-                    sizes="(max-width: 620px) 100vw, (max-width: 980px) 50vw, 33vw"
-                  />
+                  <video
+                    className="card-loop"
+                    data-loop-video
+                    autoPlay
+                    muted
+                    loop
+                    playsInline
+                    preload="none"
+                    poster="/media/estrutura-portaria.webp"
+                    aria-label="Vídeo do controle de acesso da S&S Log — torniquete e reconhecimento facial"
+                  >
+                    <source src="/media/cut-controle.mp4" type="video/mp4" />
+                  </video>
                 </div>
                 <div className="structure-body">
                   <div className="structure-title">Controle de Acesso</div>
