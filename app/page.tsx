@@ -53,7 +53,7 @@ const faqs: { q: string; aHtml: string; aSchema: string }[] = [
   {
     q: "Como é a segurança física do armazém?",
     aHtml:
-      "Controle de acesso com reconhecimento facial e tourniquete, 2 eclusas independentes para entrada e saída, guarita com blindagem nível III-A e registro de entrada e saída. Ninguém entra sem registro.",
+      "Controle de acesso com reconhecimento facial e tourniquete, 2 eclusas independentes para entrada e saída, guarita com blindagem nível III-A e registro de entrada e saída.",
     aSchema:
       "Controle de acesso com reconhecimento facial e tourniquete, 2 eclusas independentes para entrada e saída, guarita com blindagem nível III-A e registro de entrada e saída.",
   },
@@ -473,19 +473,12 @@ export default function Home() {
                 id="controle-acesso"
               >
                 <div className="structure-media has-photo">
-                  <video
-                    className="card-loop"
-                    data-loop-video
-                    autoPlay
-                    muted
-                    loop
-                    playsInline
-                    preload="none"
-                    poster="/media/estrutura-portaria.webp"
-                    aria-label="Vídeo do controle de acesso e portaria da S&S Log"
-                  >
-                    <source src="/media/cut-controle.mp4" type="video/mp4" />
-                  </video>
+                  <Image
+                    src="/media/estrutura-portaria.webp"
+                    alt="Perímetro controlado e portaria da S&S Log"
+                    fill
+                    sizes="(max-width: 620px) 100vw, (max-width: 980px) 50vw, 33vw"
+                  />
                 </div>
                 <div className="structure-body">
                   <div className="structure-title">Controle de Acesso</div>
@@ -493,7 +486,7 @@ export default function Home() {
                   <p className="structure-desc">
                     Controle de acesso com reconhecimento facial, tourniquete e
                     controle de entrada e saída. Portaria/guarita com blindagem nível
-                    III-A. Ninguém entra sem registro.
+                    III-A.
                   </p>
                 </div>
               </article>
@@ -562,7 +555,7 @@ export default function Home() {
           </div>
           <div className="video-band-content">
             <span className="label">Movimentação real</span>
-            <h2>Sem truques. Sem render. Só operação.</h2>
+            <h2>Sem truques. Sem montagem. Só operação.</h2>
           </div>
         </section>
 
@@ -736,8 +729,8 @@ export default function Home() {
                 <div className="service-num">03</div>
                 <h3>Distribuição Lotação</h3>
                 <p>
-                  Cargas completas direto da origem ao destino. Menos manuseio,
-                  menos risco, entrega mais rápida.
+                  Cargas completas direto da origem ao destino, com rota otimizada
+                  e entrega mais ágil.
                 </p>
               </article>
               <article className="service-card reveal">
