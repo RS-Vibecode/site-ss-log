@@ -20,15 +20,11 @@
   gap: var(--sp-2);
   min-height: 68px;
 }
+/* Logo oficial (bloco vermelho + azul). Altura fixa, largura pelo aspecto. */
 .lp-logo {
-  font-family: var(--f-head);
-  font-weight: 900;
-  font-size: 1.5rem;
-  color: var(--c-white);
-  letter-spacing: -0.02em;
-}
-.lp-logo span {
-  color: var(--c-yellow);
+  height: 34px;
+  width: auto;
+  display: block;
 }
 .lp-header-cta {
   display: flex;
@@ -613,12 +609,36 @@
   gap: var(--sp-3);
   flex-wrap: wrap;
 }
-.lp-footer-links a {
+.lp-footer-brand {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+.lp-footer-logo {
+  height: 30px;
+  width: auto;
+  display: block;
+}
+.lp-footer-legal {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.5rem;
+  /* Reserva a faixa do botão flutuante do WhatsApp, que é fixo no canto
+     inferior direito e cairia por cima do selo da RS. */
+  padding-right: 72px;
+}
+/* Só os links legais — o selo da RS tem estilo próprio e não leva sublinhado. */
+.lp-footer-link {
   color: rgba(255, 255, 255, 0.7);
   text-decoration: underline;
 }
-.lp-footer-links a:hover {
+.lp-footer-link:hover {
   color: var(--c-white);
+}
+/* O selo da RS vem com cor de token claro; aqui só garantimos contraste no preto. */
+.lp-footer-legal .text-muted-foreground {
+  color: rgba(255, 255, 255, 0.55);
 }
 
 /* --- Responsivo --- */
@@ -670,5 +690,9 @@
   .lp-footer-inner {
     flex-direction: column;
     align-items: flex-start;
+  }
+  .lp-footer-legal {
+    align-items: flex-start;
+    padding-right: 0;
   }
 }

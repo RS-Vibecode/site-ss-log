@@ -2,6 +2,7 @@ import type { Metadata } from "next"
 import Image from "next/image"
 import "./lp.css"
 import { LpLeadForm } from "@/components/site/lp-lead-form"
+import { DevelopedByRS } from "@/components/site/developed-by-rs"
 import { siteConfig } from "@/lib/site"
 import { LICENCAS, OFERTA, PROVAS } from "@/lib/lp"
 
@@ -109,9 +110,15 @@ export default function Lp01() {
       {/* ============== HEADER MÍNIMO (sem nav: LP não tem porta de saída) ============== */}
       <header className="lp-header">
         <div className="container lp-header-inner">
-          <span className="lp-logo">
-            S&amp;S<span>Log</span>
-          </span>
+          {/* Mesmo ativo de marca do site. Não é link: a LP não tem saída. */}
+          <Image
+            src="/ss-log-horizontal.png"
+            alt="S&S Log"
+            width={236}
+            height={40}
+            priority
+            className="lp-logo"
+          />
           <a
             href={WA}
             className="lp-header-cta"
@@ -464,16 +471,36 @@ export default function Lp01() {
       {/* ================= RODAPÉ MÍNIMO ================= */}
       <footer className="lp-footer">
         <div className="container lp-footer-inner">
-          <p>
-            <strong>{siteConfig.legalName}</strong> · CNPJ {siteConfig.cnpj}
-            <br />
-            {siteConfig.address.display} · {siteConfig.contact.email}
-          </p>
-          <p className="lp-footer-links">
-            <a href="/politica-privacidade" target="_blank" rel="noopener noreferrer">
+          <div className="lp-footer-brand">
+            <Image
+              src="/ss-log-horizontal.png"
+              alt="S&S Log"
+              width={212}
+              height={36}
+              className="lp-footer-logo"
+            />
+            <p>
+              <strong>{siteConfig.legalName}</strong> · CNPJ {siteConfig.cnpj}
+              <br />
+              {siteConfig.address.display} · {siteConfig.contact.email}
+            </p>
+          </div>
+
+          <div className="lp-footer-legal">
+            <a
+              className="lp-footer-link"
+              href="/politica-privacidade"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
               Política de Privacidade
             </a>
-          </p>
+            <a className="lp-footer-link" href="#" data-cookie-prefs>
+              Preferências de cookies
+            </a>
+            {/* Branding RS (cliente externo — regra §7 do squad) */}
+            <DevelopedByRS />
+          </div>
         </div>
       </footer>
     </>
