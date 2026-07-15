@@ -1,12 +1,12 @@
 {
   "exportFormatVersion": 2,
-  "exportTime": "2026-07-10 00:00:00",
+  "exportTime": "2026-07-15 00:00:00",
   "containerVersion": {
     "path": "accounts/6000000000/containers/200000000/versions/0",
     "accountId": "6000000000",
     "containerId": "200000000",
     "containerVersionId": "0",
-    "name": "S&S Log — GA4 + Conversões",
+    "name": "S&S Log — GA4 + Google Ads + Meta",
     "container": {
       "path": "accounts/6000000000/containers/200000000",
       "accountId": "6000000000",
@@ -88,6 +88,36 @@
                     "value": "{{DLV - cta_location}}"
                   }
                 ]
+              },
+              {
+                "type": "MAP",
+                "map": [
+                  {
+                    "type": "TEMPLATE",
+                    "key": "name",
+                    "value": "lead_segmento"
+                  },
+                  {
+                    "type": "TEMPLATE",
+                    "key": "value",
+                    "value": "{{DLV - lead_segmento}}"
+                  }
+                ]
+              },
+              {
+                "type": "MAP",
+                "map": [
+                  {
+                    "type": "TEMPLATE",
+                    "key": "name",
+                    "value": "lead_volume"
+                  },
+                  {
+                    "type": "TEMPLATE",
+                    "key": "value",
+                    "value": "{{DLV - lead_volume}}"
+                  }
+                ]
               }
             ]
           },
@@ -145,6 +175,146 @@
             "type": "TAG_REFERENCE",
             "key": "measurementId",
             "value": "GA4 - Google Tag"
+          }
+        ],
+        "fingerprint": "1",
+        "firingTriggerId": ["5"],
+        "monitoringMetadata": {
+          "type": "MAP"
+        }
+      },
+      {
+        "accountId": "6000000000",
+        "containerId": "200000000",
+        "tagId": "7",
+        "name": "Google Ads - Conversao Formulario (generate_lead)",
+        "type": "awct",
+        "parameter": [
+          {
+            "type": "BOOLEAN",
+            "key": "enableConversionLinker",
+            "value": "true"
+          },
+          {
+            "type": "TEMPLATE",
+            "key": "conversionId",
+            "value": "{{Const - Google Ads Conversion ID}}"
+          },
+          {
+            "type": "TEMPLATE",
+            "key": "conversionLabel",
+            "value": "{{Const - Google Ads Label - Formulario}}"
+          },
+          {
+            "type": "BOOLEAN",
+            "key": "enableProductReporting",
+            "value": "false"
+          }
+        ],
+        "fingerprint": "1",
+        "firingTriggerId": ["4"],
+        "monitoringMetadata": {
+          "type": "MAP"
+        }
+      },
+      {
+        "accountId": "6000000000",
+        "containerId": "200000000",
+        "tagId": "8",
+        "name": "Google Ads - Conversao WhatsApp (whatsapp_click)",
+        "type": "awct",
+        "parameter": [
+          {
+            "type": "BOOLEAN",
+            "key": "enableConversionLinker",
+            "value": "true"
+          },
+          {
+            "type": "TEMPLATE",
+            "key": "conversionId",
+            "value": "{{Const - Google Ads Conversion ID}}"
+          },
+          {
+            "type": "TEMPLATE",
+            "key": "conversionLabel",
+            "value": "{{Const - Google Ads Label - WhatsApp}}"
+          },
+          {
+            "type": "BOOLEAN",
+            "key": "enableProductReporting",
+            "value": "false"
+          }
+        ],
+        "fingerprint": "1",
+        "firingTriggerId": ["5"],
+        "monitoringMetadata": {
+          "type": "MAP"
+        }
+      },
+      {
+        "accountId": "6000000000",
+        "containerId": "200000000",
+        "tagId": "9",
+        "name": "Meta Pixel - Base",
+        "type": "html",
+        "parameter": [
+          {
+            "type": "TEMPLATE",
+            "key": "html",
+            "value": "<script>\n(function(){\n  // As aspas ao redor da variavel sao obrigatorias: o GTM substitui pelo texto\n  // cru, entao sem elas o ID viraria um identificador solto e quebraria.\n  var id = \"{{Const - Meta Pixel ID}}\";\n  if (!id || id.indexOf('COLE') === 0) return; // sem ID preenchido => nao carrega\n  if (window.fbq) return;                      // ja carregado pelo site via env\n  !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');\n  // LGPD: mesmo gate de consentimento usado pelo site (opt-in, default negado).\n  try{var c=JSON.parse(localStorage.getItem('sslog_consent_v1')||'null');fbq('consent', c && c.status==='granted' ? 'grant' : 'revoke');}catch(e){fbq('consent','revoke');}\n  fbq('init', id);\n  fbq('track','PageView');\n})();\n</script>"
+          },
+          {
+            "type": "BOOLEAN",
+            "key": "supportDocumentWrite",
+            "value": "false"
+          }
+        ],
+        "fingerprint": "1",
+        "firingTriggerId": ["2147479553"],
+        "monitoringMetadata": {
+          "type": "MAP"
+        }
+      },
+      {
+        "accountId": "6000000000",
+        "containerId": "200000000",
+        "tagId": "10",
+        "name": "Meta Pixel - Lead (generate_lead)",
+        "type": "html",
+        "parameter": [
+          {
+            "type": "TEMPLATE",
+            "key": "html",
+            "value": "<script>\n(function(){\n  if (!window.fbq) return;\n  fbq('track','Lead',{\n    content_name: \"{{DLV - cta_location}}\",\n    content_category: \"{{DLV - lead_segmento}}\"\n  });\n})();\n</script>"
+          },
+          {
+            "type": "BOOLEAN",
+            "key": "supportDocumentWrite",
+            "value": "false"
+          }
+        ],
+        "fingerprint": "1",
+        "firingTriggerId": ["4"],
+        "monitoringMetadata": {
+          "type": "MAP"
+        }
+      },
+      {
+        "accountId": "6000000000",
+        "containerId": "200000000",
+        "tagId": "11",
+        "name": "Meta Pixel - Contact (whatsapp_click)",
+        "type": "html",
+        "parameter": [
+          {
+            "type": "TEMPLATE",
+            "key": "html",
+            "value": "<script>\n(function(){\n  if (!window.fbq) return;\n  fbq('track','Contact',{ content_name: \"{{DLV - cta_location}}\" });\n})();\n</script>"
+          },
+          {
+            "type": "BOOLEAN",
+            "key": "supportDocumentWrite",
+            "value": "false"
           }
         ],
         "fingerprint": "1",
@@ -222,12 +392,137 @@
           {
             "type": "BOOLEAN",
             "key": "setDefaultValue",
-            "value": "false"
+            "value": "true"
           },
           {
             "type": "TEMPLATE",
             "key": "name",
             "value": "cta_location"
+          },
+          {
+            "type": "TEMPLATE",
+            "key": "defaultValue",
+            "value": "nao_informado"
+          }
+        ],
+        "fingerprint": "1"
+      },
+      {
+        "accountId": "6000000000",
+        "containerId": "200000000",
+        "variableId": "12",
+        "name": "DLV - lead_segmento",
+        "type": "v",
+        "parameter": [
+          {
+            "type": "INTEGER",
+            "key": "dataLayerVersion",
+            "value": "2"
+          },
+          {
+            "type": "BOOLEAN",
+            "key": "setDefaultValue",
+            "value": "true"
+          },
+          {
+            "type": "TEMPLATE",
+            "key": "name",
+            "value": "lead_segmento"
+          },
+          {
+            "type": "TEMPLATE",
+            "key": "defaultValue",
+            "value": "nao_informado"
+          }
+        ],
+        "fingerprint": "1"
+      },
+      {
+        "accountId": "6000000000",
+        "containerId": "200000000",
+        "variableId": "13",
+        "name": "DLV - lead_volume",
+        "type": "v",
+        "parameter": [
+          {
+            "type": "INTEGER",
+            "key": "dataLayerVersion",
+            "value": "2"
+          },
+          {
+            "type": "BOOLEAN",
+            "key": "setDefaultValue",
+            "value": "true"
+          },
+          {
+            "type": "TEMPLATE",
+            "key": "name",
+            "value": "lead_volume"
+          },
+          {
+            "type": "TEMPLATE",
+            "key": "defaultValue",
+            "value": "nao_informado"
+          }
+        ],
+        "fingerprint": "1"
+      },
+      {
+        "accountId": "6000000000",
+        "containerId": "200000000",
+        "variableId": "14",
+        "name": "Const - Google Ads Conversion ID",
+        "type": "c",
+        "parameter": [
+          {
+            "type": "TEMPLATE",
+            "key": "value",
+            "value": "COLE_AQUI_AW-XXXXXXXXX"
+          }
+        ],
+        "fingerprint": "1"
+      },
+      {
+        "accountId": "6000000000",
+        "containerId": "200000000",
+        "variableId": "15",
+        "name": "Const - Google Ads Label - Formulario",
+        "type": "c",
+        "parameter": [
+          {
+            "type": "TEMPLATE",
+            "key": "value",
+            "value": "COLE_AQUI_ROTULO_FORMULARIO"
+          }
+        ],
+        "fingerprint": "1"
+      },
+      {
+        "accountId": "6000000000",
+        "containerId": "200000000",
+        "variableId": "16",
+        "name": "Const - Google Ads Label - WhatsApp",
+        "type": "c",
+        "parameter": [
+          {
+            "type": "TEMPLATE",
+            "key": "value",
+            "value": "COLE_AQUI_ROTULO_WHATSAPP"
+          }
+        ],
+        "fingerprint": "1"
+      },
+      {
+        "accountId": "6000000000",
+        "containerId": "200000000",
+        "variableId": "17",
+        "name": "Const - Meta Pixel ID",
+        "type": "c",
+        "parameter": [
+          {
+            "type": "TEMPLATE",
+            "key": "value",
+            "value": "COLE_AQUI_PIXEL_ID"
           }
         ],
         "fingerprint": "1"

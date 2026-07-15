@@ -2,3 +2,4 @@ temp/
 *.DNG
 STATUS.md
 gtm-container-*.json
+scripts/
