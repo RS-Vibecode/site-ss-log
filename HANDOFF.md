@@ -11,6 +11,19 @@ Estado real do projeto e o que falta fazer. **Atualize este arquivo a cada sess�
 > desatualizado em vários pontos — o site mudou de posicionamento depois dele.
 > Para o estado atual, use **este** arquivo.
 
+## Para ficar 100% — em ordem
+
+| | O que | Quem | Tempo | Por que importa |
+|---|---|---|---|---|
+| 🔴 1 | **Publicar a LP na Vercel do Fardas** (§4.0) | RS, com token do André | 5 min | `seslog.com.br/lp-01` dá 404 hoje. **Sem isso a campanha não tem destino.** |
+| 🟡 2 | **Publicar o Apps Script** (§4.1) | RS | 10 min | Leads chegam só pelo WhatsApp; a planilha ainda não grava. |
+| 🟡 3 | **IDs de conversão no GTM** (§4.2) | André/RS | 15 min | Sem isso a campanha roda **sem otimizar**. |
+| 🔵 4 | **Certificado MAPA/RENASEM**, se existir (§4.4) | André | — | Libera falar de licença para sementes e biológicos. |
+
+Os itens 1–3 somam menos de 30 minutos de trabalho, mas dependem de acessos que só o
+cliente/André têm (token do time, conta Google, IDs das contas de anúncio).
+**O produto em si está pronto e verificado.**
+
 ---
 
 ## 1. O que existe hoje
@@ -22,7 +35,7 @@ Estado real do projeto e o que falta fazer. **Atualize este arquivo a cada sess�
 | **Contato comercial** | André Carvalho · (34) 99904-4040 · andre.carvalho@seslog.com.br |
 | **Stack** | Next.js 16 (App Router, Turbopack) · TypeScript · Tailwind v4 · CSS próprio |
 | **Repo** | `RS-Vibecode/site-ss-log` (privado) — ⚠️ ver §6 |
-| **Último commit** | `33e1f54` |
+| **Último commit** | `b029d02` |
 
 ### Ambientes
 
@@ -40,8 +53,7 @@ Verificado: apex `A → 216.198.79.1`, `www` via CNAME `b1c790c686453a29.vercel-
 > 🔴 **A Vercel do Fardas está desatualizada: `seslog.com.br/lp-01` responde 404.**
 > O domínio serve a versão multicliente correta, mas **anterior à LP** — a LP só foi
 > publicada na Vercel da RS. **Enquanto isso não for corrigido, a campanha não tem
-> URL de destino.** Para publicar é preciso um **token novo do time** (expiram rápido)
-> e o truque do `.git` (§6).
+> URL de destino.** Como publicar: **§4.0**.
 
 ### Posicionamento (pós-call de 2026-07-10)
 
@@ -117,6 +129,32 @@ só a gravação na planilha fica inativa (a rota loga `not_configured`). Nenhum
 ---
 
 ## 4. O que falta — lista de ações
+
+### 4.0 🔴 Publicar a LP na Vercel do Fardas (≈5 min) — desbloqueia a campanha
+
+**`seslog.com.br/lp-01` responde 404 hoje.** O domínio é servido pelo projeto do Fardas,
+que está numa versão anterior à LP. Enquanto isso não for publicado, **a campanha não tem
+URL de destino** — e não se roda Ads apontando para `.vercel.app` (a URL de exibição não
+bate com o domínio e atrapalha a verificação de domínio no Meta).
+
+Peça o **token atual do time** ao André (eles são rotacionados com frequência) e:
+
+```bash
+# o .git precisa sair, senão o deploy é BLOCKED — ver §6
+mv .git ../_sslog_git_tmp
+npx vercel --prod --yes --scope fardas-uniformes-dev-s-projects --token <TOKEN>
+mv ../_sslog_git_tmp .git
+```
+
+Depois, confirmar que subiu de verdade:
+
+```bash
+curl -s -o /dev/null -w "%{http_code}\n" https://seslog.com.br/lp-01   # tem que dar 200
+curl -s https://seslog.com.br/lp-01 | grep -o '<meta name="robots"[^>]*>'  # noindex
+```
+
+⚠️ Conferir também se a env `NEXT_PUBLIC_GTM_ID` existe **no projeto do Fardas** —
+ela foi configurada lá em 2026-07-10, mas vale revalidar depois do deploy.
 
 ### 4.1 Publicar o Apps Script (≈10 min · **RS**) — desbloqueia a planilha
 
@@ -324,13 +362,33 @@ Decisão do cliente: **exibir só os dados**, sem publicar os PDFs. Os arquivos 
 
 ## 9. Marca e mídia
 
-- **Logo:** `public/ss-log-horizontal.png` — bloco vermelho "S & S" + bloco azul "LOG".
-  Usado no navbar, no rodapé do site e (desde `33e1f54`) no header e rodapé da LP.
+- **Logo:** `public/ss-log-horizontal.png` (256×44, aspecto **5,82:1**) — bloco vermelho
+  "S & S" + bloco azul "LOG". Usado no navbar, no rodapé do site e (desde `33e1f54`) no
+  header e rodapé da LP.
   ⚠️ **Não** escrever a marca como texto: já aconteceu e não parece com o logo do cliente.
 - **Selo RS:** `<DevelopedByRS />` no rodapé — obrigatório em cliente externo (regra §7 do squad).
 - **Vídeos** (`public/media/`): `institucional.mp4` (31 MB, com áudio e controles — na home e,
   desde 2026-07-18, na LP **atrás de um clique**), `hero-video.*` e 4 cortes mudos em loop:
   `cut-armazem` (00:57–01:01), `cut-expansao`, `cut-eclusas`, `cut-controle`.
+
+### ⚠️ Logo achatado dentro de flex column (corrigido em `b029d02`)
+
+O logo do rodapé da LP saía com aspecto **13,9:1** em vez de 5,82 (417 px de largura para
+30 px de altura). Causa: `.lp-footer-brand` é `flex-direction: column` e o `align-items`
+padrão é **`stretch`** — o `<img>` era esticado até a largura da coluna, e o `width: auto`
+resolvia para essa largura esticada. O header não tinha o problema por ser flex **row**
+com `align-items: center`.
+
+Correção: `align-items: flex-start` no container (raiz) + `object-fit: contain` no logo
+(rede de segurança). **Ao colocar o logo em qualquer bloco novo em coluna, confira o
+aspecto** — o sintoma é discreto e passa fácil por "só um logo largo":
+
+```js
+// no console do browser, em qualquer largura
+const el = document.querySelector(".lp-footer-logo")
+const r = el.getBoundingClientRect()
+console.log((r.width / r.height).toFixed(2))  // tem que dar ~5.82
+```
 
 ### ⏸️ Guarita / controle de acesso — pode ser atualizado no futuro
 
@@ -350,3 +408,32 @@ arquivo, então os dois se atualizam de uma vez. Nenhuma mudança de código é 
 
 Masters pesados ficam em `temp/` (fora do git). O `.vercelignore` exclui `temp/`, `scripts/`,
 `STATUS.md` e `gtm-container-*.json` do deploy.
+
+---
+
+## 10. Histórico
+
+| Commit | O que entrou |
+|---|---|
+| `b029d02` | Logo do rodapé da LP saía achatado — `align-items: stretch` do flex column (§9). |
+| `d05e79b` | Sementes e Biológicos no select · vídeo institucional na LP atrás de clique · onboarding 72h úteis. |
+| `400f757` | Este HANDOFF · `STATUS.md` marcado como histórico · `scripts/valida-gtm.mjs`. |
+| `33e1f54` | LP passa a usar o logo oficial e o selo RS (antes a marca era escrita como texto). |
+| `dea188a` | **LP `/lp-01`** · rota `/api/lead` · Apps Script · tags de Ads e Meta no container GTM. |
+| `f15eb6c` | Card de Controle de Acesso volta a ser vídeo, sem a cena dos monitores. |
+| `abd7a3c` | Ajustes pedidos pelo André (RENDER, FAQ de segurança, distribuição lotação). |
+| `11c3d9b` | Nº do IMA (11435473) e Alvará Sanitário. |
+
+### Decisões que valem lembrar
+
+- **A LP mora no projeto do site, em `/lp-01`** — não num subdomínio. `lp.seslog.com.br`
+  pode ser apontado depois por domínio + rewrite, sem refazer nada.
+- **Prova estrutural no lugar de cases.** A operação é recém-inaugurada e não há cliente
+  liberado para citar; as licenças com número sustentam o argumento.
+- **Nenhuma alegação regulatória sem número.** Vale para MAPA/RENASEM (§4.4) e para
+  qualquer licença futura — é o que sustenta a promessa central da LP.
+- **O vídeo institucional não bloqueia o carregamento** (§4.4). Se um dia entrar mais
+  vídeo na LP, seguir o mesmo padrão de `lp-video.tsx`.
+- **Não foi feito por IA:** inserir um vigilante no vídeo da guarita. Foi pedido, e a
+  resposta ao André foi que não se sustenta — num claim de segurança seria material
+  enganoso. A cena foi cortada (§9).
