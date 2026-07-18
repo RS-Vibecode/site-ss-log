@@ -701,11 +701,17 @@
   display: flex;
   flex-direction: column;
   gap: 0.75rem;
+  /* Sem isto o `align-items: stretch` (padrão do flex) estica o logo para a
+     largura da coluna e o `width: auto` resolve para essa largura — a marca sai
+     achatada. Foi exatamente o bug do rodapé. */
+  align-items: flex-start;
 }
 .lp-footer-logo {
   height: 30px;
   width: auto;
   display: block;
+  /* Rede de segurança: mesmo que algo imponha uma largura, o aspecto se mantém. */
+  object-fit: contain;
 }
 .lp-footer-legal {
   display: flex;
@@ -779,9 +785,16 @@
   .lp-footer-inner {
     flex-direction: column;
     align-items: flex-start;
+    gap: var(--sp-4);
   }
   .lp-footer-legal {
     align-items: flex-start;
+    /* Empilhado, o botão flutuante não divide a linha com o selo — o respiro
+       vira espaço embaixo (ver .lp-footer) em vez de recuo à direita. */
     padding-right: 0;
+  }
+  /* Espaço para o botão flutuante do WhatsApp não encostar no selo da RS. */
+  .lp-footer {
+    padding-bottom: calc(var(--sp-4) + 58px);
   }
 }
