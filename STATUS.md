@@ -1,4 +1,12 @@
-# S&S Log — STATUS do site
+# S&S Log — STATUS do site (HISTÓRICO — julho/2026)
+
+> ⚠️ **Documento histórico.** Registra o port do protótipo v1 e **não reflete o estado atual**:
+> depois dele o site foi repaginado para **operador logístico multicliente** (sem "bunker",
+> 11.000 posições, Controle de Acesso III-A), ganhou vídeo institucional, formulário de
+> captação, GTM e a **LP `/lp-01`**. As licenças, que aqui aparecem como pendentes, já estão
+> todas com número.
+>
+> **Estado atual e lista de ações → [`HANDOFF.md`](./HANDOFF.md).**
 
 Port fiel do protótipo HTML v1 (`HUB RS/squads/criacao-digital/projects/clientes/ss-log/site/v1/prototipo/`) para **Next.js 16** (App Router, Tailwind v4, TypeScript). Copy, design e comportamento portados verbatim.
 
