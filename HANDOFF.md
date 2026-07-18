@@ -1,8 +1,12 @@
 # S&S Log — HANDOFF (doc vivo)
 
 Estado real do projeto e o que falta fazer. **Atualize este arquivo a cada sessão.**
-Última atualização: **2026-07-15**.
+Última atualização: **2026-07-18**.
 
+> **O bloqueio de hoje:** o DNS foi migrado e `seslog.com.br` está no ar, mas a Vercel do
+> Fardas ainda não tem a LP — **`seslog.com.br/lp-01` responde 404**. A campanha não tem
+> URL de destino até isso ser publicado (§6). Precisa de um token novo do time.
+>
 > `STATUS.md` é histórico (documenta o port do protótipo v1, de julho/2026) e está
 > desatualizado em vários pontos — o site mudou de posicionamento depois dele.
 > Para o estado atual, use **este** arquivo.
@@ -25,12 +29,19 @@ Estado real do projeto e o que falta fazer. **Atualize este arquivo a cada sess�
 | Ambiente | URL | Papel | Deploy |
 |---|---|---|---|
 | **Vercel RS** | https://site-ss-log.vercel.app | Staging / revisão | `vercel --prod` com o link da RS |
-| **Vercel Fardas** | site-ss-log-three.vercel.app → alias `seslog.com.br` | **Produção real** | `vercel --prod --scope fardas-uniformes-dev-s-projects` + token |
-| **seslog.com.br** | ainda no WordPress antigo | — | depende do cutover de DNS (§4.3) |
+| **Vercel Fardas** | `seslog.com.br` | **Produção real** | `vercel --prod --scope fardas-uniformes-dev-s-projects` + token |
 
-> ⚠️ **A Vercel do Fardas está desatualizada** — não tem a LP. Última publicação lá foi
-> antes de 2026-07-15. Para atualizar é preciso um **token novo do time** (eles expiram
-> rápido) e o truque do `.git` (§6).
+**✅ DNS migrado (2026-07-18).** `seslog.com.br` já resolve para a Vercel e serve o site novo.
+Verificado: apex `A → 216.198.79.1`, `www` via CNAME `b1c790c686453a29.vercel-dns-017.com`,
+`AAAA` removido. **E-mail intacto** — os dois MX (`mx-vip-01/02.kinghost.net`), SPF
+(`v=spf1 include:_spf.kinghost.net -all`), DMARC (`p=reject`) e os hosts
+`webmail · imap · smtp` seguem na KingHost. O WordPress antigo saiu do ar.
+
+> 🔴 **A Vercel do Fardas está desatualizada: `seslog.com.br/lp-01` responde 404.**
+> O domínio serve a versão multicliente correta, mas **anterior à LP** — a LP só foi
+> publicada na Vercel da RS. **Enquanto isso não for corrigido, a campanha não tem
+> URL de destino.** Para publicar é preciso um **token novo do time** (expiram rápido)
+> e o truque do `.git` (§6).
 
 ### Posicionamento (pós-call de 2026-07-10)
 
@@ -145,42 +156,64 @@ como dimensões personalizadas.
 > As tags do Meta **se auto-desligam** enquanto o placeholder `COLE_AQUI_*` não for trocado.
 > Antes de reimportar, rode `node valida-gtm.mjs` (§7) — ele pega os erros de import offline.
 
-### 4.3 Cutover de DNS na KingHost (**André**) — 🔴 caminho crítico da campanha
+### 4.3 ✅ Cutover de DNS na KingHost — **CONCLUÍDO em 2026-07-18**
 
-Sem isso a LP só existe em `.vercel.app`, e **não se roda Google Ads decente apontando pra lá**
-(URL de exibição não bate com o domínio, atrapalha a verificação de domínio no Meta).
+Registros aplicados: `A @ → 216.198.79.1`, `CNAME www → b1c790c686453a29.vercel-dns-017.com`,
+`AAAA @` removido. E-mail preservado (MX, SPF, DMARC e hosts de e-mail intactos na KingHost).
 
-**Mudar (2 registros):**
+Conferir a qualquer momento:
 
-| Tipo | Nome | De | Para |
-|---|---|---|---|
-| A | `@` | 191.6.209.198 | **216.198.79.1** |
-| CNAME | `www` | web192.kinghost.net | **b1c790c686453a29.vercel-dns-017.com** |
+```bash
+nslookup seslog.com.br 8.8.8.8            # deve dar 216.198.79.1
+nslookup -type=MX seslog.com.br 8.8.8.8   # deve continuar mx-vip-01/02.kinghost.net
+nslookup -type=AAAA seslog.com.br 8.8.8.8 # não deve retornar endereço
+```
 
-**Remover (1):** `AAAA @` → `2804:10:8001::209:198` — senão o IPv6 continua servindo o
-WordPress antigo (a Vercel não fornece AAAA aqui).
+> **Por que o e-mail não quebrou:** a entrega usa os **MX** (que apontam para
+> `mx-vip-*.kinghost.net`), não o `A @`. Trocar o registro do site não mexe nisso.
 
-**NÃO TOCAR** (é o que mantém o e-mail vivo): `MX` (mx-vip-01/02), `TXT` SPF, `TXT _dmarc`
-e os CNAMEs `mail · imap · pop · smtp · smtpi · webmail · autoconfig · autodiscover`.
+**➡️ Sobrou disso:** publicar a versão com a LP **na Vercel do Fardas** (§6) —
+hoje `seslog.com.br/lp-01` dá **404**. É o que falta para a campanha ter destino.
 
-> **Por que o e-mail não quebra:** a entrega usa os **MX** (que apontam para
-> `mx-vip-*.kinghost.net`, não para o `A @`). Nada disso depende do `A @` nem do `www`.
+### 4.4 Decisões do cliente — respondidas em 2026-07-18
 
-Depois do cutover: publicar a versão atual **na Vercel do Fardas** (§6) e trocar
-`robots`/canonical se algo mudar.
-
-### 4.4 Decisões pendentes do cliente
-
-| # | Pergunta | Impacto |
+| # | Decisão | O que foi feito |
 |---|---|---|
-| 1 | **Incluir "Sementes" e "Biológicos" no select de segmento?** | Hoje só "Defensivos" existe dos 3 focos de mídia. Quem vier de sementes marca "Outro" — perde-se a qualificação do público que está sendo pago para atrair. |
-| 2 | **A S&S tem registro no MAPA/RENASEM?** | Nenhuma licença atual cobre sementes ou biológicos (IMA = agrotóxicos, ANVISA = cosméticos, IBAMA = químicos). A copy foi escrita respeitando isso. Se houver registro, é argumento forte a incluir. |
-| 3 | **Vídeo institucional na LP?** | Ficou de fora de propósito: 31 MB pesaria no carregamento e no CPL. Dá para colocar atrás de um clique (poster + play) se quiser. |
-| 4 | Tempo médio de onboarding em dias úteis | Hoje o site diz que "depende de volume e tipo de carga". Vira número se o cliente informar. |
-| 5 | Foto/vídeo do vigilante na guarita | O André pediu para não aparecer; resolvido cortando a cena. Se mandarem material com vigilante, dá para trocar. |
+| 1 | ✅ Incluir Sementes e Biológicos no select | Adicionados no topo da lista (agro-first): agora **15 opções**. Front e `/api/lead` validados juntos. |
+| 2 | ⚠️ Registro no MAPA/RENASEM | **Ver ressalva abaixo — não foi para a copy.** |
+| 3 | ✅ Vídeo institucional na LP | Nova seção "Por dentro da operação", com o vídeo **atrás de um clique**. |
+| 4 | ✅ Onboarding = **72 horas úteis** | Na LP (passo 04 + FAQ nova) e no site (nota da seção "Como funciona"). Valor único em `lib/lp.ts` → `OFERTA.onboarding`. |
+| 5 | ⏸️ Foto/vídeo do vigilante | **Adiado pelo cliente.** Ver §9. |
+
+#### ⚠️ Ressalva — MAPA/RENASEM (pendência real)
+
+Perguntado se a S&S tem registro no MAPA/RENASEM, o cliente respondeu *"se foi dito
+anteriormente, tem sim"* — **não é confirmação, é suposição**. Foi verificado: nas 6
+licenças recebidas **não há nenhuma do MAPA**, e nenhuma das existentes cobre sementes
+ou biológicos (IMA = agrotóxicos · ANVISA = cosméticos/higiene · IBAMA = químicos).
+
+**Por isso a copy não afirma registro no MAPA em lugar nenhum.** Sementes e biológicos
+aparecem como **capacidade de estrutura**, não de licenciamento — a LP diz "licença com
+número" e afirmar sem número quebraria justamente o argumento central dela. Alegação
+regulatória falsa também é risco jurídico para o cliente.
+
+**Para resolver:** pedir ao André o **certificado do MAPA/RENASEM com número**. Chegando
+o documento, é trocar o texto do card de sementes/biológicos e acrescentar a linha na
+tabela de licenças (§8) — 10 minutos de trabalho.
+
+#### Vídeo institucional — como foi feito
+
+O arquivo tem 31 MB e carregá-lo de saída atrasaria a dobra e encareceria o CPL. Só o
+**poster** (263 KB) entra no carregamento; o `<video>` nasce **sem `src`** e a fonte só é
+anexada no clique (`components/site/lp-video.tsx`). Medido: a LP carrega **4,2 MB de
+mídia** e o `institucional.mp4` **não é baixado** por quem não clica. O play dispara
+`video_play` no dataLayer (`video_title: institucional`, `cta_location: lp_video`) —
+dá para medir engajamento no GA4 e usar como sinal de público.
 
 ### 4.5 Melhorias conhecidas (não bloqueiam)
 
+- **Guarita com vigilante** — adiado pelo cliente, ver §9. Trocar quando houver material.
+- Certificado MAPA/RENASEM, se existir (§4.4).
 - Foto de drone da expansão e imagem da seção Segmentos (estético).
 - Revisar as "saídas do WhatsApp" (mensagens por CTA) com o cliente.
 - Repontar o remote do git (§6).
@@ -295,8 +328,25 @@ Decisão do cliente: **exibir só os dados**, sem publicar os PDFs. Os arquivos 
   Usado no navbar, no rodapé do site e (desde `33e1f54`) no header e rodapé da LP.
   ⚠️ **Não** escrever a marca como texto: já aconteceu e não parece com o logo do cliente.
 - **Selo RS:** `<DevelopedByRS />` no rodapé — obrigatório em cliente externo (regra §7 do squad).
-- **Vídeos** (`public/media/`): `institucional.mp4` (31 MB, com áudio e controles, só na home),
-  `hero-video.*` e 4 cortes mudos em loop — `cut-armazem` (00:57–01:01), `cut-expansao`,
-  `cut-eclusas`, `cut-controle` (recortado para excluir a cena dos monitores, a pedido do André).
-- Masters pesados ficam em `temp/` (fora do git). `.vercelignore` exclui `temp/`, `scripts/`,
-  `STATUS.md` e `gtm-container-*.json` do deploy.
+- **Vídeos** (`public/media/`): `institucional.mp4` (31 MB, com áudio e controles — na home e,
+  desde 2026-07-18, na LP **atrás de um clique**), `hero-video.*` e 4 cortes mudos em loop:
+  `cut-armazem` (00:57–01:01), `cut-expansao`, `cut-eclusas`, `cut-controle`.
+
+### ⏸️ Guarita / controle de acesso — pode ser atualizado no futuro
+
+O corte `cut-controle.mp4` foi recortado (78–81,5 s) para **excluir a cena em que o André
+aparece sentado diante dos monitores** — ele pediu para não aparecer e preferia um vigilante
+na imagem. Ficaram só o tourniquete e o reconhecimento facial.
+
+**Gravar o vigilante ficou adiado por decisão do cliente (2026-07-18)** — não há prazo.
+Já foi respondido ao André que **não é viável inserir um vigilante por IA** num vídeo real:
+o resultado não se sustenta e, num claim de segurança, seria material enganoso.
+
+Quando houver material novo (foto ou vídeo com vigilante na guarita), a troca é direta:
+substituir `public/media/cut-controle.mp4` — o card da LP e o do site apontam para o mesmo
+arquivo, então os dois se atualizam de uma vez. Nenhuma mudança de código é necessária.
+
+### Arquivos-fonte
+
+Masters pesados ficam em `temp/` (fora do git). O `.vercelignore` exclui `temp/`, `scripts/`,
+`STATUS.md` e `gtm-container-*.json` do deploy.

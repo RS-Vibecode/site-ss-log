@@ -449,6 +449,94 @@
   line-height: 1.4;
 }
 
+/* --- Vídeo institucional (carrega só no clique) --- */
+.lp-video-inner {
+  display: grid;
+  grid-template-columns: 1fr 1.15fr;
+  gap: clamp(2rem, 4vw, 3.5rem);
+  align-items: center;
+}
+.lp-video {
+  position: relative;
+  aspect-ratio: 16 / 9;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  background: var(--c-blue-deep);
+  box-shadow: 0 20px 50px -20px rgba(0, 0, 0, 0.4);
+}
+.lp-video-el {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.lp-video-capa {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.85rem;
+  color: var(--c-white);
+}
+/* Véu para o texto e o play não competirem com a imagem. */
+.lp-video-capa::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    180deg,
+    rgba(8, 23, 64, 0.25) 0%,
+    rgba(8, 23, 64, 0.62) 100%
+  );
+}
+.lp-video-play,
+.lp-video-label {
+  position: relative;
+  z-index: 1;
+}
+.lp-video-play {
+  width: 66px;
+  height: 66px;
+  border-radius: 50%;
+  background: var(--c-red);
+  display: grid;
+  place-items: center;
+  padding-left: 4px; /* centro óptico do triângulo */
+  transition: transform 220ms var(--ease), background 220ms var(--ease);
+}
+.lp-video-capa:hover .lp-video-play {
+  transform: scale(1.08);
+  background: var(--c-red-dark);
+}
+.lp-video-capa:focus-visible {
+  outline: 3px solid var(--c-yellow);
+  outline-offset: -3px;
+}
+.lp-video-label {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.15rem;
+  font-family: var(--f-head);
+  font-weight: 700;
+  font-size: 1.05rem;
+  text-shadow: 0 1px 12px rgba(0, 0, 0, 0.5);
+}
+.lp-video-label small {
+  font-family: var(--f-mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  font-weight: 400;
+  color: rgba(255, 255, 255, 0.82);
+}
+
 /* --- Passos --- */
 .lp-passos-grid {
   display: grid;
@@ -662,7 +750,8 @@
   .lp-passos-grid {
     grid-template-columns: repeat(2, 1fr);
   }
-  .lp-local-inner {
+  .lp-local-inner,
+  .lp-video-inner {
     grid-template-columns: 1fr;
   }
   .lp-local-media {

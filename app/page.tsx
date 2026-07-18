@@ -841,8 +841,9 @@ export default function Home() {
             </div>
 
             <div className="steps-note reveal">
-              O tempo real do onboarding depende de volume, tipo de carga e
-              necessidades da operação do cliente.
+              Da assinatura ao início da operação: <strong>72 horas úteis</strong> em
+              média. Operações com exigência regulatória específica ou volume fora
+              do padrão podem levar um pouco mais.
             </div>
           </div>
         </section>

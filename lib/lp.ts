@@ -5,8 +5,14 @@
  * para acompanhar o foco de mídia (agro + indústria).
  */
 
-/** Opções do select "Segmento" — os 12 da home + escape "Outro". */
+/**
+ * Opções do select "Segmento" — os 12 da home + Sementes e Biológicos + "Outro".
+ * Sementes e biológicos entraram porque são foco da mídia paga: sem eles na lista,
+ * esse público cairia em "Outro" e a qualificação do lead se perderia.
+ */
 export const SEGMENTOS = [
+  "Sementes",
+  "Biológicos (bioinsumos)",
   "Defensivos agrícolas",
   "Agroquímicos",
   "Fertilizantes",
@@ -43,6 +49,8 @@ export const OFERTA = {
   responsavel: "André Carvalho",
   slaProposta: "24 horas",
   slaPropostaCurto: "24h",
+  /** Onboarding: da assinatura ao início da operação (confirmado pelo cliente). */
+  onboarding: "72 horas úteis",
 } as const
 
 /** Provas estruturais usadas no lugar de cases (operação recém-inaugurada). */

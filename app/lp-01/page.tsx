@@ -2,6 +2,7 @@ import type { Metadata } from "next"
 import Image from "next/image"
 import "./lp.css"
 import { LpLeadForm } from "@/components/site/lp-lead-form"
+import { LpVideo } from "@/components/site/lp-video"
 import { DevelopedByRS } from "@/components/site/developed-by-rs"
 import { siteConfig } from "@/lib/site"
 import { LICENCAS, OFERTA, PROVAS } from "@/lib/lp"
@@ -72,8 +73,7 @@ const passos: { n: string; titulo: string; texto: string }[] = [
   {
     n: "04",
     titulo: `Proposta em ${OFERTA.slaProposta}`,
-    texto:
-      "Dimensionada para a sua operação, com escopo, indicadores e SLA definidos.",
+    texto: `Dimensionada para a sua operação, com escopo, indicadores e SLA definidos. Fechado o contrato, a operação começa em ${OFERTA.onboarding}.`,
   },
 ]
 
@@ -89,6 +89,10 @@ const faqs: { q: string; a: string }[] = [
   {
     q: "Em quanto tempo recebo a proposta?",
     a: `Em até ${OFERTA.slaProposta} depois da visita técnica. A proposta é dimensionada para o seu volume e fluxo — a S&S Log não trabalha com pacotes fechados.`,
+  },
+  {
+    q: "Depois de fechar, quanto tempo até a operação começar?",
+    a: `${OFERTA.onboarding} em média, contadas da assinatura. Esse é o tempo de cadastrar a operação no WMS, definir o endereçamento das posições e alinhar o fluxo de recebimento e expedição com a sua equipe. Operações com exigência regulatória específica podem levar um pouco mais.`,
   },
   {
     q: "Quais regiões vocês atendem?",
@@ -345,6 +349,29 @@ export default function Lp01() {
                   <span>Reconhecimento facial, tourniquete e guarita blindada</span>
                 </figcaption>
               </figure>
+            </div>
+          </div>
+        </section>
+
+        {/* ================= VÍDEO INSTITUCIONAL ================= */}
+        <section
+          className="section section-soft lp-video-sec"
+          aria-labelledby="lp-video-title"
+        >
+          <div className="container lp-video-inner">
+            <div className="lp-video-copy reveal">
+              <span className="eyebrow">Por dentro da operação</span>
+              <h2 className="section-title" id="lp-video-title">
+                Um minuto vale mais que qualquer apresentação.
+              </h2>
+              <p className="section-deck">
+                O armazém, as eclusas, o controle de acesso e o WMS rodando — sem
+                simulação. É a mesma operação que você vai ver ao vivo na visita
+                técnica.
+              </p>
+            </div>
+            <div className="lp-video-media reveal">
+              <LpVideo />
             </div>
           </div>
         </section>
