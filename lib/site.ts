@@ -31,13 +31,23 @@ export const siteConfig = {
     country: "BR",
     display: "Distrito Industrial IV · Uberaba/MG",
   },
+  /**
+   * Área do Cliente — sistema externo (VsOmni), fora deste site.
+   * A raiz redireciona para /VsOmni/; linkar sempre a raiz.
+   */
+  clientArea: {
+    label: "Área do Cliente",
+    url: "https://clientes.seslog.com.br/",
+  },
   /** Navegação principal (âncoras da single-page). */
   nav: [
     { title: "Quem Somos", href: "#quem-somos" },
     { title: "Estrutura", href: "#estrutura" },
     { title: "Segmentos", href: "#segmentos" },
     { title: "Serviços", href: "#servicos" },
-    { title: "Controle de Acesso", href: "#controle-acesso" },
+    // "Controle de Acesso" saiu do topo para abrir espaço à Área do Cliente (era a
+    // âncora mais longa) e para não confundir com ela. Continua no rodapé e a
+    // seção #controle-acesso segue na página.
     { title: "Contato", href: "#contato" },
   ],
 } as const

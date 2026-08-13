@@ -251,7 +251,9 @@ h4 {
 }
 .nav-menu {
   display: flex;
-  gap: var(--sp-4);
+  /* sp-3 e não sp-4: com a Área do Cliente na linha, 2rem de gap faz "Quem Somos"
+     e "Solicitar Proposta" quebrarem em duas linhas por volta dos 1150px (medido). */
+  gap: var(--sp-3);
   align-items: center;
 }
 .nav-menu a {
@@ -288,6 +290,42 @@ h4 {
   transform: translateY(-1px);
   color: var(--c-white);
 }
+
+/* Área do Cliente — botão secundário (outline). Destino é sistema externo, por
+   isso não compete visualmente com o CTA vermelho de venda. */
+.nav-client {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.7rem 1rem;
+  border-radius: var(--radius);
+  border: 1px solid rgba(255, 255, 255, 0.45);
+  color: var(--c-white);
+  font-weight: 600;
+  font-size: 0.875rem;
+  letter-spacing: 0.01em;
+  white-space: nowrap;
+  transition: border-color 200ms var(--ease), background 200ms var(--ease),
+    color 200ms var(--ease);
+}
+.nav-client:hover {
+  border-color: var(--c-white);
+  background: rgba(255, 255, 255, 0.12);
+  color: var(--c-white);
+}
+.nav-client-icon {
+  flex: none;
+}
+/* Sobre o hero o header é transparente; ao rolar vira branco e o botão inverte. */
+.nav.is-scrolled .nav-client {
+  border-color: var(--c-border);
+  color: var(--c-blue);
+}
+.nav.is-scrolled .nav-client:hover {
+  border-color: var(--c-blue);
+  background: rgba(20, 56, 138, 0.06);
+  color: var(--c-blue);
+}
 .nav-toggle {
   display: none;
   width: 44px;
@@ -317,7 +355,9 @@ h4 {
 .nav-toggle.is-open span:nth-child(3) {
   transform: translateY(-7px) rotate(-45deg);
 }
-@media (max-width: 960px) {
+/* 1150 e não 960: com a Área do Cliente na linha, o menu desktop passou a quebrar
+   texto em duas linhas abaixo de ~1130px (medido). O hambúrguer entra mais cedo. */
+@media (max-width: 1150px) {
   .nav-menu {
     position: fixed;
     inset: var(--nav-h) 0 0 0;
@@ -342,6 +382,24 @@ h4 {
   }
   .nav-cta {
     display: none;
+  }
+  /* Ao contrário do .nav-cta, a Área do Cliente NÃO some no mobile: é onde o
+     cliente recorrente mais consulta o sistema. Fundo aqui é sempre azul-profundo,
+     então mantém o outline branco mesmo com o header rolado. */
+  .nav-client,
+  .nav.is-scrolled .nav-client {
+    justify-content: center;
+    width: 100%;
+    max-width: 320px;
+    margin-top: var(--sp-2);
+    padding: 0.9rem 1.25rem;
+    font-size: 1.05rem;
+    border-color: rgba(255, 255, 255, 0.5);
+    color: var(--c-white);
+  }
+  .nav-client-icon {
+    width: 16px;
+    height: 16px;
   }
   .nav-toggle {
     display: flex;

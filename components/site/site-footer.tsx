@@ -37,6 +37,10 @@ export function SiteFooter() {
               <li>
                 <a href="#servicos">Serviços</a>
               </li>
+              {/* Saiu do menu do topo (espaço) — o rodapé é o acesso a essa seção. */}
+              <li>
+                <a href="#controle-acesso">Controle de Acesso</a>
+              </li>
               <li>
                 <a href="#contato">Contato</a>
               </li>

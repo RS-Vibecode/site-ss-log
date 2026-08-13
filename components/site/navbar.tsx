@@ -3,10 +3,33 @@
 import { useEffect, useState } from "react"
 import { siteConfig } from "@/lib/site"
 
+/** Cadeado — sinaliza que a Área do Cliente é acesso restrito, não uma seção do site. */
+function LockIcon() {
+  return (
+    <svg
+      className="nav-client-icon"
+      width={14}
+      height={14}
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth={2.2}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true"
+    >
+      <rect x="3" y="11" width="18" height="11" rx="2" />
+      <path d="M7 11V7a5 5 0 0 1 10 0v4" />
+    </svg>
+  )
+}
+
 /**
  * Navbar fixa — transparente sobre o hero, vira branca com blur ao rolar > 80px.
  * Menu mobile full-screen com toggle. Client component (scroll + estado do menu).
  * O CTA "Solicitar Proposta" é um <a data-wa> tratado pelo WhatsAppHandler global.
+ * "Área do Cliente" aponta para o sistema externo (VsOmni) e tem evento próprio —
+ * é acesso de cliente atual, não geração de lead.
  */
 export function Navbar() {
   const [scrolled, setScrolled] = useState(false)
@@ -45,6 +68,21 @@ export function Navbar() {
               {item.title}
             </a>
           ))}
+          <a
+            href={siteConfig.clientArea.url}
+            className="nav-client"
+            target="_blank"
+            rel="noopener noreferrer"
+            onClick={() => {
+              closeMenu()
+              // Evento próprio: é cliente atual acessando o sistema, NÃO um lead.
+              // Não dispara fbq/Lead nem entra nas conversões do Ads.
+              window.dataLayer?.push({ event: "client_area_click" })
+            }}
+          >
+            <LockIcon />
+            {siteConfig.clientArea.label}
+          </a>
           <a
             href={siteConfig.contact.whatsappUrl}
             className="nav-cta"

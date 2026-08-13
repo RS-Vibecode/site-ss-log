@@ -1,11 +1,11 @@
 # S&S Log — HANDOFF (doc vivo)
 
 Estado real do projeto e o que falta fazer. **Atualize este arquivo a cada sessão.**
-Última atualização: **2026-07-18**.
+Última atualização: **2026-08-13**.
 
-> **O bloqueio de hoje:** o DNS foi migrado e `seslog.com.br` está no ar, mas a Vercel do
-> Fardas ainda não tem a LP — **`seslog.com.br/lp-01` responde 404**. A campanha não tem
-> URL de destino até isso ser publicado (§6). Precisa de um token novo do time.
+> **✅ O bloqueio de julho caiu.** `seslog.com.br/lp-01` responde **200** — a LP está na
+> Vercel do Fardas e a campanha tem destino. (Este arquivo registrou 404 como bloqueio
+> 🔴 até 2026-08-13; estava desatualizado.)
 >
 > `STATUS.md` é histórico (documenta o port do protótipo v1, de julho/2026) e está
 > desatualizado em vários pontos — o site mudou de posicionamento depois dele.
@@ -15,12 +15,12 @@ Estado real do projeto e o que falta fazer. **Atualize este arquivo a cada sess�
 
 | | O que | Quem | Tempo | Por que importa |
 |---|---|---|---|---|
-| 🔴 1 | **Publicar a LP na Vercel do Fardas** (§4.0) | RS, com token do André | 5 min | `seslog.com.br/lp-01` dá 404 hoje. **Sem isso a campanha não tem destino.** |
+| 🟡 1 | **Tag `client_area_click` no GTM** (§4.6) | RS | 10 min | O botão da Área do Cliente já empurra o evento; **sem a tag não chega ao GA4** e não se mede uso do portal. |
 | 🟡 2 | **Publicar o Apps Script** (§4.1) | RS | 10 min | Leads chegam só pelo WhatsApp; a planilha ainda não grava. |
 | 🟡 3 | **IDs de conversão no GTM** (§4.2) | André/RS | 15 min | Sem isso a campanha roda **sem otimizar**. |
 | 🔵 4 | **Certificado MAPA/RENASEM**, se existir (§4.4) | André | — | Libera falar de licença para sementes e biológicos. |
 
-Os itens 1–3 somam menos de 30 minutos de trabalho, mas dependem de acessos que só o
+Os itens 1–3 somam menos de 40 minutos de trabalho, mas dependem de acessos que só o
 cliente/André têm (token do time, conta Google, IDs das contas de anúncio).
 **O produto em si está pronto e verificado.**
 
@@ -130,14 +130,13 @@ só a gravação na planilha fica inativa (a rota loga `not_configured`). Nenhum
 
 ## 4. O que falta — lista de ações
 
-### 4.0 🔴 Publicar a LP na Vercel do Fardas (≈5 min) — desbloqueia a campanha
+### 4.0 ✅ Publicar a LP na Vercel do Fardas — **RESOLVIDO**
 
-**`seslog.com.br/lp-01` responde 404 hoje.** O domínio é servido pelo projeto do Fardas,
-que está numa versão anterior à LP. Enquanto isso não for publicado, **a campanha não tem
-URL de destino** — e não se roda Ads apontando para `.vercel.app` (a URL de exibição não
-bate com o domínio e atrapalha a verificação de domínio no Meta).
+`seslog.com.br/lp-01` responde **200**. Este item ficou marcado como 🔴 404 até
+2026-08-13, quando foi verificado que já estava no ar — o documento é que estava velho.
 
-Peça o **token atual do time** ao André (eles são rotacionados com frequência) e:
+O procedimento de publicação continua valendo para qualquer deploy. Peça o **token atual
+do time** ao André (eles são rotacionados com frequência) e:
 
 ```bash
 # o .git precisa sair, senão o deploy é BLOCKED — ver §6
@@ -256,6 +255,44 @@ dá para medir engajamento no GA4 e usar como sinal de público.
 - Revisar as "saídas do WhatsApp" (mensagens por CTA) com o cliente.
 - Repontar o remote do git (§6).
 
+### 4.6 🟡 Tag `client_area_click` no GTM (≈10 min · **RS**)
+
+O botão **Área do Cliente** (2026-08-13) aponta para `https://clientes.seslog.com.br/`,
+sistema **VsOmni** do cliente — fora deste site. A raiz redireciona para `/VsOmni/`;
+o link usa a **raiz**, para sobreviver a uma troca de sistema.
+
+O clique empurra `client_area_click` no `dataLayer`, **sem** `fbq('track','Lead')`:
+
+```js
+window.dataLayer?.push({ event: "client_area_click" })
+```
+
+**Falta criar a tag no GTM** — hoje o evento não chega ao GA4.
+
+> ⚠️ **Não marcar como conversão.** É cliente **atual** entrando no sistema, não geração
+> de lead. Contado como conversão, contamina o aprendizado da campanha que roda na
+> `/lp-01` — o Ads passaria a otimizar para quem já é cliente.
+
+**Onde ele fica, e por quê:**
+
+| | |
+|---|---|
+| Desktop | botão outline com cadeado, à **esquerda** do CTA vermelho — secundário de propósito, não disputa com "Solicitar Proposta" |
+| Mobile | **aparece** no menu, em largura total — ao contrário do `.nav-cta`, que tem `display:none` abaixo do breakpoint. Cliente recorrente consulta sistema pelo celular |
+| Rodapé | não está lá (só a âncora Controle de Acesso) |
+
+**Duas armadilhas medidas** (Playwright, 8 larguras de 1151px a 1920px):
+
+1. **Não cabia.** Com as 6 âncoras originais, o texto quebrava em duas linhas entre 1101
+   e 1200px. Por isso **"Controle de Acesso" saiu do menu do topo** (era a âncora mais
+   longa, ~154px com gap) e foi para o rodapé. A seção `#controle-acesso` segue na página.
+2. **O gap do `.nav-menu` caiu para `--sp-3`** e o breakpoint do hambúrguer subiu de
+   **960px para 1150px**. Com `--sp-4` voltava a quebrar em ~1151px.
+
+> Ao acrescentar **qualquer** item novo no `.nav-menu`, remeça: a folga em 1151px é de
+> 44px. O sintoma (texto em 2 linhas) só aparece numa faixa estreita de largura e passa
+> batido em teste de olho no monitor grande.
+
 ---
 
 ## 5. Rodar e publicar
@@ -301,6 +338,24 @@ mv ../_sslog_git_tmp .git
 ```
 
 O token do time é rotacionado com frequência: **peça o atual ao André a cada deploy**.
+
+> **Confirmado em 2026-08-13.** O erro exato que a Vercel devolve é:
+> *"The deployment was blocked because the commit email
+> `consultoria.rssolucoesdigitais@gmail.com` could not be matched to a GitHub account."*
+> Com o `.git` presente o CLI **fica pendurado sem falhar** (morreu em 7 min de timeout) e
+> o deploy aparece como `UNKNOWN` no `vercel ls` — **não** promove nada, produção segue
+> intacta. Não adianta recommitar: o `user.email` **global** já é esse e-mail rejeitado.
+>
+> Alternativa ao `mv .git`, se não quiser tocar no repositório — publicar de uma cópia:
+>
+> ```bash
+> # copie o projeto sem .git, sem node_modules e sem .env.local (~53 MB)
+> # leve junto: .vercel (aponta pro Fardas), .vercelignore, package.json e configs
+> npx vercel --prod --yes --scope fardas-uniformes-dev-s-projects --token <TOKEN>
+> ```
+>
+> Confirme sempre no fim: o CLI tem que imprimir `Aliased https://seslog.com.br` e o
+> `vercel ls` mostrar `● Ready` — `UNKNOWN` significa bloqueado.
 
 **2. O repo mudou de dono.** `site-ss-log` agora vive em **`RS-Vibecode/site-ss-log`**
 (org criada em 2026-07-15), mas o remote local ainda aponta para `rssolucoesdigitais/site-ss-log`.
@@ -415,6 +470,8 @@ Masters pesados ficam em `temp/` (fora do git). O `.vercelignore` exclui `temp/`
 
 | Commit | O que entrou |
 |---|---|
+| *(este)* | **Botão Área do Cliente** no header → `clientes.seslog.com.br` (§4.6). "Controle de Acesso" saiu do topo para o rodapé (não cabia). HANDOFF corrigido: o 404 da `/lp-01` já não existia. |
+| `02e4055` | Favicon com a logo real do cliente + redirect das URLs antigas do WordPress. |
 | `b029d02` | Logo do rodapé da LP saía achatado — `align-items: stretch` do flex column (§9). |
 | `d05e79b` | Sementes e Biológicos no select · vídeo institucional na LP atrás de clique · onboarding 72h úteis. |
 | `400f757` | Este HANDOFF · `STATUS.md` marcado como histórico · `scripts/valida-gtm.mjs`. |
