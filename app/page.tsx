@@ -5,6 +5,7 @@ import { LeadForm } from "@/components/site/lead-form"
 import { siteConfig } from "@/lib/site"
 
 const WA = siteConfig.contact.whatsappUrl
+const CERT = siteConfig.certification
 
 /** FAQ — contempla operações reguladas E não reguladas. aHtml = visível; aSchema = JSON-LD. */
 const faqs: { q: string; aHtml: string; aSchema: string }[] = [
@@ -21,6 +22,33 @@ const faqs: { q: string; aHtml: string; aSchema: string }[] = [
       "Sim. Licença ANVISA vigente para cosméticos e produtos de higiene — <strong>AFE nº 2.11874-1</strong>. Comprovante disponível sob solicitação.",
     aSchema:
       "Sim. A S&S Log tem licença ANVISA vigente para cosméticos e produtos de higiene (AFE nº 2.11874-1), com comprovante disponível sob solicitação.",
+  },
+  {
+    q: "A S&S Log é certificada ISO 9001?",
+    aHtml:
+      "Sim. O sistema de gestão da qualidade da S&S Log é certificado <strong>" +
+      CERT.norm +
+      "</strong> pela " +
+      CERT.issuer +
+      " — certificado nº <strong>" +
+      CERT.number +
+      "</strong>, válido até " +
+      CERT.validUntilDisplay +
+      ". O escopo cobre " +
+      CERT.scope +
+      ".",
+    aSchema:
+      "Sim. O sistema de gestão da qualidade da S&S Log é certificado " +
+      CERT.norm +
+      " pela " +
+      CERT.issuer +
+      " (certificado nº " +
+      CERT.number +
+      ", válido até " +
+      CERT.validUntilDisplay +
+      "), com escopo de " +
+      CERT.scope +
+      ".",
   },
   {
     q: "Como é feita a rastreabilidade da carga?",
@@ -85,7 +113,15 @@ const localBusinessJsonLd = {
   priceRange: "$$",
   areaServed: ["Sudeste", "Centro-Oeste", "Sul"],
   description:
-    "Operador logístico multicliente B2B em Uberaba/MG, com 17.000 m² preparados para diferentes segmentos e tipos de operação — têxtil, autopeças, produtos pet, industriais, ferramentas, limpeza, higiene e beleza, além de cargas reguladas com licenças ANVISA, IBAMA e IMA.",
+    "Operador logístico multicliente B2B em Uberaba/MG, certificado ABNT NBR ISO 9001:2015, com 17.000 m² preparados para diferentes segmentos e tipos de operação — têxtil, autopeças, produtos pet, industriais, ferramentas, limpeza, higiene e beleza, além de cargas reguladas com licenças ANVISA, IBAMA e IMA.",
+  hasCertification: {
+    "@type": "Certification",
+    name: CERT.norm,
+    identifier: CERT.number,
+    issuedBy: { "@type": "Organization", name: CERT.issuer },
+    datePublished: CERT.issuedOn,
+    expires: CERT.validUntil,
+  },
 }
 
 const faqJsonLd = {
@@ -125,14 +161,20 @@ export default function Home() {
           <div className="hero-grad" />
 
           <div className="container hero-content">
-            <span className="hero-eyebrow">
-              Uberaba · MG · Distrito Industrial IV
-            </span>
+            <div className="hero-eyebrows">
+              <span className="hero-eyebrow">
+                Uberaba · MG · Distrito Industrial IV
+              </span>
+              <span className="hero-eyebrow is-cert">
+                Certificada {CERT.shortName}
+              </span>
+            </div>
             <h1 id="hero-title">Operação logística desenhada para a sua demanda.</h1>
             <p className="sub">
-              Operador logístico multicliente em Uberaba/MG. 17.000 m² preparados
-              para diferentes segmentos — de têxtil, autopeças e produtos pet a
-              cargas reguladas, com licenças ANVISA, IBAMA e IMA como diferencial.
+              Operador logístico multicliente em Uberaba/MG, com sistema de gestão
+              certificado ISO 9001:2015. 17.000 m² preparados para diferentes
+              segmentos — de têxtil, autopeças e produtos pet a cargas reguladas,
+              com licenças ANVISA, IBAMA e IMA como diferencial.
             </p>
             <div className="hero-ctas">
               <a
@@ -171,6 +213,49 @@ export default function Home() {
           </div>
         </section>
 
+        {/* ================= FAIXA · CERTIFICAÇÃO ISO 9001 =================
+            Destaque logo abaixo do hero: é a prova mais forte da operação e
+            precisa ser lida antes de qualquer seção institucional. Números vêm
+            de siteConfig.certification (conferidos no certificado do cliente). */}
+        <section className="cert-band" id="certificacao" aria-labelledby="cert-title">
+          <div className="container cert-band-inner">
+            <div className="cert-seal" aria-hidden="true">
+              <span className="cert-seal-norm">ISO</span>
+              <span className="cert-seal-num">9001</span>
+              <span className="cert-seal-year">2015</span>
+            </div>
+
+            <div className="cert-copy reveal">
+              <span className="eyebrow">Certificação</span>
+              <h2 className="cert-title" id="cert-title">
+                Sistema de gestão certificado <strong>{CERT.norm}</strong>.
+              </h2>
+              <p className="cert-scope">
+                Certificação concedida pela {CERT.issuer}, com escopo de{" "}
+                {CERT.scope}. Processos padronizados, auditados e abertos à
+                auditoria do cliente.
+              </p>
+            </div>
+
+            <dl className="cert-facts reveal">
+              <div>
+                <dt>Certificado</dt>
+                <dd>Nº {CERT.number}</dd>
+              </div>
+              <div>
+                <dt>Organismo certificador</dt>
+                <dd>{CERT.issuer}</dd>
+              </div>
+              <div>
+                <dt>Válido até</dt>
+                <dd>
+                  <time dateTime={CERT.validUntil}>{CERT.validUntilDisplay}</time>
+                </dd>
+              </div>
+            </dl>
+          </div>
+        </section>
+
         {/* ================= SEÇÃO INSTITUCIONAL · QUEM SOMOS + VÍDEO ================= */}
         <section className="inst" id="quem-somos" aria-labelledby="inst-title">
           <div className="container">
@@ -201,6 +286,11 @@ export default function Home() {
                 </p>
 
                 <ul className="inst-points">
+                  <li>
+                    Sistema de gestão da qualidade certificado {CERT.norm}{" "}
+                    (certificado nº {CERT.number}, válido até{" "}
+                    {CERT.validUntilDisplay}).
+                  </li>
                   <li>
                     Possui as licenças necessárias para operar (ANVISA, IBAMA e IMA).
                   </li>
@@ -498,9 +588,14 @@ export default function Home() {
                 </div>
               </article>
 
-              {/* Card 5 · Licenças */}
+              {/* Card 5 · Conformidade — certificação ISO (destacada, borda sólida)
+                  + as três licenças com número. */}
               <article className="structure-card is-licenses reveal">
                 <div className="structure-media">
+                  <div className="license-slot is-cert">
+                    <span className="lic-name">ISO 9001:2015</span>
+                    <span className="lic-hint">Cert. {CERT.number}</span>
+                  </div>
                   <div className="license-slot">
                     <span className="lic-name">ANVISA</span>
                     <span className="lic-hint">AFE 2.11874-1</span>
@@ -515,18 +610,19 @@ export default function Home() {
                   </div>
                 </div>
                 <div className="structure-body">
-                  <div className="structure-title">Licenças Ativas</div>
+                  <div className="structure-title">Conformidade</div>
                   <div className="structure-kpi" style={{ fontSize: "1.25rem" }}>
-                    ANVISA · IBAMA · IMA
+                    ISO 9001 + licenças ativas
                   </div>
                   <p className="structure-desc">
-                    Um diferencial da operação: licenças em dia para o cliente entrar
-                    operando, sem esperar habilitação. ANVISA (AFE 2.11874-1) para
-                    cosméticos e produtos de higiene; IBAMA (CTF 8777018) para
-                    produtos químicos e perigosos; IMA (registro de agrotóxico
-                    11435473) para defensivos; licenciamento ambiental (SEMAD-MG ·
-                    cert. 737 e Uberaba · decl. 3207/2024) e alvará sanitário (nº
-                    0017/2026) vigentes.
+                    Sua carga entra operando, sem esperar habilitação. A gestão é
+                    certificada {CERT.norm} (cert. {CERT.number}, válido até{" "}
+                    {CERT.validUntilDisplay}) e as licenças de carga regulada estão
+                    vigentes: ANVISA AFE 2.11874-1 para cosméticos e higiene, IBAMA
+                    CTF 8777018 para químicos e perigosos, IMA 11435473 para
+                    defensivos. Licenciamento ambiental (SEMAD-MG cert. 737 · Uberaba
+                    decl. 3207/2024) e alvará sanitário nº 0017/2026 em dia.
+                    Comprovantes sob solicitação.
                   </p>
                 </div>
               </article>
