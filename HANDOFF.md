@@ -1,7 +1,7 @@
 # S&S Log — HANDOFF (doc vivo)
 
 Estado real do projeto e o que falta fazer. **Atualize este arquivo a cada sessão.**
-Última atualização: **2026-08-13**.
+Última atualização: **2026-08-25**.
 
 > **✅ O bloqueio de julho caiu.** `seslog.com.br/lp-01` responde **200** — a LP está na
 > Vercel do Fardas e a campanha tem destino. (Este arquivo registrou 404 como bloqueio
@@ -339,6 +339,22 @@ mv ../_sslog_git_tmp .git
 
 O token do time é rotacionado com frequência: **peça o atual ao André a cada deploy**.
 
+> **2026-08-25 — o token novo NÃO funciona pelo CLI.** O token entregue (`vcp_…`) é
+> **escopado ao projeto**: a API do projeto responde, mas `GET /v2/user` devolve **404**
+> e `/v2/teams` **403**. O CLI (v54.1.0) carrega o usuário antes de qualquer coisa e
+> aborta com *"Not able to load user because of unexpected error: User not found. (404)"* —
+> `vercel whoami` e `vercel teams ls` falham igual. **Não é o BLOCKED de commit.**
+>
+> Caminho que funcionou: **deploy pela API REST**, da cópia sem `.git`:
+> 1. `POST /v13/deployments?teamId=…` com `{name, project, target:"production", files:[{file,sha,size}], projectSettings:{framework:"nextjs"}}`;
+> 2. a Vercel responde os shas que faltam → `POST /v2/files` só desses (header `x-vercel-digest`);
+> 3. repetir (1) até criar; depois `GET /v13/deployments/<id>` até `readyState: READY`.
+>
+> Script usado: `scripts/deploy-api.mjs` (token em `VT`, nunca commitado). Como quase
+> todo arquivo já está no armazenamento do time, na prática sobe quase nada.
+> ⚠️ Upload em paralelo estourou a rede desta máquina (`UND_ERR_CONNECT_TIMEOUT`,
+> `ENOTFOUND`) — subir **sequencial**, com retentativa.
+
 > **Confirmado em 2026-08-13.** O erro exato que a Vercel devolve é:
 > *"The deployment was blocked because the commit email
 > `consultoria.rssolucoesdigitais@gmail.com` could not be matched to a GitHub account."*
@@ -357,9 +373,10 @@ O token do time é rotacionado com frequência: **peça o atual ao André a cada
 > Confirme sempre no fim: o CLI tem que imprimir `Aliased https://seslog.com.br` e o
 > `vercel ls` mostrar `● Ready` — `UNKNOWN` significa bloqueado.
 
-**2. O repo mudou de dono.** `site-ss-log` agora vive em **`RS-Vibecode/site-ss-log`**
-(org criada em 2026-07-15), mas o remote local ainda aponta para `rssolucoesdigitais/site-ss-log`.
-O push funciona **pelo redirect do GitHub**. Para repontar:
+**2. O repo mudou de dono.** `site-ss-log` vive em **`RS-Vibecode/site-ss-log`**
+(org criada em 2026-07-15). ✅ O remote local **já foi repontado** (conferido em
+2026-08-25). Se algum clone antigo ainda apontar para `rssolucoesdigitais/site-ss-log`,
+o push funciona pelo redirect do GitHub, mas o certo é repontar:
 
 ```bash
 git remote set-url origin https://github.com/RS-Vibecode/site-ss-log.git
@@ -399,7 +416,24 @@ opacidade quando entra no viewport. É preciso **rolar a página** antes de capt
 
 ---
 
-## 8. Licenças (todas com número — nenhuma pendência)
+## 8. Certificação e licenças (todas com número — nenhuma pendência)
+
+### Certificação do sistema de gestão (2026-08-25)
+
+| Norma | Certificado | Organismo | Escopo | Validade |
+|---|---|---|---|---|
+| ABNT NBR ISO 9001:2015 | SGQ 977/31 | Provence Certificações | Transporte rodoviário de cargas fracionadas e dedicadas + armazenagem (coleta, recebimento, armazenamento, programação logística e entrega) | 20/08/2029 |
+
+Ciclo iniciado em 20/08/2026, auditoria em 11–12/08/2026, emissão inicial (rev. 00).
+Dados no código em **um lugar só**: `siteConfig.certification` (`lib/site.ts`) — hero,
+faixa `#certificacao`, bullet do "Quem Somos", card Conformidade, FAQ e JSON-LD
+(`hasCertification`) leem de lá. **Não repetir o número solto no JSX.**
+PDF do cliente em `temp/licenças/ISO/` (fora do git e do deploy).
+⚠️ O selo na faixa é **desenhado por nós** (tipográfico) — não usamos as marcas da
+Provence nem da ABNT, que têm regra de uso do organismo. Se o cliente mandar o selo
+autorizado, é trocar.
+
+### Licenças
 
 | Órgão | Número | Escopo | Validade |
 |---|---|---|---|
@@ -470,7 +504,8 @@ Masters pesados ficam em `temp/` (fora do git). O `.vercelignore` exclui `temp/`
 
 | Commit | O que entrou |
 |---|---|
-| *(este)* | **Botão Área do Cliente** no header → `clientes.seslog.com.br` (§4.6). "Controle de Acesso" saiu do topo para o rodapé (não cabia). HANDOFF corrigido: o 404 da `/lp-01` já não existia. |
+| *(este)* | **Certificação ISO 9001:2015 em destaque na home** (§8): faixa `#certificacao` abaixo do hero, pill no hero, bullet no "Quem Somos", FAQ, `hasCertification` no JSON-LD e o card da Estrutura virando **Conformidade** (selo ISO + 3 licenças, copy reescrita começando pelo benefício). Publicado no Fardas pela API REST — ver §6. |
+| `ffceed6` | **Botão Área do Cliente** no header → `clientes.seslog.com.br` (§4.6). "Controle de Acesso" saiu do topo para o rodapé (não cabia). HANDOFF corrigido: o 404 da `/lp-01` já não existia. |
 | `02e4055` | Favicon com a logo real do cliente + redirect das URLs antigas do WordPress. |
 | `b029d02` | Logo do rodapé da LP saía achatado — `align-items: stretch` do flex column (§9). |
 | `d05e79b` | Sementes e Biológicos no select · vídeo institucional na LP atrás de clique · onboarding 72h úteis. |
