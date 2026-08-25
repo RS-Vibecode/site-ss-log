@@ -3,7 +3,11 @@
 Estado real do projeto e o que falta fazer. **Atualize este arquivo a cada sessão.**
 Última atualização: **2026-08-25**.
 
-> **✅ O bloqueio de julho caiu.** `seslog.com.br/lp-01` responde **200** — a LP está na
+> **✅ Última publicação: 2026-08-25** — certificação **ABNT NBR ISO 9001:2015** em
+> destaque na home (§8), no ar em `seslog.com.br`. O deploy no Fardas mudou de receita:
+> o token atual **não roda pelo CLI**, publica-se pela **API REST** (§6 e §4.0).
+>
+> **O bloqueio de julho caiu.** `seslog.com.br/lp-01` responde **200** — a LP está na
 > Vercel do Fardas e a campanha tem destino. (Este arquivo registrou 404 como bloqueio
 > 🔴 até 2026-08-13; estava desatualizado.)
 >
@@ -19,6 +23,7 @@ Estado real do projeto e o que falta fazer. **Atualize este arquivo a cada sess�
 | 🟡 2 | **Publicar o Apps Script** (§4.1) | RS | 10 min | Leads chegam só pelo WhatsApp; a planilha ainda não grava. |
 | 🟡 3 | **IDs de conversão no GTM** (§4.2) | André/RS | 15 min | Sem isso a campanha roda **sem otimizar**. |
 | 🔵 4 | **Certificado MAPA/RENASEM**, se existir (§4.4) | André | — | Libera falar de licença para sementes e biológicos. |
+| 🔵 5 | **Republicar a Vercel da RS** (staging, §1) | RS | 5 min | O staging ficou na versão anterior à ISO 9001 — quem abrir `site-ss-log.vercel.app` vê o site velho. |
 
 Os itens 1–3 somam menos de 40 minutos de trabalho, mas dependem de acessos que só o
 cliente/André têm (token do time, conta Google, IDs das contas de anúncio).
@@ -35,14 +40,14 @@ cliente/André têm (token do time, conta Google, IDs das contas de anúncio).
 | **Contato comercial** | André Carvalho · (34) 99904-4040 · andre.carvalho@seslog.com.br |
 | **Stack** | Next.js 16 (App Router, Turbopack) · TypeScript · Tailwind v4 · CSS próprio |
 | **Repo** | `RS-Vibecode/site-ss-log` (privado) — ⚠️ ver §6 |
-| **Último commit** | `b029d02` |
+| **Último commit** | `be1a873` (conteúdo: `12090df`, a ISO 9001 na home) |
 
 ### Ambientes
 
 | Ambiente | URL | Papel | Deploy |
 |---|---|---|---|
 | **Vercel RS** | https://site-ss-log.vercel.app | Staging / revisão | `vercel --prod` com o link da RS |
-| **Vercel Fardas** | `seslog.com.br` | **Produção real** | `vercel --prod --scope fardas-uniformes-dev-s-projects` + token |
+| **Vercel Fardas** | `seslog.com.br` | **Produção real** | cópia sem `.git` + `node scripts/deploy-api.mjs` (API REST) — **o CLI não autentica mais com o token atual**, ver §6 |
 
 **✅ DNS migrado (2026-07-18).** `seslog.com.br` já resolve para a Vercel e serve o site novo.
 Verificado: apex `A → 216.198.79.1`, `www` via CNAME `b1c790c686453a29.vercel-dns-017.com`,
@@ -50,10 +55,14 @@ Verificado: apex `A → 216.198.79.1`, `www` via CNAME `b1c790c686453a29.vercel-
 (`v=spf1 include:_spf.kinghost.net -all`), DMARC (`p=reject`) e os hosts
 `webmail · imap · smtp` seguem na KingHost. O WordPress antigo saiu do ar.
 
-> 🔴 **A Vercel do Fardas está desatualizada: `seslog.com.br/lp-01` responde 404.**
-> O domínio serve a versão multicliente correta, mas **anterior à LP** — a LP só foi
-> publicada na Vercel da RS. **Enquanto isso não for corrigido, a campanha não tem
-> URL de destino.** Como publicar: **§4.0**.
+> ✅ **Produção conferida em 2026-08-25.** `seslog.com.br` e `www.seslog.com.br`
+> respondem 200, `/lp-01` responde 200, e a home traz a certificação ISO 9001 (§8).
+> Deployment `dpl_6Muh67BnaLH8y1CeERx4N5cby7Na` = `READY`, aliases `seslog.com.br`,
+> `www.seslog.com.br`, `site-ss-log-three.vercel.app`.
+>
+> ⚠️ **A Vercel da RS (staging) ficou para trás** — ela não recebeu o deploy da ISO.
+> Se alguém abrir `site-ss-log.vercel.app` para "conferir o site", vai ver a versão
+> anterior. Produção é o Fardas.
 
 ### Posicionamento (pós-call de 2026-07-10)
 
@@ -135,21 +144,30 @@ só a gravação na planilha fica inativa (a rota loga `not_configured`). Nenhum
 `seslog.com.br/lp-01` responde **200**. Este item ficou marcado como 🔴 404 até
 2026-08-13, quando foi verificado que já estava no ar — o documento é que estava velho.
 
-O procedimento de publicação continua valendo para qualquer deploy. Peça o **token atual
-do time** ao André (eles são rotacionados com frequência) e:
+**Procedimento atual (2026-08-25) — o do `mv .git` está superado, ver §6.** Peça o
+**token do projeto** ao André (são expiráveis e rotacionados) e:
 
 ```bash
-# o .git precisa sair, senão o deploy é BLOCKED — ver §6
-mv .git ../_sslog_git_tmp
-npx vercel --prod --yes --scope fardas-uniformes-dev-s-projects --token <TOKEN>
-mv ../_sslog_git_tmp .git
+# 1. cópia sem git (o CLI/API não pode achar NENHUM .git, nem o do monorepo)
+robocopy "…/projects/site-ss-log" "X:/Apps RS/_deploy-clientes/site-ss-log" /MIR \
+  /XD .git node_modules .next temp .vercel-rs-bak /XF .env.local .env.example tsconfig.tsbuildinfo
+cd "X:/Apps RS/_deploy-clientes/site-ss-log"
+git rev-parse --is-inside-work-tree   # TEM que responder "not a git repository"
+
+# 2. deploy pela API REST (o CLI não autentica com o token atual — §6)
+VT=<TOKEN> node scripts/deploy-api.mjs
 ```
+
+O `.vercel/project.json` vai junto na cópia — é ele que amarra o deploy ao projeto
+`prj_L4O5Ijl0jEIxOs4PibA3IzFQlrE0` do time `team_6cB9cv9QVRwMSzZhZmJO2mEf`, sem risco
+de a Vercel criar projeto novo com o nome da pasta.
 
 Depois, confirmar que subiu de verdade:
 
 ```bash
 curl -s -o /dev/null -w "%{http_code}\n" https://seslog.com.br/lp-01   # tem que dar 200
 curl -s https://seslog.com.br/lp-01 | grep -o '<meta name="robots"[^>]*>'  # noindex
+curl -s https://seslog.com.br/ | grep -c "SGQ 977/31"                  # ISO no ar (>0)
 ```
 
 ⚠️ Conferir também se a env `NEXT_PUBLIC_GTM_ID` existe **no projeto do Fardas** —
@@ -302,10 +320,13 @@ npm install
 npm run dev                     # http://localhost:3000
 npm run build && npm run start  # valida o build de produção
 
-# Deploy — Vercel da RS (staging)
+# Deploy — Vercel da RS (staging): o CLI ainda funciona, com o login global da RS
 cp -r .vercel .vercel-fardas-tmp && rm -rf .vercel && cp -r .vercel-rs-bak .vercel
 npx vercel --prod --yes
 rm -rf .vercel && cp -r .vercel-fardas-tmp .vercel && rm -rf .vercel-fardas-tmp
+
+# Deploy — PRODUÇÃO (Fardas): cópia sem .git + API REST. Passo a passo em §4.0
+VT=<TOKEN> node scripts/deploy-api.mjs   # rodar de dentro da cópia
 ```
 
 > **Não há auto-deploy GitHub → Vercel neste projeto.** `git push` **não** publica;
@@ -329,13 +350,14 @@ rm -rf .vercel && cp -r .vercel-fardas-tmp .vercel && rm -rf .vercel-fardas-tmp
 
 **1. Deploy no Fardas sai `BLOCKED`.** O time do Fardas verifica se o e-mail do commit
 bate com uma conta GitHub — o autor do repo (`consultoria.rssolucoesdigitais@gmail.com`)
-não bate. Sintoma: o CLI **fica pendurado**. Solução que funciona — deployar **sem** git:
+não bate. Sintoma: o CLI **fica pendurado**.
 
-```bash
-mv .git ../_sslog_git_tmp
-npx vercel --prod --yes --scope fardas-uniformes-dev-s-projects --token <TOKEN>
-mv ../_sslog_git_tmp .git
-```
+> ⚠️ **O `mv .git` que este documento recomendava NÃO resolve aqui.** Este projeto vive
+> dentro do monorepo `sites-rs`: sem o `.git` do projeto, a ferramenta sobe um nível,
+> acha o `.git` do monorepo e usa o **commit do HEAD do monorepo** como autor — o deploy
+> sai BLOCKED citando um commit que não tem nada a ver com o site. O que funciona é
+> **publicar de uma cópia fora do repo** (§4.0): nada a restaurar se falhar no meio, e
+> `git rev-parse` lá dentro responde "not a git repository".
 
 O token do time é rotacionado com frequência: **peça o atual ao André a cada deploy**.
 
@@ -414,6 +436,19 @@ curl -s <URL>/ | grep -o '<meta name="robots"[^>]*>'        # home segue index,f
 ⚠️ Screenshot full-page da LP **sai com as seções em branco**: o `.reveal` só ganha
 opacidade quando entra no viewport. É preciso **rolar a página** antes de capturar.
 
+Checagem da certificação (§8), em qualquer ambiente:
+
+```bash
+curl -s <URL>/ | grep -c "SGQ 977/31"              # nº do certificado renderizado
+curl -s <URL>/ | grep -c "hasCertification"        # JSON-LD com a Certification
+```
+
+⚠️ **O dev server serviu CSS velho depois de uma edição no `globals.css`** (Turbopack,
+2026-08-25): a regra nova simplesmente não aparecia no chunk servido, mesmo reiniciando.
+Sintoma: você edita, recarrega e o layout não muda. Cura: `rm -rf .next` e subir de novo.
+Antes de concluir que "o CSS não funciona", confirme no chunk:
+`curl -s http://localhost:3000/_next/static/chunks/<arquivo>.css | grep "sua-regra"`.
+
 ---
 
 ## 8. Certificação e licenças (todas com número — nenhuma pendência)
@@ -429,6 +464,25 @@ Dados no código em **um lugar só**: `siteConfig.certification` (`lib/site.ts`)
 faixa `#certificacao`, bullet do "Quem Somos", card Conformidade, FAQ e JSON-LD
 (`hasCertification`) leem de lá. **Não repetir o número solto no JSX.**
 PDF do cliente em `temp/licenças/ISO/` (fora do git e do deploy).
+
+**Onde a ISO aparece na home** (tudo lendo de `siteConfig.certification`):
+
+| Lugar | Arquivo |
+|---|---|
+| Pill `CERTIFICADA ISO 9001:2015` ao lado do eyebrow + menção no subtítulo do hero | `app/page.tsx` |
+| **Faixa `#certificacao`** logo abaixo do hero — selo, escopo e os 3 dados (certificado · organismo · validade) | `app/page.tsx` · CSS em `app/globals.css` (bloco *FAIXA · CERTIFICAÇÃO ISO 9001*) |
+| 1º bullet do "Quem Somos" | `app/page.tsx` |
+| Card **Conformidade** na Estrutura (era "Licenças Ativas") — selo ISO com borda sólida + as 3 licenças | `app/page.tsx` · `.license-slot.is-cert` |
+| FAQ *"A S&S Log é certificada ISO 9001?"* (visível + JSON-LD) | `app/page.tsx` |
+| `hasCertification` no JSON-LD do LocalBusiness | `app/page.tsx` |
+| `description`, `ogTitle`, `ogDescription`, `twitterDescription` | `lib/site.ts` |
+
+⚠️ **A LP `/lp-01` NÃO recebeu a ISO.** O array `LICENCAS` de `lib/lp.ts` segue com as 5
+licenças e sem a certificação — decisão de escopo (o pedido foi a home). Se a campanha
+for usar a ISO como prova, é adicionar lá também.
+
+⚠️ **Os 4 selos não cabem no recorte 16:10** dos cards com foto — a ISO saía cortada no
+topo. Por isso o card de conformidade usa `aspect-ratio: auto` na `.structure-media`.
 ⚠️ O selo na faixa é **desenhado por nós** (tipográfico) — não usamos as marcas da
 Provence nem da ABNT, que têm regra de uso do organismo. Se o cliente mandar o selo
 autorizado, é trocar.
@@ -504,7 +558,8 @@ Masters pesados ficam em `temp/` (fora do git). O `.vercelignore` exclui `temp/`
 
 | Commit | O que entrou |
 |---|---|
-| *(este)* | **Certificação ISO 9001:2015 em destaque na home** (§8): faixa `#certificacao` abaixo do hero, pill no hero, bullet no "Quem Somos", FAQ, `hasCertification` no JSON-LD e o card da Estrutura virando **Conformidade** (selo ISO + 3 licenças, copy reescrita começando pelo benefício). Publicado no Fardas pela API REST — ver §6. |
+| `be1a873` | Este HANDOFF: §8 com a certificação, §6/§4.0 com o deploy pela API, `scripts/deploy-api.mjs`. |
+| `12090df` | **Certificação ISO 9001:2015 em destaque na home** (§8): faixa `#certificacao` abaixo do hero, pill no hero, bullet no "Quem Somos", FAQ, `hasCertification` no JSON-LD e o card da Estrutura virando **Conformidade** (selo ISO + 3 licenças, copy reescrita começando pelo benefício). Publicado no Fardas pela API REST — ver §6. |
 | `ffceed6` | **Botão Área do Cliente** no header → `clientes.seslog.com.br` (§4.6). "Controle de Acesso" saiu do topo para o rodapé (não cabia). HANDOFF corrigido: o 404 da `/lp-01` já não existia. |
 | `02e4055` | Favicon com a logo real do cliente + redirect das URLs antigas do WordPress. |
 | `b029d02` | Logo do rodapé da LP saía achatado — `align-items: stretch` do flex column (§9). |

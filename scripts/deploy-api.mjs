@@ -8,7 +8,9 @@ import fs from 'node:fs'
 import path from 'node:path'
 import crypto from 'node:crypto'
 
-const ROOT = 'X:/Apps RS/_deploy-clientes/site-ss-log'
+// Uso: VT=<token> node scripts/deploy-api.mjs [caminho-da-copia]
+// (o caminho tem que ser uma cópia SEM .git — ver HANDOFF §4.0)
+const ROOT = process.argv[2] || process.env.DEPLOY_ROOT || 'X:/Apps RS/_deploy-clientes/site-ss-log'
 const TOKEN = process.env.VT
 const TEAM = 'team_6cB9cv9QVRwMSzZhZmJO2mEf'
 const PROJECT = 'prj_L4O5Ijl0jEIxOs4PibA3IzFQlrE0'
