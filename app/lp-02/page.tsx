@@ -1,7 +1,7 @@
 import type { Metadata } from "next"
 import Image from "next/image"
 import "./lp.css"
-import { LpLeadForm } from "@/components/site/lp-lead-form"
+import { LpLeadForm, type LpLeadFormCopy } from "@/components/site/lp-lead-form"
 import { LpVideo } from "@/components/site/lp-video"
 import { DevelopedByRS } from "@/components/site/developed-by-rs"
 import { siteConfig } from "@/lib/site"
@@ -16,100 +16,116 @@ const WA = siteConfig.contact.whatsappUrl
  * Medir (GA4/Ads) e indexar são coisas diferentes: o tracking segue ativo.
  */
 export const metadata: Metadata = {
-  title: "S&S Log | Armazenagem licenciada para o agro em Uberaba/MG",
+  title: "S&S Log | Armazenagem e operação logística para empresas em Uberaba/MG",
   description:
-    "17.000 m² e 11.000 posições-palete no Triângulo Mineiro. Licenças IMA, IBAMA e ANVISA com número. Visita técnica de 1 hora e proposta em até 24 horas.",
+    "Armazenagem terceirizada, transporte e distribuição para empresas em Uberaba e no Triângulo Mineiro. Informe sua demanda e solicite uma proposta.",
   robots: {
     index: false,
     follow: false,
     nocache: true,
     googleBot: { index: false, follow: false },
   },
-  alternates: { canonical: "/lp-01" },
+  alternates: { canonical: "/lp-02" },
 }
 
-/** Dor → resposta. O lado esquerdo é a fala do prospect; o direito, a prova. */
+/** Textos do formulário desta LP (a estrutura dos campos é a mesma da /lp-01). */
+const FORM_COPY: Partial<LpLeadFormCopy> = {
+  titulo: "Solicite uma proposta",
+  subtitulo: "Informe sua demanda. A equipe comercial retorna o contato.",
+  labelSegmento: "Tipo de produto ou carga",
+  labelVolume: "Volume aproximado",
+  erroSegmento: "Selecione o tipo de produto ou carga.",
+  erroVolume: "Selecione o volume aproximado.",
+  botao: "Solicitar uma proposta",
+  nota: "Sem compromisso. A equipe comercial entra em contato.",
+  okTexto:
+    "Abrimos o WhatsApp com suas informações para você enviar. Se a janela não abriu, a equipe comercial retorna pelo telefone ou e-mail informado.",
+}
+
+/** Situação de busca → resposta comercial. */
 const dores: { dor: string; resposta: string }[] = [
   {
-    dor: "“O operador diz que atende minha carga, mas não tem a licença.”",
-    resposta:
-      "Licenças ANVISA, IBAMA, IMA e SEMAD vigentes — com número, disponíveis para conferência antes de você fechar.",
+    dor: "“Meu estoque cresceu e preciso de mais espaço.”",
+    resposta: "Avalie a terceirização da armazenagem da sua empresa.",
   },
   {
-    dor: "“Ninguém sabe dizer onde meu palete está.”",
+    dor: "“Quero terceirizar minha operação logística.”",
     resposta:
-      "Gestão por WMS: controle por posição, lote e movimentação registrados. Relatório de estoque conforme o SLA combinado.",
+      "Conte com uma operação voltada às necessidades de armazenagem e movimentação da sua empresa.",
   },
   {
-    dor: "“O armazém é longe e o frete come a margem.”",
+    dor: "“Preciso armazenar uma carga específica.”",
     resposta:
-      "Uberaba, no coração do Triângulo Mineiro: MG, SP e GO dentro de um raio de 300 km a partir da doca.",
+      "Consulte a possibilidade de operação para cosméticos, químicos e agroquímicos.",
   },
   {
-    dor: "“Não tenho indicador nenhum — só desculpa.”",
-    resposta:
-      "Operação gerida por KPI e SLA acordados em contrato, com auditoria do cliente permitida no armazém.",
+    dor: "“Preciso transportar ou distribuir meus produtos.”",
+    resposta: "Consulte transporte, distribuição, carga fracionada e lotação.",
   },
 ]
 
 const passos: { n: string; titulo: string; texto: string }[] = [
   {
     n: "01",
-    titulo: "Você agenda",
-    texto:
-      "Preencha o formulário ou chame no WhatsApp. Retorno em até 30 minutos no horário comercial.",
+    titulo: "Conte sua necessidade",
+    texto: "Informe o tipo de produto, volume e necessidade da sua operação.",
   },
   {
     n: "02",
-    titulo: `Visita técnica de ${OFERTA.duracaoVisita}`,
-    texto: `Com ${OFERTA.responsavel}, no armazém. Você vê as eclusas, o controle de acesso e o WMS rodando — não um PDF.`,
+    titulo: "Avaliamos sua demanda",
+    texto:
+      "Nossa equipe analisa as características da armazenagem, transporte ou distribuição.",
   },
   {
     n: "03",
-    titulo: "Diagnóstico logístico",
+    titulo: "Planejamos a operação",
     texto:
-      "Mapeamos volume, fluxo, sazonalidade e exigências regulatórias da sua carga. Sem pacote fechado.",
+      "Alinhamos os requisitos necessários para atender à demanda da sua empresa.",
   },
   {
     n: "04",
-    titulo: `Proposta em ${OFERTA.slaProposta}`,
-    texto: `Dimensionada para a sua operação, com escopo, indicadores e SLA definidos. Fechado o contrato, a operação começa em ${OFERTA.onboarding}.`,
+    titulo: "Receba sua proposta",
+    texto:
+      "Após a avaliação, nossa equipe comercial apresenta a proposta para sua operação.",
   },
 ]
 
 const faqs: { q: string; a: string }[] = [
   {
-    q: "A visita técnica tem algum custo?",
-    a: `Não. A visita é gratuita e sem compromisso: ${OFERTA.duracaoVisita} no armazém, em Uberaba, com ${OFERTA.responsavel}. Você conhece a estrutura e sai com o diagnóstico da sua operação.`,
+    q: "A S&S Log realiza armazenagem terceirizada?",
+    a: "Sim. A S&S Log é um operador logístico multicliente em Uberaba/MG, com gestão por WMS e controle por posição e lote. Informe a demanda da sua empresa e a equipe avalia a operação.",
   },
   {
-    q: "Vocês têm licença para a minha carga?",
-    a: "A S&S Log opera com ANVISA (AFE nº 2.11874-1) para cosméticos e higiene, IBAMA (CTF nº 8777018) para químicos e perigosos, IMA/MG (Reg. nº 11435473) para estabelecimento de agrotóxicos, SEMAD/MG (certificado nº 737) para transporte de perigosos e Alvará Sanitário nº 0017/2026 para armazéns gerais. Se a sua carga exige uma licença específica, traga a exigência na visita — a resposta é dada na hora, com o documento na mão.",
+    q: "Que tipos de produtos podem ser armazenados?",
+    a: "A operação atende segmentos como cosméticos, higiene e beleza, defensivos agrícolas, agroquímicos, fertilizantes, produtos de limpeza, têxtil e vestuário, autopeças, produtos pet e produtos industriais. Cargas com requisitos específicos são avaliadas caso a caso.",
   },
   {
-    q: "Em quanto tempo recebo a proposta?",
-    a: `Em até ${OFERTA.slaProposta} depois da visita técnica. A proposta é dimensionada para o seu volume e fluxo — a S&S Log não trabalha com pacotes fechados.`,
+    q: "A S&S Log trabalha com armazenagem de cosméticos?",
+    a: "Sim. Há operação para cosméticos e produtos de higiene e beleza, e a S&S Log conta com ANVISA (AFE nº 2.11874-1) para cosméticos e produtos de higiene. Informe o volume e o tipo de produto para avaliarmos sua demanda.",
   },
   {
-    q: "Depois de fechar, quanto tempo até a operação começar?",
-    a: `${OFERTA.onboarding} em média, contadas da assinatura. Esse é o tempo de cadastrar a operação no WMS, definir o endereçamento das posições e alinhar o fluxo de recebimento e expedição com a sua equipe. Operações com exigência regulatória específica podem levar um pouco mais.`,
+    q: "É possível avaliar a armazenagem de químicos e agroquímicos?",
+    a: "Sim, a operação é avaliada conforme o produto e os requisitos da carga. A S&S Log conta com IBAMA (CTF nº 8777018) para produtos químicos e perigosos e IMA/MG (Reg. nº 11435473) para estabelecimento de agrotóxicos. Informe o produto na solicitação para a equipe analisar.",
   },
   {
-    q: "Quais regiões vocês atendem?",
-    a: "Sudeste, Centro-Oeste e Sul. Uberaba está no Triângulo Mineiro, o que coloca MG, SP e GO dentro de um raio de aproximadamente 300 km — com acesso direto aos demais estados das três regiões.",
+    q: "A S&S Log realiza transporte de cargas?",
+    a: "Sim. A S&S Log atua com transporte e distribuição de mercadorias, conforme o atendimento da rota, e conta com SEMAD/MG (certificado nº 737) para transporte de produtos perigosos. Informe origem, destino e tipo de carga para consulta.",
   },
   {
-    q: "Como acompanho meu estoque no dia a dia?",
-    a: "Por WMS, com controle por posição e lote e todas as movimentações registradas. Os relatórios e a periodicidade são definidos no SLA de cada cliente.",
+    q: "Vocês trabalham com carga fracionada e carga lotação?",
+    a: "Consulte a disponibilidade para carga fracionada, carga lotação e transferências entre centros de distribuição, conforme o atendimento da rota. Informe origem, destino e volume para a equipe avaliar.",
   },
   {
-    q: "Posso auditar o armazém antes de fechar?",
-    a: "Sim — e recebemos auditoria de cliente como parte do processo de homologação. Transparência aqui é diferencial, não incômodo.",
+    q: "É possível agendar uma visita ao armazém?",
+    a: `Sim. A visita técnica é gratuita e sem compromisso: ${OFERTA.duracaoVisita} no armazém, em Uberaba, com ${OFERTA.responsavel}. Você conhece a estrutura e entende como a operação da sua empresa pode ser avaliada.`,
+  },
+  {
+    q: "Como solicitar uma proposta?",
+    a: "Preencha o formulário ou chame no WhatsApp informando o tipo de produto, o volume e o serviço que sua empresa procura. A equipe avalia a demanda e a equipe comercial apresenta a proposta.",
   },
 ]
 
-
-export default function Lp01() {
+export default function Lp02() {
   return (
     <>
       {/* ============== HEADER MÍNIMO (sem nav: LP não tem porta de saída) ============== */}
@@ -158,21 +174,17 @@ export default function Lp01() {
                 Operador logístico multicliente · Uberaba/MG
               </span>
               <h1 className="lp-hero-title" id="lp-hero-title">
-                O operador logístico que o agro procura: licenciado, rastreável e
-                a 300 km do seu cliente.
+                Armazenagem e Operação Logística para Empresas em Uberaba
               </h1>
               <p className="lp-hero-deck">
-                17.000 m² e 11.000 posições-palete no coração do Triângulo
-                Mineiro. Licenças IMA, IBAMA e ANVISA{" "}
-                <strong>com número — não com promessa</strong>. Visita técnica de{" "}
-                {OFERTA.duracaoVisita} com {OFERTA.responsavel} e proposta em até{" "}
-                {OFERTA.slaProposta}.
+                Terceirize sua armazenagem, transporte e distribuição com uma
+                operação logística voltada às necessidades da sua empresa.
               </p>
 
               <ul className="lp-checks">
-                <li>Defensivos, agroquímicos e fertilizantes em área segregada</li>
-                <li>Controle de acesso com facial, tourniquete e guarita III-A</li>
-                <li>Estrutura nova, sem passivo de operação antiga</li>
+                <li>Armazenagem terceirizada para empresas, com gestão por WMS</li>
+                <li>Operação para cosméticos, higiene e beleza</li>
+                <li>Transporte e distribuição de mercadorias</li>
               </ul>
 
               <a
@@ -183,12 +195,12 @@ export default function Lp01() {
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                Prefere WhatsApp? Fale direto com a equipe →
+                Falar com o comercial →
               </a>
             </div>
 
             <div className="lp-hero-form">
-              <LpLeadForm id="form" />
+              <LpLeadForm id="form" copy={FORM_COPY} />
             </div>
           </div>
         </section>
@@ -211,9 +223,9 @@ export default function Lp01() {
         <section className="section lp-dores" aria-labelledby="lp-dores-title">
           <div className="container">
             <header className="section-head reveal">
-              <span className="eyebrow">Por que trocar de operador</span>
+              <span className="eyebrow">Uma operação logística para diferentes demandas</span>
               <h2 className="section-title" id="lp-dores-title">
-                Você já ouviu essas quatro frases. Aqui elas não existem.
+                Qual é a necessidade da sua empresa?
               </h2>
             </header>
 
@@ -238,7 +250,7 @@ export default function Lp01() {
               <div>
                 <span className="eyebrow">A estrutura</span>
                 <h2 className="section-title" id="lp-estrutura-title">
-                  Sem truques. Sem montagem. Só operação.
+                  Estrutura para a operação da sua empresa
                 </h2>
               </div>
               <p className="section-deck">
@@ -256,8 +268,8 @@ export default function Lp01() {
                   sizes="(max-width: 900px) 100vw, 60vw"
                 />
                 <figcaption>
-                  <strong>17.000 m² de área total</strong>
-                  <span>11.000 posições-palete geridas por WMS</span>
+                  <strong>Armazenagem para empresas</strong>
+                  <span>Para empresas que precisam terceirizar estoques ou ampliar sua capacidade de armazenagem.</span>
                 </figcaption>
               </figure>
 
@@ -269,8 +281,8 @@ export default function Lp01() {
                   sizes="(max-width: 900px) 100vw, 40vw"
                 />
                 <figcaption>
-                  <strong>2 eclusas independentes</strong>
-                  <span>Entrada e saída sem cruzamento de fluxo</span>
+                  <strong>Transporte e distribuição</strong>
+                  <span>Carga fracionada, lotação e transferências entre centros de distribuição, conforme a rota.</span>
                 </figcaption>
               </figure>
 
@@ -289,8 +301,8 @@ export default function Lp01() {
                   <source src="/media/cut-controle.mp4" type="video/mp4" />
                 </video>
                 <figcaption>
-                  <strong>Controle de acesso III-A</strong>
-                  <span>Reconhecimento facial, tourniquete e guarita blindada</span>
+                  <strong>Controle de acesso</strong>
+                  <span>Reconhecimento facial, tourniquete e guarita blindada na entrada da operação.</span>
                 </figcaption>
               </figure>
             </div>
@@ -348,12 +360,11 @@ export default function Lp01() {
             <div className="lp-video-copy reveal">
               <span className="eyebrow">Por dentro da operação</span>
               <h2 className="section-title" id="lp-video-title">
-                Um minuto vale mais que qualquer apresentação.
+                Conheça a S&S Log por dentro
               </h2>
               <p className="section-deck">
-                O armazém, as eclusas, o controle de acesso e o WMS rodando — sem
-                simulação. É a mesma operação que você vai ver ao vivo na visita
-                técnica.
+                Conheça nossa estrutura em Uberaba e entenda como podemos avaliar
+                a operação logística da sua empresa.
               </p>
             </div>
             <div className="lp-video-media reveal">
@@ -372,8 +383,7 @@ export default function Lp01() {
             <header className="section-head reveal">
               <span className="eyebrow">Como funciona</span>
               <h2 className="section-title" id="lp-passos-title">
-                Da sua mensagem à proposta: {OFERTA.slaPropostaCurto} depois da
-                visita.
+                Da sua mensagem à proposta comercial.
               </h2>
             </header>
 
@@ -405,13 +415,11 @@ export default function Lp01() {
             <div className="lp-local-copy reveal">
               <span className="eyebrow">Localização</span>
               <h2 className="section-title" id="lp-local-title">
-                Uberaba não é o meio do caminho. É o meio do mercado.
+                Operação logística em Uberaba
               </h2>
               <p className="section-deck">
-                Do Distrito Industrial IV, um raio de aproximadamente 300 km
-                alcança boa parte de <strong>Minas Gerais, São Paulo e Goiás</strong>
-                . Menos quilômetro rodado por entrega significa frete menor e
-                janela de reposição mais curta para o seu cliente.
+                Uma estrutura para empresas que buscam armazenagem e operação
+                logística em Uberaba e no Triângulo Mineiro.
               </p>
 
               <dl className="lp-local-fatos">
@@ -421,11 +429,11 @@ export default function Lp01() {
                 </div>
                 <div>
                   <dt>Triângulo Mineiro</dt>
-                  <dd>Raio de ~300 km: MG, SP e GO</dd>
+                  <dd>Armazenagem e operação logística</dd>
                 </div>
                 <div>
                   <dt>Localização estratégica</dt>
-                  <dd>Atendimento no Sudeste, Centro-Oeste e Sul</dd>
+                  <dd>Transporte e distribuição, conforme a rota</dd>
                 </div>
               </dl>
             </div>
@@ -471,19 +479,19 @@ export default function Lp01() {
 
           <div className="container lp-cta-inner">
             <div className="lp-cta-copy reveal">
-              <span className="eyebrow">Visita técnica</span>
+              <span className="eyebrow">Solicite uma proposta</span>
               <h2 className="section-title" id="lp-cta-title">
-                {OFERTA.duracaoVisita} no armazém decide o que meses de proposta
-                por e-mail não decidem.
+                Conte sua necessidade. Nossa equipe avalia a operação.
               </h2>
               <p className="section-deck">
-                Traga a exigência da sua carga. Saia com o diagnóstico da sua
-                operação e a proposta em até {OFERTA.slaProposta}.
+                Informe o tipo de produto, volume e serviço que sua empresa
+                procura. A equipe da S&S Log entra em contato para entender sua
+                demanda.
               </p>
               <ul className="lp-checks">
                 <li>Sem custo</li>
                 <li>Sem compromisso</li>
-                <li>Proposta em até {OFERTA.slaProposta}</li>
+                <li>Avaliação da sua operação</li>
               </ul>
               <a
                 href={WA}
@@ -498,7 +506,10 @@ export default function Lp01() {
             </div>
 
             <div className="lp-cta-form">
-              <LpLeadForm id="form-final" />
+              <LpLeadForm
+                id="form-final"
+                copy={{ ...FORM_COPY, botao: "Solicitar minha proposta" }}
+              />
             </div>
           </div>
         </section>

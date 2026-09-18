@@ -62,7 +62,40 @@ function lerUtm(): Record<string, string> {
   return out
 }
 
-export function LpLeadForm({ id = "form" }: { id?: string }) {
+/** Textos do formulário. Cada LP pode sobrescrever; o padrão é o da /lp-01. */
+export type LpLeadFormCopy = {
+  titulo: string
+  subtitulo: string
+  labelSegmento: string
+  labelVolume: string
+  erroSegmento: string
+  erroVolume: string
+  botao: string
+  nota: string
+  okTexto: string
+}
+
+const COPY_PADRAO: LpLeadFormCopy = {
+  titulo: "Agende sua visita técnica",
+  subtitulo: "1 hora no armazém com o André. Proposta em até 24h.",
+  labelSegmento: "Segmento",
+  labelVolume: "Volume de carga",
+  erroSegmento: "Selecione o segmento.",
+  erroVolume: "Selecione o volume de carga.",
+  botao: "Quero agendar a visita",
+  nota: "Sem compromisso. Retorno em até 30 minutos no horário comercial.",
+  okTexto:
+    "Abrimos o WhatsApp com suas informações para você enviar. Se a janela não abriu, o André retorna pelo telefone ou e-mail informado — a proposta sai em até 24 horas.",
+}
+
+export function LpLeadForm({
+  id = "form",
+  copy: copyProp,
+}: {
+  id?: string
+  copy?: Partial<LpLeadFormCopy>
+}) {
+  const copy = { ...COPY_PADRAO, ...copyProp }
   /**
    * A LP renderiza este formulário duas vezes (hero e CTA final). Sem um prefixo
    * único, os dois teriam os mesmos ids de campo e o <label> do segundo passaria
@@ -100,8 +133,8 @@ export function LpLeadForm({ id = "form" }: { id?: string }) {
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(form.email))
       return setErro("Informe um e-mail válido.")
     if (!form.empresa.trim()) return setErro("Informe o nome da empresa.")
-    if (!form.segmento) return setErro("Selecione o segmento.")
-    if (!form.volume) return setErro("Selecione o volume de carga.")
+    if (!form.segmento) return setErro(copy.erroSegmento)
+    if (!form.volume) return setErro(copy.erroVolume)
     if (!consent) return setErro("É preciso aceitar o uso dos dados para continuar.")
 
     // 1. Conversão — o GTM escuta e dispara GA4 + Google Ads + Meta.
@@ -146,11 +179,7 @@ export function LpLeadForm({ id = "form" }: { id?: string }) {
           ✓
         </div>
         <h3>Recebemos seus dados.</h3>
-        <p>
-          Abrimos o WhatsApp com suas informações para você enviar. Se a janela
-          não abriu, o André retorna pelo telefone ou e-mail informado — a
-          proposta sai em até 24 horas.
-        </p>
+        <p>{copy.okTexto}</p>
         <button
           type="button"
           className="lp-form-reset"
@@ -169,8 +198,8 @@ export function LpLeadForm({ id = "form" }: { id?: string }) {
   return (
     <form className="lp-form" id={id} onSubmit={onSubmit} noValidate>
       <div className="lp-form-head">
-        <h3>Agende sua visita técnica</h3>
-        <p>1 hora no armazém com o André. Proposta em até 24h.</p>
+        <h3>{copy.titulo}</h3>
+        <p>{copy.subtitulo}</p>
       </div>
 
       <div className="lp-field">
@@ -225,7 +254,7 @@ export function LpLeadForm({ id = "form" }: { id?: string }) {
 
       <div className="lp-field-row">
         <div className="lp-field">
-          <label htmlFor={campo("segmento")}>Segmento</label>
+          <label htmlFor={campo("segmento")}>{copy.labelSegmento}</label>
           <select
             id={campo("segmento")}
             value={form.segmento}
@@ -240,7 +269,7 @@ export function LpLeadForm({ id = "form" }: { id?: string }) {
           </select>
         </div>
         <div className="lp-field">
-          <label htmlFor={campo("volume")}>Volume de carga</label>
+          <label htmlFor={campo("volume")}>{copy.labelVolume}</label>
           <select id={campo("volume")} value={form.volume} onChange={update("volume")}>
             <option value="">Selecione…</option>
             {VOLUMES.map((v) => (
@@ -288,11 +317,11 @@ export function LpLeadForm({ id = "form" }: { id?: string }) {
       ) : null}
 
       <button type="submit" className="btn btn-primary btn-lg lp-form-submit">
-        Quero agendar a visita
+        {copy.botao}
       </button>
 
       <p className="lp-form-nota">
-        Sem compromisso. Retorno em até 30 minutos no horário comercial.
+        {copy.nota}
       </p>
     </form>
   )

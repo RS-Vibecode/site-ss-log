@@ -1,0 +1,947 @@
+/* ============================================================================
+   LP 03 (/lp-03) — namespace .l3-*  ·  minimalista e editorial
+   Mesmo conteúdo da /lp-02, outra estrutura: fundo claro, muito ar, filetes de
+   1px, tipografia como protagonista e fotos grandes. Azul escuro = texto e
+   base; branco/cinza claro = fundos; vermelho só em CTAs e pequenos detalhes.
+   Tudo escopado em .l3 para não colidir com as outras LPs (os componentes
+   compartilhados — formulário e vídeo — são estilizados aqui embaixo).
+   ============================================================================ */
+
+.l3 {
+  --l3-ink: var(--c-blue-deep);
+  --l3-text: #4b5563;
+  --l3-line: #e4e8f0;
+  --l3-soft: #f6f7fa;
+  --l3-sky: #b9cbf5;
+  --l3-wrap: 1180px;
+  background: var(--c-white);
+  color: var(--l3-text);
+}
+.l3-wrap {
+  width: 100%;
+  max-width: var(--l3-wrap);
+  margin: 0 auto;
+  padding: 0 clamp(1.25rem, 4vw, 2.5rem);
+}
+
+/* --- Tipografia base --- */
+.l3-eyebrow {
+  display: inline-block;
+  margin-bottom: 1.25rem;
+  font-family: var(--f-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--c-red);
+}
+.l3-title {
+  font-size: clamp(1.9rem, 3.8vw, 3.1rem);
+  font-weight: 800;
+  line-height: 1.1;
+  letter-spacing: -0.025em;
+  color: var(--l3-ink);
+  max-width: 20ch;
+}
+.l3-deck {
+  margin-top: 1.25rem;
+  font-size: clamp(1rem, 1.25vw, 1.15rem);
+  line-height: 1.7;
+  color: var(--l3-text);
+  max-width: 54ch;
+}
+.l3-link {
+  display: inline-block;
+  font-family: var(--f-mono);
+  font-size: 0.78rem;
+  letter-spacing: 0.06em;
+  color: var(--l3-ink);
+  border-bottom: 1px solid currentColor;
+  padding-bottom: 2px;
+  transition: color 200ms var(--ease);
+}
+.l3-link:hover {
+  color: var(--c-red);
+}
+/* Lista simples com traço vermelho curto. */
+.l3-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.7rem;
+}
+.l3-list li {
+  position: relative;
+  padding-left: 1.75rem;
+  line-height: 1.5;
+  color: var(--l3-ink);
+}
+.l3-list li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.75em;
+  width: 1rem;
+  height: 2px;
+  background: var(--c-red);
+}
+
+/* Seções */
+.l3-section {
+  padding: clamp(4rem, 8vw, 7rem) 0;
+}
+.l3-soft {
+  background: var(--l3-soft);
+}
+.l3-head {
+  margin-bottom: clamp(2.5rem, 5vw, 4rem);
+}
+.l3-head-center {
+  text-align: center;
+}
+.l3-head-center .l3-title,
+.l3-head-center .l3-deck {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Animação leve: só fade + 8px, por CSS (o conteúdo nunca fica escondido). */
+@keyframes l3-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@supports (animation-timeline: view()) {
+  .l3-in {
+    animation: l3-in linear both;
+    animation-timeline: view();
+    animation-range: entry 0% entry 35%;
+  }
+}
+
+/* --- Header --- */
+.l3-header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: rgba(255, 255, 255, 0.94);
+  backdrop-filter: blur(8px);
+  border-bottom: 1px solid var(--l3-line);
+}
+.l3-header-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  min-height: 70px;
+}
+.l3-logo {
+  height: 32px;
+  width: auto;
+  display: block;
+}
+.l3-header-actions {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+.l3-header-tel {
+  font-family: var(--f-head);
+  font-weight: 800;
+  font-size: 0.98rem;
+  color: var(--l3-ink);
+  transition: color 200ms var(--ease);
+}
+.l3-header-tel:hover {
+  color: var(--c-red);
+}
+.l3-header-btn {
+  padding: 0.7rem 1.25rem;
+  font-size: 0.9rem;
+}
+
+/* --- Hero: texto à esquerda, foto alta à direita --- */
+.l3-hero {
+  padding: clamp(3rem, 7vw, 6rem) 0 clamp(3rem, 6vw, 5rem);
+}
+.l3-hero-inner {
+  display: grid;
+  grid-template-columns: 1.05fr 0.95fr;
+  gap: clamp(2.5rem, 6vw, 5.5rem);
+  align-items: center;
+}
+.l3-hero-title {
+  font-size: clamp(2.3rem, 4.8vw, 4.1rem);
+  font-weight: 800;
+  line-height: 1.04;
+  letter-spacing: -0.03em;
+  color: var(--l3-ink);
+  max-width: 15ch;
+}
+.l3-hero-deck {
+  margin: 1.5rem 0 2rem;
+  font-size: clamp(1.05rem, 1.4vw, 1.2rem);
+  line-height: 1.65;
+  max-width: 46ch;
+}
+.l3-hero .l3-list {
+  padding-top: 1.75rem;
+  margin-bottom: 2.25rem;
+  border-top: 1px solid var(--l3-line);
+  max-width: 46ch;
+}
+.l3-hero-cta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 1.25rem 1.75rem;
+}
+.l3-hero-media {
+  position: relative;
+  aspect-ratio: 4 / 5;
+  border-radius: 12px;
+  overflow: hidden;
+  background: var(--l3-soft);
+}
+.l3-hero-media img {
+  object-fit: cover;
+  object-position: 30% 50%;
+}
+
+/* --- Números: linha única com divisores verticais --- */
+.l3-numeros {
+  border-top: 1px solid var(--l3-line);
+  border-bottom: 1px solid var(--l3-line);
+}
+.l3-numeros-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  margin: 0;
+}
+.l3-numero {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: clamp(1.75rem, 3.5vw, 2.75rem) clamp(1rem, 2.5vw, 2rem);
+  border-left: 1px solid var(--l3-line);
+}
+.l3-numero:first-child {
+  border-left: none;
+  padding-left: 0;
+}
+.l3-numero dd {
+  margin: 0;
+  font-family: var(--f-head);
+  font-size: clamp(2.2rem, 4.6vw, 3.8rem);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  line-height: 1;
+  color: var(--c-blue);
+}
+.l3-numero dt {
+  font-family: var(--f-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--l3-text);
+}
+
+/* --- Demandas: lista numerada em três colunas --- */
+.l3-demandas {
+  border-top: 1px solid var(--l3-line);
+}
+.l3-demanda {
+  display: grid;
+  grid-template-columns: 5rem 1.1fr 1fr;
+  gap: 1.5rem;
+  align-items: baseline;
+  padding: clamp(1.5rem, 3vw, 2.25rem) 0;
+  border-bottom: 1px solid var(--l3-line);
+}
+.l3-demanda-n {
+  font-family: var(--f-mono);
+  font-size: 0.8rem;
+  letter-spacing: 0.12em;
+  color: var(--c-red);
+}
+.l3-demanda-fala {
+  font-family: var(--f-head);
+  font-size: clamp(1.15rem, 1.9vw, 1.6rem);
+  font-weight: 700;
+  line-height: 1.25;
+  letter-spacing: -0.015em;
+  color: var(--l3-ink);
+}
+.l3-demanda-resposta {
+  font-size: 1rem;
+  line-height: 1.65;
+}
+
+/* --- Estrutura: blocos alternados foto + texto --- */
+.l3-blocos {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(2.5rem, 6vw, 5rem);
+}
+.l3-bloco {
+  display: grid;
+  grid-template-columns: 1.4fr 1fr;
+  gap: clamp(2rem, 5vw, 4.5rem);
+  align-items: center;
+}
+.l3-bloco:nth-child(even) {
+  grid-template-columns: 1fr 1.4fr;
+}
+.l3-bloco:nth-child(even) .l3-bloco-media {
+  order: 2;
+}
+.l3-bloco-media {
+  position: relative;
+  aspect-ratio: 3 / 2;
+  border-radius: 12px;
+  overflow: hidden;
+  background: var(--c-blue-deep);
+}
+.l3-bloco-media img,
+.l3-bloco-media video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.l3-bloco-n {
+  display: block;
+  margin-bottom: 1rem;
+  font-family: var(--f-mono);
+  font-size: 0.8rem;
+  letter-spacing: 0.12em;
+  color: var(--c-red);
+}
+.l3-bloco-texto h3 {
+  font-size: clamp(1.5rem, 2.6vw, 2.1rem);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  line-height: 1.15;
+  color: var(--l3-ink);
+  margin-bottom: 0.9rem;
+}
+.l3-bloco-texto p {
+  font-size: 1.05rem;
+  line-height: 1.7;
+  max-width: 40ch;
+}
+
+/* --- Licenças: título à esquerda, lista tabular à direita --- */
+.l3-licencas {
+  display: grid;
+  grid-template-columns: 0.9fr 1.1fr;
+  gap: clamp(2.5rem, 7vw, 6rem);
+  align-items: start;
+}
+.l3-licencas-head .l3-link {
+  margin-top: 2rem;
+}
+.l3-licencas-lista {
+  border-top: 2px solid var(--l3-ink);
+}
+.l3-licenca {
+  display: grid;
+  grid-template-columns: 0.9fr 1.3fr;
+  column-gap: 1.5rem;
+  row-gap: 0.15rem;
+  padding: 1.35rem 0;
+  border-bottom: 1px solid var(--l3-line);
+}
+.l3-licenca-orgao {
+  grid-row: span 2;
+  font-family: var(--f-head);
+  font-size: 1.15rem;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+  color: var(--l3-ink);
+}
+.l3-licenca-numero {
+  font-family: var(--f-mono);
+  font-size: 0.92rem;
+  color: var(--c-blue);
+}
+.l3-licenca-escopo {
+  font-size: 0.93rem;
+  color: var(--l3-text);
+}
+
+/* --- Vídeo centralizado --- */
+.l3-video-media {
+  max-width: 980px;
+  margin: 0 auto;
+}
+.l3 .lp-video {
+  position: relative;
+  aspect-ratio: 16 / 9;
+  border-radius: 12px;
+  overflow: hidden;
+  background: var(--c-blue-deep);
+}
+.l3 .lp-video-el {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.l3 .lp-video-capa {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.85rem;
+  color: var(--c-white);
+}
+.l3 .lp-video-capa::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(8, 23, 64, 0.2), rgba(8, 23, 64, 0.62));
+}
+.l3 .lp-video-play,
+.l3 .lp-video-label {
+  position: relative;
+  z-index: 1;
+}
+.l3 .lp-video-play {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  background: var(--c-red);
+  display: grid;
+  place-items: center;
+  padding-left: 4px;
+  transition: transform 220ms var(--ease), background 220ms var(--ease);
+}
+.l3 .lp-video-capa:hover .lp-video-play {
+  transform: scale(1.05);
+  background: var(--c-red-dark);
+}
+.l3 .lp-video-capa:focus-visible {
+  outline: 3px solid var(--c-white);
+  outline-offset: -3px;
+}
+.l3 .lp-video-label {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.15rem;
+  font-family: var(--f-head);
+  font-weight: 700;
+  font-size: 1.05rem;
+  text-shadow: 0 1px 12px rgba(0, 0, 0, 0.5);
+}
+.l3 .lp-video-label small {
+  font-family: var(--f-mono);
+  font-size: 0.66rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  font-weight: 400;
+  color: rgba(255, 255, 255, 0.82);
+}
+
+/* --- Processo: quatro colunas, filete no topo --- */
+.l3-passos {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: clamp(1.5rem, 3vw, 2.5rem);
+}
+.l3-passo {
+  position: relative;
+  padding-top: 1.75rem;
+  border-top: 1px solid var(--l3-line);
+}
+/* Trecho vermelho curto sobre o filete de cada passo. */
+.l3-passo::before {
+  content: "";
+  position: absolute;
+  top: -1px;
+  left: 0;
+  width: 2.5rem;
+  height: 2px;
+  background: var(--c-red);
+}
+.l3-passo-n {
+  display: block;
+  margin-bottom: 1rem;
+  font-family: var(--f-head);
+  font-size: clamp(2rem, 3.4vw, 2.75rem);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  line-height: 1;
+  color: var(--c-blue);
+}
+.l3-passo h3 {
+  font-size: 1.15rem;
+  letter-spacing: -0.01em;
+  color: var(--l3-ink);
+  margin-bottom: 0.5rem;
+}
+.l3-passo p {
+  font-size: 0.97rem;
+  line-height: 1.65;
+}
+
+/* --- Localização: faixa full-bleed, foto de um lado, azul do outro --- */
+.l3-local {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  background: var(--c-blue-deep);
+}
+.l3-local-media {
+  position: relative;
+  min-height: 480px;
+}
+.l3-local-media img {
+  object-fit: cover;
+  object-position: 45% 50%;
+}
+.l3-local-copy {
+  display: flex;
+  align-items: center;
+  padding: clamp(3rem, 7vw, 6rem) clamp(1.25rem, 5vw, 5rem);
+}
+.l3-local-copy-inner {
+  max-width: 34rem;
+}
+.l3-local .l3-eyebrow {
+  color: var(--l3-sky);
+}
+.l3-local .l3-title {
+  color: var(--c-white);
+}
+.l3-local .l3-deck {
+  color: rgba(255, 255, 255, 0.78);
+}
+.l3-fatos {
+  margin: 2.25rem 0 0;
+  border-top: 1px solid rgba(255, 255, 255, 0.18);
+}
+.l3-fatos > div {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  align-items: baseline;
+  padding: 1rem 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.18);
+}
+.l3-fatos dt {
+  font-family: var(--f-head);
+  font-size: 1.05rem;
+  font-weight: 800;
+  color: var(--c-white);
+}
+.l3-fatos dd {
+  margin: 0;
+  font-size: 0.92rem;
+  color: rgba(255, 255, 255, 0.72);
+  line-height: 1.45;
+}
+
+/* --- FAQ: título à esquerda, accordion à direita --- */
+.l3-faq {
+  display: grid;
+  grid-template-columns: 0.8fr 1.2fr;
+  gap: clamp(2.5rem, 7vw, 6rem);
+  align-items: start;
+}
+.l3-faq-head {
+  position: sticky;
+  top: 110px;
+}
+.l3-faq-list {
+  border-top: 1px solid var(--l3-line);
+}
+.l3-faq-item {
+  border-bottom: 1px solid var(--l3-line);
+  interpolate-size: allow-keywords;
+}
+.l3-faq-item summary {
+  padding: 1.35rem 0;
+  font-family: var(--f-head);
+  font-weight: 700;
+  font-size: 1.08rem;
+  letter-spacing: -0.005em;
+  color: var(--l3-ink);
+  cursor: pointer;
+  list-style: none;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  transition: color 200ms var(--ease);
+}
+.l3-faq-item summary:hover {
+  color: var(--c-blue);
+}
+.l3-faq-item summary::-webkit-details-marker {
+  display: none;
+}
+.l3-faq-item summary::after {
+  content: "+";
+  flex-shrink: 0;
+  font-size: 1.5rem;
+  font-weight: 300;
+  line-height: 1;
+  color: var(--c-red);
+  transition: transform 250ms var(--ease);
+}
+.l3-faq-item[open] summary::after {
+  transform: rotate(45deg);
+}
+.l3-faq-item p {
+  padding: 0 2.5rem 1.6rem 0;
+  font-size: 1rem;
+  line-height: 1.7;
+}
+.l3-faq-item::details-content {
+  block-size: 0;
+  overflow: clip;
+  opacity: 0;
+  transition: block-size 300ms var(--ease), opacity 250ms var(--ease),
+    content-visibility 300ms allow-discrete;
+}
+.l3-faq-item[open]::details-content {
+  block-size: auto;
+  opacity: 1;
+}
+
+/* --- Proposta: copy + formulário --- */
+.l3-proposta-inner {
+  display: grid;
+  grid-template-columns: 1fr 480px;
+  gap: clamp(2.5rem, 7vw, 6rem);
+  align-items: center;
+}
+.l3-proposta .l3-list {
+  margin: 2rem 0;
+}
+
+/* --- Formulário (componente compartilhado; estilo minimalista da LP3) --- */
+.l3 .lp-form {
+  background: var(--c-white);
+  border: 1px solid var(--l3-line);
+  border-radius: 12px;
+  padding: clamp(1.5rem, 3vw, 2.25rem);
+  box-shadow: 0 1px 2px rgba(8, 23, 64, 0.04), 0 24px 48px -32px rgba(8, 23, 64, 0.3);
+}
+.l3 .lp-form-head {
+  margin-bottom: 1.5rem;
+  padding-bottom: 1.25rem;
+  border-bottom: 1px solid var(--l3-line);
+}
+.l3 .lp-form-head h3 {
+  font-size: 1.4rem;
+  letter-spacing: -0.015em;
+  color: var(--l3-ink);
+  margin-bottom: 0.35rem;
+}
+.l3 .lp-form-head p {
+  font-size: 0.92rem;
+  line-height: 1.5;
+  color: var(--l3-text);
+}
+.l3 .lp-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  margin-bottom: 1rem;
+}
+.l3 .lp-field-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0 0.85rem;
+}
+.l3 .lp-field label {
+  font-family: var(--f-mono);
+  font-size: 0.64rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  font-weight: 600;
+  color: var(--c-blue);
+}
+.l3 .lp-field input,
+.l3 .lp-field select {
+  width: 100%;
+  min-height: 46px;
+  padding: 0.7rem 0.95rem;
+  border-radius: 8px;
+  border: 1px solid #d9dfea;
+  background: var(--c-white);
+  color: var(--c-ink);
+  font-family: var(--f-body);
+  font-size: 0.98rem;
+  transition: border-color 180ms var(--ease), box-shadow 180ms var(--ease);
+}
+.l3 .lp-field select {
+  appearance: none;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 8'><path fill='none' stroke='%236b7280' stroke-width='1.6' d='M1 1.8 6 6.5l5-4.7'/></svg>");
+  background-repeat: no-repeat;
+  background-position: right 0.95rem center;
+  background-size: 11px;
+  padding-right: 2.4rem;
+  cursor: pointer;
+}
+.l3 .lp-field input::placeholder {
+  color: #9aa3b2;
+}
+.l3 .lp-field input:hover,
+.l3 .lp-field select:hover {
+  border-color: #c3cbdb;
+}
+.l3 .lp-field input:focus-visible,
+.l3 .lp-field select:focus-visible {
+  outline: none;
+  border-color: var(--c-blue);
+  box-shadow: 0 0 0 3px rgba(20, 56, 138, 0.14);
+}
+.l3 .lp-hp {
+  position: absolute;
+  left: -9999px;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+.l3 .lp-consent {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.6rem;
+  margin: 1.1rem 0 1.25rem;
+  font-size: 0.8rem;
+  line-height: 1.5;
+  color: var(--l3-text);
+  cursor: pointer;
+}
+.l3 .lp-consent input {
+  margin-top: 0.15rem;
+  width: 16px;
+  height: 16px;
+  accent-color: var(--c-red);
+  flex-shrink: 0;
+  cursor: pointer;
+}
+.l3 .lp-consent a {
+  color: var(--c-blue);
+  text-decoration: underline;
+}
+.l3 .lp-form-erro {
+  background: #fef2f2;
+  border: 1px solid #fecaca;
+  color: #b91c1c;
+  border-radius: 8px;
+  padding: 0.6rem 0.8rem;
+  font-size: 0.85rem;
+  margin-bottom: 0.75rem;
+}
+.l3 .lp-form-submit {
+  width: 100%;
+  justify-content: center;
+}
+.l3 .lp-form-nota {
+  margin-top: 0.9rem;
+  text-align: center;
+  font-size: 0.75rem;
+  color: var(--l3-text);
+}
+.l3 .lp-form-ok {
+  text-align: center;
+}
+.l3 .lp-form-ok-icon {
+  width: 52px;
+  height: 52px;
+  margin: 0 auto 1rem;
+  border-radius: 50%;
+  background: #dcfce7;
+  color: #15803d;
+  font-size: 1.6rem;
+  font-weight: 800;
+  display: grid;
+  place-items: center;
+}
+.l3 .lp-form-ok h3 {
+  font-size: 1.3rem;
+  color: var(--l3-ink);
+  margin-bottom: 0.5rem;
+}
+.l3 .lp-form-ok p {
+  font-size: 0.9rem;
+  line-height: 1.55;
+  color: var(--l3-text);
+}
+.l3 .lp-form-reset {
+  margin-top: 1rem;
+  font-family: var(--f-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--c-blue);
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+/* --- Rodapé --- */
+.l3-footer {
+  background: var(--c-blue-deep);
+  color: rgba(255, 255, 255, 0.6);
+  padding: 2.5rem 0;
+  font-size: 0.82rem;
+  line-height: 1.6;
+}
+.l3-footer-inner {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+}
+.l3-footer-brand {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  align-items: flex-start; /* evita o logo esticar no flex */
+}
+.l3-footer-logo {
+  height: 30px;
+  width: auto;
+  display: block;
+  object-fit: contain;
+}
+.l3-footer-legal {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.5rem;
+  padding-right: 72px; /* faixa do botão flutuante do WhatsApp */
+}
+.l3-footer-link {
+  color: rgba(255, 255, 255, 0.75);
+  text-decoration: underline;
+}
+.l3-footer-link:hover {
+  color: var(--c-white);
+}
+.l3-footer-legal .text-muted-foreground {
+  color: rgba(255, 255, 255, 0.55);
+}
+
+/* --- Tablet --- */
+@media (max-width: 1024px) {
+  .l3-hero-inner,
+  .l3-licencas,
+  .l3-faq,
+  .l3-proposta-inner {
+    grid-template-columns: 1fr;
+  }
+  .l3-hero-media {
+    aspect-ratio: 16 / 10;
+  }
+  .l3-hero-title {
+    max-width: 18ch;
+  }
+  .l3-faq-head {
+    position: static;
+  }
+  .l3-proposta-form {
+    max-width: 560px;
+  }
+  .l3-numeros-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .l3-numero:nth-child(3) {
+    border-left: none;
+    padding-left: 0;
+  }
+  .l3-numero:nth-child(n + 3) {
+    border-top: 1px solid var(--l3-line);
+  }
+  .l3-passos {
+    grid-template-columns: repeat(2, 1fr);
+    row-gap: 2.5rem;
+  }
+  .l3-local {
+    grid-template-columns: 1fr;
+  }
+  .l3-local-media {
+    min-height: 320px;
+  }
+  .l3-demanda {
+    grid-template-columns: 3.5rem 1fr;
+  }
+  .l3-demanda-resposta {
+    grid-column: 2;
+  }
+}
+
+/* --- Mobile --- */
+@media (max-width: 720px) {
+  .l3-header-tel {
+    display: none;
+  }
+  .l3-header-btn {
+    padding: 0.6rem 1rem;
+    font-size: 0.85rem;
+  }
+  .l3-bloco,
+  .l3-bloco:nth-child(even) {
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
+  }
+  .l3-bloco:nth-child(even) .l3-bloco-media {
+    order: 0;
+  }
+  .l3-licenca {
+    grid-template-columns: 1fr;
+  }
+  .l3-licenca-orgao {
+    grid-row: auto;
+  }
+  .l3-passos {
+    grid-template-columns: 1fr;
+  }
+  .l3-fatos > div {
+    grid-template-columns: 1fr;
+    gap: 0.2rem;
+  }
+  .l3 .lp-field-row {
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+  .l3-faq-item p {
+    padding-right: 0;
+  }
+  .l3-footer-inner {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .l3-footer-legal {
+    align-items: flex-start;
+    padding-right: 0;
+  }
+  .l3-footer {
+    padding-bottom: calc(2.5rem + 58px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .l3-in {
+    animation: none;
+  }
+  .l3-faq-item::details-content {
+    transition: none;
+  }
+}
